@@ -92,7 +92,6 @@ function showProgressOptions({
 
 const styles = StyleSheet.create({
   settingsIcon: {
-    marginVertical: 6,
     marginHorizontal: 14,
   },
 });

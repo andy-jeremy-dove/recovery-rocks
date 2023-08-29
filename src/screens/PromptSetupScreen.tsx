@@ -29,7 +29,13 @@ export function PromptSetupScreen(props: SetupScreenProps) {
     Keyboard.dismiss();
   }, []);
   const topStyle: StyleProp<ViewStyle> = useMemo(
-    () => [layoutStyles.grow5, { flexBasis: compensateHeaderHeight ?? 0 }],
+    () => [
+      layoutStyles.grow5,
+      {
+        minHeight: compensateHeaderHeight,
+        flexBasis: compensateHeaderHeight ?? 0,
+      },
+    ],
     [compensateHeaderHeight],
   );
   const topIsCompensated = compensateHeaderHeight !== undefined;

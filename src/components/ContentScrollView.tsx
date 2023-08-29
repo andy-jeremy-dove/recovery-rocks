@@ -37,6 +37,7 @@ const excludeTop: Edges = ["left", "right", "bottom"];
 
 const layoutStyles = StyleSheet.create({
   root: {
+    flex: 0,
     flexGrow: 1,
     flexShrink: 0,
   },
@@ -45,7 +46,7 @@ const layoutStyles = StyleSheet.create({
 const Content = variance(ScrollView)(
   (theme) => ({
     root: {
-      flexGrow: 1,
+      flex: 1,
       flexWrap: "nowrap",
       backgroundColor: theme.palette.background,
     },
