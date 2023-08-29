@@ -52,7 +52,7 @@ export function ShowProgressScreen(props: ShowProgressScreenProps) {
         refreshing={progressInfo === undefined || quote === undefined}
       />
     ),
-    [progressInfo],
+    [progressInfo, quote],
   );
   return (
     <ContentScrollView
