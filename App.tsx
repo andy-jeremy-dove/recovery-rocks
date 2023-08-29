@@ -1,20 +1,102 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import {useFonts, Inter_400Regular, Inter_800ExtraBold} from "@expo-google-fonts/inter";
+import {lightPalette, ThemeImpl, ThemeProvider, useTheme} from "./src/styling";
+import {SafeAreaProvider, initialWindowMetrics} from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import {DarkTheme, DefaultTheme, NavigationContainer, Theme} from "@react-navigation/native";
+import {useMemo} from "react";
+import {RootStack, RootStackParamList} from "./src/RootStack/RootStack";
+import {DocumentTitleOptions, LinkingOptions} from "@react-navigation/native/lib/typescript/src/types";
+import app from './app.json';
+import {createURL} from 'expo-linking';
+import {Ionicons} from '@expo/vector-icons';
 
 export default function App() {
+  const [isLoaded, error] = useFonts({
+    Inter_400Regular,
+    Inter_800ExtraBold,
+    ...Ionicons.font,
+  });
+  if (!isLoaded) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <ThemeProvider theme={globalTheme}>
+        <GlobalStatusBar />
+        <NavigationRoot />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const globalTheme = new ThemeImpl(false, lightPalette);
+
+function NavigationRoot() {
+  const theme = useTheme();
+  const navigationTheme: Theme = useMemo(() => {
+    const base = theme.isDark ? DarkTheme : DefaultTheme;
+    return {
+      ...base,
+      dark: theme.isDark,
+      colors: {
+        ...base.colors,
+        background: theme.palette.background,
+        card: theme.palette.background,
+        border: theme.palette.borderPrimary,
+        text: theme.palette.textSecondary,
+        primary: theme.palette.textSecondary,
+        notification: theme.palette.backgroundAccent,
+      },
+    };
+  }, [theme]);
+  return (
+    <NavigationContainer
+      documentTitle={documentTitle}
+      theme={navigationTheme}
+      linking={linking}
+    >
+      <RootStack />
+    </NavigationContainer>
+  );
+}
+
+const linking: LinkingOptions<RootStackParamList> = {
+  enabled: true,
+  prefixes: [
+    createURL('/'),
+    `${app.expo.scheme}://`,
+    ...(__DEV__ ? ['http://localhost:3000', 'http://localhost:19006'] : []),
+  ],
+  config: {
+    initialRouteName: 'ShowProgress',
+    screens: {
+      ShowProgress: '',
+      PromptSetup: 'setup',
+    },
   },
-});
+};
+
+const documentTitle: DocumentTitleOptions = {
+  enabled: true,
+  formatter: (options) => {
+    if (options?.title) {
+      return `${options.title} @ ${app.expo.name}`;
+    }
+    return app.expo.name;
+  },
+};
+
+function GlobalStatusBar() {
+  const theme = useTheme();
+  return (
+    <StatusBar
+      translucent
+      backgroundColor={theme.palette.background}
+      animated
+      hideTransitionAnimation='slide'
+      networkActivityIndicatorVisible
+      style={theme.isDark ? 'light' : 'dark'}
+    />
+  );
+}
