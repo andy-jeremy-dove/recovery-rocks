@@ -15,6 +15,7 @@ import {
   DocumentTitleOptions,
   LinkingOptions,
 } from "@react-navigation/native/lib/typescript/src/types";
+import dayjs from "dayjs";
 import { createURL } from "expo-linking";
 import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
@@ -22,6 +23,7 @@ import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from "react-native-safe-area-context";
+import "dayjs/locale/ru";
 
 import app from "./app.json";
 import { RootStack, RootStackParamList } from "./src/RootStack/RootStack";
@@ -31,6 +33,8 @@ import {
   ThemeProvider,
   useTheme,
 } from "./src/styling";
+
+dayjs.locale("ru");
 
 export default function App() {
   const [isLoaded] = useFonts({
