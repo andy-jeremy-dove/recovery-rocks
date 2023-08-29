@@ -1,2 +1,2 @@
-export * from './memoize';
-export {default as memoize} from './memoize';
+export * from "./memoize";
+export { default as memoize } from "./memoize";

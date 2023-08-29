@@ -1,5 +1,6 @@
-import {Millisecond} from '../Time';
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
+
+import { Millisecond } from "../Time";
 
 export interface DailyContentRepository {}
 
@@ -17,8 +18,8 @@ function createDailyContentQuery(
 ): DailyContentQuery {
   const $start = dayjs(start);
   const $target = dayjs(target);
-  const daysHavePassed = $target.diff($start, 'days', false);
+  const daysHavePassed = $target.diff($start, "days", false);
   const day = $target.date();
   const month = $target.month();
-  return {daysHavePassed, dayOfTheYear: {day, month}};
+  return { daysHavePassed, dayOfTheYear: { day, month } };
 }

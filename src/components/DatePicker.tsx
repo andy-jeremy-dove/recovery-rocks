@@ -1,5 +1,6 @@
-import {TextInput, TextInputProps, View, ViewProps} from "react-native";
-import {variance} from "../styling";
+import { TextInput, TextInputProps, View, ViewProps } from "react-native";
+
+import { variance } from "../styling";
 
 export type DatePickerProps = {
   day: number;
@@ -8,7 +9,7 @@ export type DatePickerProps = {
 } & ViewProps;
 
 export function DatePicker(props: DatePickerProps) {
-  const {day, month, year, ...rest} = props;
+  const { day, month, year, ...rest } = props;
   return (
     <Root {...rest}>
       <NumberView>
@@ -29,9 +30,9 @@ const GAP = 2;
 // fixme theme not used
 const Root = variance(View)(() => ({
   root: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: GAP,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
 }));
 
@@ -42,7 +43,7 @@ const NumberView = variance(View)((theme) => ({
     flexBasis: BASE,
     flexGrow: 1,
     flexShrink: 0,
-    alignItems: 'stretch',
+    alignItems: "stretch",
   },
   double: {
     flexBasis: BASE * 2,
@@ -51,23 +52,26 @@ const NumberView = variance(View)((theme) => ({
   },
 }));
 
-const NumberText = variance(TextInput)((theme) => ({
-  root: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
+const NumberText = variance(TextInput)(
+  (theme) => ({
+    root: {
+      paddingVertical: 8,
+      paddingHorizontal: 4,
 
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: theme.palette.borderSecondary,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.palette.borderSecondary,
 
-    textAlign: 'center',
-    ...theme.fontByWeight('bold'),
-    fontSize: 53,
-    lineHeight: 64,
-  },
-}), (theme): TextInputProps => ({
-  textAlign: 'center',
-  textAlignVertical: 'center',
-  inputMode: 'decimal',
-  keyboardAppearance: theme.isDark ? 'dark' : 'light',
-}));
+      textAlign: "center",
+      ...theme.fontByWeight("bold"),
+      fontSize: 53,
+      lineHeight: 64,
+    },
+  }),
+  (theme): TextInputProps => ({
+    textAlign: "center",
+    textAlignVertical: "center",
+    inputMode: "decimal",
+    keyboardAppearance: theme.isDark ? "dark" : "light",
+  }),
+);

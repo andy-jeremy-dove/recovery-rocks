@@ -1,25 +1,26 @@
-import deferFlavor, {FlavorConfig, Stylable} from './deferFlavor';
-import {StyleType} from './StyleType';
-import React from 'react';
-import {Theme} from '../Theme';
-import {FlavoredComponent, isComponent} from './flavor';
+import React from "react";
+
+import { StyleType } from "./StyleType";
+import deferFlavor, { FlavorConfig, Stylable } from "./deferFlavor";
+import { FlavoredComponent, isComponent } from "./flavor";
+import { Theme } from "../Theme";
 
 export type PropsExtension<
   ComponentType extends Stylable,
   StyleEnumeration extends Record<
-    keyof StyleEnumeration | 'root',
+    keyof StyleEnumeration | "root",
     StyleType<ComponentType>
   >,
-> = Partial<Record<Exclude<keyof StyleEnumeration, 'root'>, boolean>>;
+> = Partial<Record<Exclude<keyof StyleEnumeration, "root">, boolean>>;
 
 function variance<ComponentType extends Stylable>(
   config?: FlavorConfig<ComponentType>,
 ): <
   StyleEnumeration extends Record<
-    keyof StyleEnumeration | 'root',
+    keyof StyleEnumeration | "root",
     StyleType<ComponentType>
   >,
-  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = object,
 >(
   _enumerateStyles: (theme: Theme) => StyleEnumeration,
   _overrideProps?: (theme: Theme, styles: StyleEnumeration) => OverriddenProps,
@@ -35,10 +36,10 @@ function variance<ComponentType extends Stylable>(
   config?: FlavorConfig<ComponentType>,
 ): <
   StyleEnumeration extends Record<
-    keyof StyleEnumeration | 'root',
+    keyof StyleEnumeration | "root",
     StyleType<ComponentType>
   >,
-  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = object,
 >(
   _enumerateStyles: (theme: Theme) => StyleEnumeration,
   _overrideProps?: (theme: Theme, styles: StyleEnumeration) => OverriddenProps,
@@ -53,10 +54,12 @@ function variance<ComponentType extends Stylable>(
 ) {
   return <
     StyleEnumeration extends Record<
-      keyof StyleEnumeration | 'root',
+      keyof StyleEnumeration | "root",
       StyleType<ComponentType>
     >,
-    OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+    OverriddenProps extends Partial<
+      React.ComponentProps<ComponentType>
+    > = object,
   >(
     _enumerateStyles: (theme: Theme) => StyleEnumeration,
     _overrideProps?: (
@@ -82,12 +85,12 @@ function variance<ComponentType extends Stylable>(
         PropsExtension<ComponentType, StyleEnumeration>,
     ) => {
       const result = [styles.root];
-      for (let _prop in styles) {
+      for (const _prop in styles) {
         if (styles.hasOwnProperty(_prop)) {
           const prop = _prop as keyof StyleEnumeration;
-          if (prop !== 'root') {
+          if (prop !== "root") {
             if (
-              props[prop as Exclude<keyof StyleEnumeration, 'root'>] === true
+              props[prop as Exclude<keyof StyleEnumeration, "root">] === true
             ) {
               result.push(styles[prop]);
             }

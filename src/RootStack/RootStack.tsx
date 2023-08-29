@@ -1,10 +1,15 @@
-import {createStackNavigator, StackNavigationOptions, StackScreenProps} from "@react-navigation/stack";
-import {ShowProgressBinding} from "../bindings/ShowProgressBinding";
-import {PromptSetupBinding} from "../bindings/PromptSetupBinding";
-import {TransitionPresets} from '@react-navigation/stack';
-import {PlatformPressable} from '@react-navigation/elements';
-import {Ionicons} from '@expo/vector-icons';
-import {StyleSheet} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { PlatformPressable } from "@react-navigation/elements";
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+  StackScreenProps,
+  TransitionPresets,
+} from "@react-navigation/stack";
+import { StyleSheet } from "react-native";
+
+import { PromptSetupBinding } from "../bindings/PromptSetupBinding";
+import { ShowProgressBinding } from "../bindings/ShowProgressBinding";
 
 export type RootStackParamList = {
   PromptSetup: undefined;
@@ -13,7 +18,11 @@ export type RootStackParamList = {
 
 export function RootStack() {
   return (
-    <Navigator id="root" initialRouteName="ShowProgress" screenOptions={commonOptions}>
+    <Navigator
+      id="root"
+      initialRouteName="ShowProgress"
+      screenOptions={commonOptions}
+    >
       <Screen
         name="ShowProgress"
         component={ShowProgressBinding}
@@ -31,18 +40,23 @@ export function RootStack() {
 const commonOptions: StackNavigationOptions = {
   headerBackTitleVisible: false,
   headerTransparent: true,
-  headerMode: 'float',
-  headerTitle: '',
+  headerMode: "float",
+  headerTitle: "",
   ...TransitionPresets.DefaultTransition,
 };
 
-function showProgressOptions ({navigation}: StackScreenProps<RootStackParamList, 'ShowProgress'>): StackNavigationOptions {
+function showProgressOptions({
+  navigation,
+}: StackScreenProps<
+  RootStackParamList,
+  "ShowProgress"
+>): StackNavigationOptions {
   return {
-    title: 'Прогресс',
+    title: "Прогресс",
     headerShown: true,
     headerRight: (props) => (
       <PlatformPressable
-        onPress={() => navigation.navigate('PromptSetup')}
+        onPress={() => navigation.navigate("PromptSetup")}
         pressColor={props.pressColor}
         pressOpacity={props.pressOpacity}
       >
@@ -65,8 +79,8 @@ const styles = StyleSheet.create({
 });
 
 const promptSetupOptions: StackNavigationOptions = {
-  title: 'Установка',
-  presentation: 'modal',
+  title: "Установка",
+  presentation: "modal",
 };
 
-const {Screen, Navigator} = createStackNavigator<RootStackParamList>();
+const { Screen, Navigator } = createStackNavigator<RootStackParamList>();

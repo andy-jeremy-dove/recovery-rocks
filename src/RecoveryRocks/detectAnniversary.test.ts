@@ -1,233 +1,234 @@
+import dayjs from "dayjs";
+
+import { Anniversary, AnniversaryId } from "./TheWholeDump";
 import {
   AnniversaryDetectionResult,
   detectAnniversary,
-} from './detectAnniversary';
-import {Anniversary, AnniversaryId} from './TheWholeDump';
-import dayjs from 'dayjs';
-import {Millisecond} from '../Time';
+} from "./detectAnniversary";
+import { Millisecond } from "../Time";
 
-it('processes the day zero', () => {
-  const result = detectAnniversary(start, {anniversaries}, start);
+it("processes the day zero", () => {
+  const result = detectAnniversary(start, { anniversaries }, start);
   expect(result).toStrictEqual(zeroResult);
 });
 
-it('processes an hour after zero', () => {
-  const $target = dayjs('2018-04-13 20:00');
+it("processes an hour after zero", () => {
+  const $target = dayjs("2018-04-13 20:00");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual(zeroResult);
 });
 
-it('processes a few days after zero', () => {
-  const $target = dayjs('2018-04-26 03:00');
+it("processes a few days after zero", () => {
+  const $target = dayjs("2018-04-26 03:00");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual(zeroResult);
 });
 
-it('detects a thirtieth day', () => {
-  const $target = dayjs('2018-05-12 13:11');
+it("detects a thirtieth day", () => {
+  const $target = dayjs("2018-05-12 13:11");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
     previous: undefined,
-    today: {timePassed: thirtiethDay.value, anniversary: thirtiethDay},
-    next: {timePassed: sixtiethDay.value, anniversary: sixtiethDay},
+    today: { timePassed: thirtiethDay.value, anniversary: thirtiethDay },
+    next: { timePassed: sixtiethDay.value, anniversary: sixtiethDay },
   });
 });
 
-it('processes a few days after the first month', () => {
-  const $target = dayjs('2018-05-15 02:44');
+it("processes a few days after the first month", () => {
+  const $target = dayjs("2018-05-15 02:44");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: thirtiethDay.value, anniversary: thirtiethDay},
+    previous: { timePassed: thirtiethDay.value, anniversary: thirtiethDay },
     today: undefined,
-    next: {timePassed: sixtiethDay.value, anniversary: sixtiethDay},
+    next: { timePassed: sixtiethDay.value, anniversary: sixtiethDay },
   });
 });
 
-it('detects a sixtieth day', () => {
-  const $target = dayjs('2018-06-11 16:32');
+it("detects a sixtieth day", () => {
+  const $target = dayjs("2018-06-11 16:32");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: thirtiethDay.value, anniversary: thirtiethDay},
-    today: {timePassed: sixtiethDay.value, anniversary: sixtiethDay},
-    next: {timePassed: ninetiethDay.value, anniversary: ninetiethDay},
+    previous: { timePassed: thirtiethDay.value, anniversary: thirtiethDay },
+    today: { timePassed: sixtiethDay.value, anniversary: sixtiethDay },
+    next: { timePassed: ninetiethDay.value, anniversary: ninetiethDay },
   });
 });
 
-it('processes four months after zero', () => {
-  const $target = dayjs('2018-08-02 09:25');
+it("processes four months after zero", () => {
+  const $target = dayjs("2018-08-02 09:25");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: ninetiethDay.value, anniversary: ninetiethDay},
+    previous: { timePassed: ninetiethDay.value, anniversary: ninetiethDay },
     today: undefined,
-    next: {timePassed: sixMonths.value, anniversary: sixMonths},
+    next: { timePassed: sixMonths.value, anniversary: sixMonths },
   });
 });
 
-it('detects six months', () => {
-  const $target = dayjs('2018-10-13 10:30');
+it("detects six months", () => {
+  const $target = dayjs("2018-10-13 10:30");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: ninetiethDay.value, anniversary: ninetiethDay},
-    today: {timePassed: sixMonths.value, anniversary: sixMonths},
-    next: {timePassed: nineMonths.value, anniversary: nineMonths},
+    previous: { timePassed: ninetiethDay.value, anniversary: ninetiethDay },
+    today: { timePassed: sixMonths.value, anniversary: sixMonths },
+    next: { timePassed: nineMonths.value, anniversary: nineMonths },
   });
 });
 
-it('detects nine months', () => {
-  const $target = dayjs('2018-13-13 12:33');
+it("detects nine months", () => {
+  const $target = dayjs("2018-13-13 12:33");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: sixMonths.value, anniversary: sixMonths},
-    today: {timePassed: nineMonths.value, anniversary: nineMonths},
-    next: {timePassed: oneYear.value, anniversary: oneYear},
+    previous: { timePassed: sixMonths.value, anniversary: sixMonths },
+    today: { timePassed: nineMonths.value, anniversary: nineMonths },
+    next: { timePassed: oneYear.value, anniversary: oneYear },
   });
 });
 
-it('processes a day after nine months', () => {
-  const $target = dayjs('2018-13-14 01:56');
+it("processes a day after nine months", () => {
+  const $target = dayjs("2018-13-14 01:56");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: nineMonths.value, anniversary: nineMonths},
+    previous: { timePassed: nineMonths.value, anniversary: nineMonths },
     today: undefined,
-    next: {timePassed: oneYear.value, anniversary: oneYear},
+    next: { timePassed: oneYear.value, anniversary: oneYear },
   });
 });
 
-it('detects one year', () => {
-  const $target = dayjs('2019-04-13 12:00');
+it("detects one year", () => {
+  const $target = dayjs("2019-04-13 12:00");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: nineMonths.value, anniversary: nineMonths},
-    today: {timePassed: oneYear.value, anniversary: oneYear},
-    next: {timePassed: eighteenMonths.value, anniversary: eighteenMonths},
+    previous: { timePassed: nineMonths.value, anniversary: nineMonths },
+    today: { timePassed: oneYear.value, anniversary: oneYear },
+    next: { timePassed: eighteenMonths.value, anniversary: eighteenMonths },
   });
 });
 
-it('processes thirteen months', () => {
-  const $target = dayjs('2019-05-10 17:55');
+it("processes thirteen months", () => {
+  const $target = dayjs("2019-05-10 17:55");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: oneYear.value, anniversary: oneYear},
+    previous: { timePassed: oneYear.value, anniversary: oneYear },
     today: undefined,
-    next: {timePassed: eighteenMonths.value, anniversary: eighteenMonths},
+    next: { timePassed: eighteenMonths.value, anniversary: eighteenMonths },
   });
 });
 
-it('detects eighteen months', () => {
-  const $target = dayjs('2019-10-13 15:15');
+it("detects eighteen months", () => {
+  const $target = dayjs("2019-10-13 15:15");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: oneYear.value, anniversary: oneYear},
-    today: {timePassed: eighteenMonths.value, anniversary: eighteenMonths},
-    next: {timePassed: oneYear.value * 2, anniversary: oneYear},
+    previous: { timePassed: oneYear.value, anniversary: oneYear },
+    today: { timePassed: eighteenMonths.value, anniversary: eighteenMonths },
+    next: { timePassed: oneYear.value * 2, anniversary: oneYear },
   });
 });
 
-it('processes twenty months', () => {
-  const $target = dayjs('2019-12-31 22:34');
+it("processes twenty months", () => {
+  const $target = dayjs("2019-12-31 22:34");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: eighteenMonths.value, anniversary: eighteenMonths},
+    previous: { timePassed: eighteenMonths.value, anniversary: eighteenMonths },
     today: undefined,
-    next: {timePassed: oneYear.value * 2, anniversary: oneYear},
+    next: { timePassed: oneYear.value * 2, anniversary: oneYear },
   });
 });
 
-it('detects two years', () => {
-  const $target = dayjs('2020-04-13 11:00');
+it("detects two years", () => {
+  const $target = dayjs("2020-04-13 11:00");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: eighteenMonths.value, anniversary: eighteenMonths},
-    today: {timePassed: oneYear.value * 2, anniversary: oneYear},
-    next: {timePassed: oneYear.value * 3, anniversary: oneYear},
+    previous: { timePassed: eighteenMonths.value, anniversary: eighteenMonths },
+    today: { timePassed: oneYear.value * 2, anniversary: oneYear },
+    next: { timePassed: oneYear.value * 3, anniversary: oneYear },
   });
 });
 
-it('processes some time after two years', () => {
-  const $target = dayjs('2020-08-24 23:16');
+it("processes some time after two years", () => {
+  const $target = dayjs("2020-08-24 23:16");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: oneYear.value * 2, anniversary: oneYear},
+    previous: { timePassed: oneYear.value * 2, anniversary: oneYear },
     today: undefined,
-    next: {timePassed: oneYear.value * 3, anniversary: oneYear},
+    next: { timePassed: oneYear.value * 3, anniversary: oneYear },
   });
 });
 
-it('detects three years', () => {
-  const $target = dayjs('2021-04-13 11:45');
+it("detects three years", () => {
+  const $target = dayjs("2021-04-13 11:45");
   const target = $target.valueOf() as Millisecond;
-  const result = detectAnniversary(target, {anniversaries}, start);
+  const result = detectAnniversary(target, { anniversaries }, start);
   expect(result).toStrictEqual({
-    previous: {timePassed: oneYear.value * 2, anniversary: oneYear},
-    today: {timePassed: oneYear.value * 3, anniversary: oneYear},
-    next: {timePassed: oneYear.value * 4, anniversary: oneYear},
+    previous: { timePassed: oneYear.value * 2, anniversary: oneYear },
+    today: { timePassed: oneYear.value * 3, anniversary: oneYear },
+    next: { timePassed: oneYear.value * 4, anniversary: oneYear },
   });
 });
 
-const $start = dayjs('2018-04-13 19:18');
+const $start = dayjs("2018-04-13 19:18");
 const start = $start.valueOf() as Millisecond;
 
 const thirtiethDay: Anniversary = {
-  id: '1' as AnniversaryId,
+  id: "1" as AnniversaryId,
   value: 29,
-  unit: 'day',
+  unit: "day",
   periodic: false,
 };
 
 const sixtiethDay: Anniversary = {
-  id: '2' as AnniversaryId,
+  id: "2" as AnniversaryId,
   value: 59,
-  unit: 'day',
+  unit: "day",
   periodic: false,
 };
 
 const ninetiethDay: Anniversary = {
-  id: '3' as AnniversaryId,
+  id: "3" as AnniversaryId,
   value: 89,
-  unit: 'day',
+  unit: "day",
   periodic: false,
 };
 
 const sixMonths: Anniversary = {
-  id: '4' as AnniversaryId,
+  id: "4" as AnniversaryId,
   value: 6,
-  unit: 'month',
+  unit: "month",
   periodic: false,
 };
 
 const nineMonths: Anniversary = {
-  id: '5' as AnniversaryId,
+  id: "5" as AnniversaryId,
   value: 9,
-  unit: 'month',
+  unit: "month",
   periodic: false,
 };
 
 const eighteenMonths: Anniversary = {
-  id: '6' as AnniversaryId,
+  id: "6" as AnniversaryId,
   value: 18,
-  unit: 'month',
+  unit: "month",
   periodic: false,
 };
 
 const oneYear: Anniversary = {
-  id: '7' as AnniversaryId,
+  id: "7" as AnniversaryId,
   value: 1,
-  unit: 'year',
+  unit: "year",
   periodic: true,
 };
 
@@ -244,5 +245,5 @@ const anniversaries: Anniversary[] = [
 const zeroResult: AnniversaryDetectionResult = {
   previous: undefined,
   today: undefined,
-  next: {timePassed: thirtiethDay.value, anniversary: thirtiethDay},
+  next: { timePassed: thirtiethDay.value, anniversary: thirtiethDay },
 };

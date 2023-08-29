@@ -1,6 +1,7 @@
-import React, {PropsWithChildren} from 'react';
-import ThemeContext from './ThemeContext';
-import {Theme} from './Theme';
+import React, { PropsWithChildren } from "react";
+
+import { Theme } from "./Theme";
+import ThemeContext from "./ThemeContext";
 
 type ThemeProviderProps = {
   theme: Theme;
@@ -9,6 +10,6 @@ type ThemeProviderProps = {
 export default function ThemeProvider(
   props: PropsWithChildren<ThemeProviderProps>,
 ) {
-  const {theme, ...rest} = props;
+  const { theme, ...rest } = props;
   return <ThemeContext.Provider value={theme} {...rest} />;
-};
+}

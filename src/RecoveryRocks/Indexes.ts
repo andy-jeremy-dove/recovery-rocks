@@ -1,5 +1,5 @@
-import {Quote, Topic} from './TheWholeDump';
-import {createDateTag, DateTag} from './DateTag';
+import { createDateTag, DateTag } from "./DateTag";
+import { Quote, Topic } from "./TheWholeDump";
 
 export type Indexes = {
   dailyContentByDaysReached: Map<number, DailyContent>;
@@ -17,19 +17,19 @@ export function indexContentByDaysReached(dump: {
 }) {
   const map = new Map<number, DailyContent>();
   for (const topic of dump.topics) {
-    const {daysReached} = topic;
+    const { daysReached } = topic;
     if (daysReached !== undefined) {
-      map.set(daysReached, {topic});
+      map.set(daysReached, { topic });
     }
   }
   for (const quote of dump.quotes) {
-    const {daysReached} = quote;
+    const { daysReached } = quote;
     if (daysReached !== undefined) {
       if (map.has(daysReached)) {
         const content = map.get(daysReached)!;
         content.quote = quote;
       } else {
-        map.set(daysReached, {quote});
+        map.set(daysReached, { quote });
       }
     }
   }
@@ -42,36 +42,36 @@ export function indexContentByAnnualDate(dump: {
 }) {
   const map = new Map<DateTag, DailyContent>();
   for (const topic of dump.topics) {
-    const {annualDate} = topic;
+    const { annualDate } = topic;
     if (!annualDate) {
       continue;
     }
-    const {day, month} = annualDate;
+    const { day, month } = annualDate;
     let dateTag;
     try {
       dateTag = createDateTag(day, month);
     } catch (ignore) {
       continue;
     }
-    map.set(dateTag, {topic});
+    map.set(dateTag, { topic });
   }
   for (const quote of dump.quotes) {
-    const {annualDate} = quote;
+    const { annualDate } = quote;
     if (!annualDate) {
       continue;
     }
-    const {day, month} = annualDate;
+    const { day, month } = annualDate;
     let dateTag;
     try {
       dateTag = createDateTag(day, month);
-    } catch (ignore) {
+    } catch {
       continue;
     }
     if (map.has(dateTag)) {
       const content = map.get(dateTag)!;
       content.quote = quote;
     } else {
-      map.set(dateTag, {quote});
+      map.set(dateTag, { quote });
     }
   }
   return map;

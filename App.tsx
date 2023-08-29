@@ -1,18 +1,39 @@
-import 'react-native-gesture-handler';
-import {useFonts, Inter_400Regular, Inter_800ExtraBold} from "@expo-google-fonts/inter";
-import {lightPalette, ThemeImpl, ThemeProvider, useTheme} from "./src/styling";
-import {SafeAreaProvider, initialWindowMetrics} from "react-native-safe-area-context";
+import "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  useFonts,
+  Inter_400Regular,
+  Inter_800ExtraBold,
+} from "@expo-google-fonts/inter";
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+  Theme,
+} from "@react-navigation/native";
+import {
+  DocumentTitleOptions,
+  LinkingOptions,
+} from "@react-navigation/native/lib/typescript/src/types";
+import { createURL } from "expo-linking";
 import { StatusBar } from "expo-status-bar";
-import {DarkTheme, DefaultTheme, NavigationContainer, Theme} from "@react-navigation/native";
-import {useMemo} from "react";
-import {RootStack, RootStackParamList} from "./src/RootStack/RootStack";
-import {DocumentTitleOptions, LinkingOptions} from "@react-navigation/native/lib/typescript/src/types";
-import app from './app.json';
-import {createURL} from 'expo-linking';
-import {Ionicons} from '@expo/vector-icons';
+import { useMemo } from "react";
+import {
+  SafeAreaProvider,
+  initialWindowMetrics,
+} from "react-native-safe-area-context";
+
+import app from "./app.json";
+import { RootStack, RootStackParamList } from "./src/RootStack/RootStack";
+import {
+  lightPalette,
+  ThemeImpl,
+  ThemeProvider,
+  useTheme,
+} from "./src/styling";
 
 export default function App() {
-  const [isLoaded, error] = useFonts({
+  const [isLoaded] = useFonts({
     Inter_400Regular,
     Inter_800ExtraBold,
     ...Ionicons.font,
@@ -64,15 +85,15 @@ function NavigationRoot() {
 const linking: LinkingOptions<RootStackParamList> = {
   enabled: true,
   prefixes: [
-    createURL('/'),
+    createURL("/"),
     `${app.expo.scheme}://`,
-    ...(__DEV__ ? ['http://localhost:3000', 'http://localhost:19006'] : []),
+    ...(__DEV__ ? ["http://localhost:3000", "http://localhost:19006"] : []),
   ],
   config: {
-    initialRouteName: 'ShowProgress',
+    initialRouteName: "ShowProgress",
     screens: {
-      ShowProgress: '',
-      PromptSetup: 'setup',
+      ShowProgress: "",
+      PromptSetup: "setup",
     },
   },
 };
@@ -94,9 +115,9 @@ function GlobalStatusBar() {
       translucent
       backgroundColor={theme.palette.background}
       animated
-      hideTransitionAnimation='slide'
+      hideTransitionAnimation="slide"
       networkActivityIndicatorVisible
-      style={theme.isDark ? 'light' : 'dark'}
+      style={theme.isDark ? "light" : "dark"}
     />
   );
 }

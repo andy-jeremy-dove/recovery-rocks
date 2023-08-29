@@ -8,12 +8,12 @@ export type Palette = {
 };
 
 export type ColorKey =
-  | 'background'
-  | 'textPrimary'
-  | 'textSecondary'
-  | 'borderPrimary'
-  | 'borderSecondary'
-  | 'backgroundAccent'
-  | 'textAccent'
-  | 'textHighlight'
-  | 'textSpecter';
+  | "background"
+  | "textPrimary"
+  | "textSecondary"
+  | "borderPrimary"
+  | "borderSecondary"
+  | "backgroundAccent"
+  | "textAccent"
+  | "textHighlight"
+  | "textSpecter";

@@ -1,6 +1,7 @@
-import {StyleSheet} from 'react-native';
-import createStylesHook from './createStylesHook';
-import {Theme} from '../Theme';
+import { StyleSheet } from "react-native";
+
+import createStylesHook from "./createStylesHook";
+import { Theme } from "../Theme";
 
 export default <
   T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>,

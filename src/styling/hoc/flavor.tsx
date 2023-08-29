@@ -2,12 +2,13 @@ import React, {
   ForwardRefExoticComponent,
   PropsWithoutRef,
   RefAttributes,
-} from 'react';
-import {StyleProp} from 'react-native';
-import {Theme} from '../Theme';
-import {StyleType} from './StyleType';
-import deferFlavor, {FlavorConfig, Override, Stylable} from './deferFlavor';
-import {isValidElementType} from 'react-is';
+} from "react";
+import { isValidElementType } from "react-is";
+import { StyleProp } from "react-native";
+
+import { StyleType } from "./StyleType";
+import deferFlavor, { FlavorConfig, Override, Stylable } from "./deferFlavor";
+import { Theme } from "../Theme";
 
 function flavor<ComponentType extends Stylable>(
   config?: FlavorConfig<ComponentType>,
@@ -16,11 +17,11 @@ function flavor<ComponentType extends Stylable>(
     keyof StyleEnumeration,
     StyleType<ComponentType>
   >,
-  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = object,
 >(
   _enumerateStyles: (theme: Theme) => StyleEnumeration,
   _overrideProps?: (theme: Theme, styles: StyleEnumeration) => OverriddenProps,
-) => <PropsExtension extends {} = {}>(
+) => <PropsExtension extends object = object>(
   pickStyles: (
     styles: StyleEnumeration,
     props: React.ComponentProps<ComponentType> & PropsExtension,
@@ -37,11 +38,11 @@ function flavor<ComponentType extends Stylable>(
     keyof StyleEnumeration,
     StyleType<ComponentType>
   >,
-  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+  OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = object,
 >(
   _enumerateStyles: (theme: Theme) => StyleEnumeration,
   _overrideProps?: (theme: Theme, styles: StyleEnumeration) => OverriddenProps,
-) => <PropsExtension extends {} = {}>(
+) => <PropsExtension extends object = object>(
   pickStyles: (
     styles: StyleEnumeration,
     props: React.ComponentProps<ComponentType> & PropsExtension,
@@ -57,7 +58,9 @@ function flavor<ComponentType extends Stylable>(
         keyof StyleEnumeration,
         StyleType<ComponentType>
       >,
-      OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+      OverriddenProps extends Partial<
+        React.ComponentProps<ComponentType>
+      > = object,
     >(
       _enumerateStyles: (theme: Theme) => StyleEnumeration,
       _overrideProps?: (
@@ -65,7 +68,7 @@ function flavor<ComponentType extends Stylable>(
         styles: StyleEnumeration,
       ) => OverriddenProps,
     ) =>
-    <PropsExtension extends {} = {}>(
+    <PropsExtension extends object = object>(
       pickStyles: (
         styles: StyleEnumeration,
         props: React.ComponentProps<ComponentType> & PropsExtension,
@@ -97,7 +100,7 @@ export default flavor;
 export type FlavoredComponent<
   ComponentType extends Stylable,
   OverriddenProps extends Partial<React.ComponentProps<ComponentType>>,
-  PropsExtension extends {},
+  PropsExtension extends object,
 > = ForwardRefExoticComponent<
   PropsWithoutRef<
     React.PropsWithChildren<

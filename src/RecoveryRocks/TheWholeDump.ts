@@ -43,7 +43,7 @@ export type Anniversary = {
 export const ANNIVERSARY_ID = Symbol();
 export type AnniversaryId = Opaque<string, typeof ANNIVERSARY_ID>;
 
-export type TimeUnit = 'day' | 'month' | 'year';
+export type TimeUnit = "day" | "month" | "year";
 
 export type Topic = {
   id: TopicId;
@@ -76,5 +76,5 @@ export type DateStruct = {
 export type Opaque<T, TT> = T extends {
   readonly __opaque: infer Rest extends any[];
 }
-  ? Omit<T, '__opaque'> & {readonly __opaque: [...Rest, TT]}
-  : T & {readonly __opaque: [TT]};
+  ? Omit<T, "__opaque"> & { readonly __opaque: [...Rest, TT] }
+  : T & { readonly __opaque: [TT] };

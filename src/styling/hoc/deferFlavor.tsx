@@ -1,9 +1,10 @@
-import React, {forwardRef} from 'react';
-import {Theme} from '../Theme';
-import useTheme from '../Theme/useTheme';
-import {StyleProp} from 'react-native';
-import memoize, {MemoCache} from '../util/memoize';
-import {StyleType} from './StyleType';
+import React, { forwardRef } from "react";
+import { StyleProp } from "react-native";
+
+import { StyleType } from "./StyleType";
+import { Theme } from "../Theme";
+import useTheme from "../Theme/useTheme";
+import memoize, { MemoCache } from "../util/memoize";
 
 export default <ComponentType extends Stylable>(
     config?: FlavorConfig<ComponentType>,
@@ -13,7 +14,9 @@ export default <ComponentType extends Stylable>(
       keyof StyleEnumeration,
       StyleType<ComponentType>
     >,
-    OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = {},
+    OverriddenProps extends Partial<
+      React.ComponentProps<ComponentType>
+    > = object,
   >(
     _enumerateStyles: (theme: Theme) => StyleEnumeration,
     _overrideProps?: (
@@ -21,7 +24,7 @@ export default <ComponentType extends Stylable>(
       styles: StyleEnumeration,
     ) => OverriddenProps,
   ) =>
-  <PropsExtension extends {} = {}>(
+  <PropsExtension extends object = object>(
     pickStyles: (
       styles: StyleEnumeration,
       props: React.ComponentProps<ComponentType> & PropsExtension,

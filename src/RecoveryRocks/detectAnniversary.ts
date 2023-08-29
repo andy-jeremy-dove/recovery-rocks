@@ -1,6 +1,7 @@
-import {Millisecond} from '../Time';
-import {Anniversary, TimeUnit} from './TheWholeDump';
-import dayjs, {Dayjs} from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
+
+import { Anniversary, TimeUnit } from "./TheWholeDump";
+import { Millisecond } from "../Time";
 
 export type AnniversaryDetectionResult = {
   previous?: MemorableDate;
@@ -15,11 +16,11 @@ export type MemorableDate = {
 
 export function detectAnniversary(
   target: Millisecond,
-  dump: {anniversaries: Anniversary[]},
+  dump: { anniversaries: Anniversary[] },
   start: Millisecond,
 ): AnniversaryDetectionResult {
-  const $target = dayjs(target).startOf('day');
-  const $start = dayjs(start).startOf('day');
+  const $target = dayjs(target).startOf("day");
+  const $start = dayjs(start).startOf("day");
 
   const timePassedMap = new Map<TimeUnit, number>();
 
@@ -38,7 +39,7 @@ export function detectAnniversary(
       const remainder = timePassed % anniversary.value;
       const itIsToday = remainder === 0 && timePassed !== 0;
       if (itIsToday) {
-        today = {timePassed, anniversary};
+        today = { timePassed, anniversary };
       }
 
       const _timePassed = timePassed - remainder;
@@ -55,26 +56,26 @@ export function detectAnniversary(
       } else if (anniversary.value < timePassed) {
         updateLowerIfNeeded(anniversary.value);
       } else {
-        today = {timePassed, anniversary};
+        today = { timePassed, anniversary };
       }
     }
 
     function updateHigherIfNeeded(_: number) {
       const $higherDate = $start.add(_, anniversary.unit);
       if (next === undefined || $higherDate.isBefore(next[0])) {
-        next = [$higherDate, {timePassed: _, anniversary}];
+        next = [$higherDate, { timePassed: _, anniversary }];
       }
     }
 
     function updateLowerIfNeeded(_: number) {
       const $lowerDate = $start.add(_, anniversary.unit);
       if (previous === undefined || $lowerDate.isAfter(previous[0])) {
-        previous = [$lowerDate, {timePassed: _, anniversary}];
+        previous = [$lowerDate, { timePassed: _, anniversary }];
       }
     }
   }
 
-  return {previous: previous?.[1], today, next: next?.[1]};
+  return { previous: previous?.[1], today, next: next?.[1] };
 }
 
 export type Point = [$date: Dayjs, mem: MemorableDate];

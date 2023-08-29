@@ -1,19 +1,23 @@
-import {StackScreenProps} from "@react-navigation/stack";
-import {RootStackParamList} from "../RootStack/RootStack";
-import {ShowProgressScreen} from "../screens/ShowProgressScreen";
-import {useCallback} from "react";
-import {useHeaderHeight} from "@react-navigation/elements";
+import { useHeaderHeight } from "@react-navigation/elements";
+import { StackScreenProps } from "@react-navigation/stack";
 import dayjs from "dayjs";
+import { useCallback } from "react";
 
-export type ShowProgressBindingProps = StackScreenProps<RootStackParamList, 'ShowProgress'>;
+import { RootStackParamList } from "../RootStack/RootStack";
+import { ShowProgressScreen } from "../screens/ShowProgressScreen";
+
+export type ShowProgressBindingProps = StackScreenProps<
+  RootStackParamList,
+  "ShowProgress"
+>;
 
 export function ShowProgressBinding(props: ShowProgressBindingProps) {
-  const {navigation} = props;
+  const { navigation } = props;
   const promptSetup = useCallback(() => {
-    navigation.navigate('PromptSetup');
+    navigation.navigate("PromptSetup");
   }, [navigation]);
   const headerHeight = useHeaderHeight();
-  const today = dayjs().format('D MMMM YYYY').toLowerCase();
+  const today = dayjs().format("D MMMM YYYY").toLowerCase();
   return (
     <ShowProgressScreen
       today={today}
