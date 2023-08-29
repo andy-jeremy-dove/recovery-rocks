@@ -1,12 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import { PlatformPressable } from "@react-navigation/elements";
+import { useTheme } from "@react-navigation/native";
 import {
   createStackNavigator,
   StackNavigationOptions,
   StackScreenProps,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { StyleSheet } from "react-native";
+import { useMemo } from "react";
+import { Platform, StyleSheet } from "react-native";
 
 import { PromptSetupBinding } from "../bindings/PromptSetupBinding";
 import { ShowProgressBinding } from "../bindings/ShowProgressBinding";
@@ -17,11 +19,28 @@ export type RootStackParamList = {
 };
 
 export function RootStack() {
+  const theme = useTheme();
+  const options = useMemo<StackNavigationOptions>(() => {
+    const tintColor = Platform.select({
+      ios: theme.colors.primary,
+      default: theme.colors.text,
+    });
+    const pressColor = theme.dark
+      ? "rgba(255, 255, 255, .32)"
+      : "rgba(0, 0, 0, .32)";
+    return {
+      ...commonOptions,
+      headerTintColor: tintColor,
+      headerPressColor: pressColor,
+      headerPressOpacity: 0.3,
+    };
+  }, [theme]);
+
   return (
     <Navigator
       id="root"
       initialRouteName="ShowProgress"
-      screenOptions={commonOptions}
+      screenOptions={options}
     >
       <Screen
         name="ShowProgress"
