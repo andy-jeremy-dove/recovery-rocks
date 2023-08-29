@@ -24,9 +24,9 @@ export function detectAnniversary(
 
   const timePassedMap = new Map<TimeUnit, number>();
 
-  let previous: Point | undefined;
+  const previousRef: Ref<Point> = {};
   let today: MemorableDate | undefined;
-  let next: Point | undefined;
+  const nextRef: Ref<Point> = {};
 
   for (const anniversary of dump.anniversaries) {
     let timePassed = timePassedMap.get(anniversary.unit);
@@ -44,38 +44,64 @@ export function detectAnniversary(
 
       const _timePassed = timePassed - remainder;
       const higher = _timePassed + anniversary.value;
-      updateHigherIfNeeded(higher);
+      updateHigherIfNeeded(higher, $start, anniversary, nextRef);
 
       const lower = itIsToday ? _timePassed - anniversary.value : _timePassed;
       if (lower > 0) {
-        updateLowerIfNeeded(lower);
+        updateLowerIfNeeded(lower, $start, anniversary, previousRef);
       }
     } else {
       if (timePassed < anniversary.value) {
-        updateHigherIfNeeded(anniversary.value);
+        updateHigherIfNeeded(anniversary.value, $start, anniversary, nextRef);
       } else if (anniversary.value < timePassed) {
-        updateLowerIfNeeded(anniversary.value);
+        updateLowerIfNeeded(
+          anniversary.value,
+          $start,
+          anniversary,
+          previousRef,
+        );
       } else {
         today = { timePassed, anniversary };
       }
     }
-
-    function updateHigherIfNeeded(_: number) {
-      const $higherDate = $start.add(_, anniversary.unit);
-      if (next === undefined || $higherDate.isBefore(next[0])) {
-        next = [$higherDate, { timePassed: _, anniversary }];
-      }
-    }
-
-    function updateLowerIfNeeded(_: number) {
-      const $lowerDate = $start.add(_, anniversary.unit);
-      if (previous === undefined || $lowerDate.isAfter(previous[0])) {
-        previous = [$lowerDate, { timePassed: _, anniversary }];
-      }
-    }
   }
 
-  return { previous: previous?.[1], today, next: next?.[1] };
+  return {
+    previous: previousRef.current?.[1],
+    today,
+    next: nextRef.current?.[1],
+  };
 }
 
-export type Point = [$date: Dayjs, mem: MemorableDate];
+type Point = [$date: Dayjs, mem: MemorableDate];
+type Ref<T> = { current?: T };
+
+function updateHigherIfNeeded(
+  _: number,
+  $start: Dayjs,
+  anniversary: Anniversary,
+  nextRef: Ref<Point>,
+) {
+  const $higherDate = $start.add(_, anniversary.unit);
+  if (
+    nextRef.current === undefined ||
+    $higherDate.isBefore(nextRef.current[0])
+  ) {
+    nextRef.current = [$higherDate, { timePassed: _, anniversary }];
+  }
+}
+
+function updateLowerIfNeeded(
+  _: number,
+  $start: Dayjs,
+  anniversary: Anniversary,
+  previousRef: Ref<Point>,
+) {
+  const $lowerDate = $start.add(_, anniversary.unit);
+  if (
+    previousRef.current === undefined ||
+    $lowerDate.isAfter(previousRef.current[0])
+  ) {
+    previousRef.current = [$lowerDate, { timePassed: _, anniversary }];
+  }
+}

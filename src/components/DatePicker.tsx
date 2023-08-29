@@ -27,7 +27,6 @@ export function DatePicker(props: DatePickerProps) {
 
 const GAP = 2;
 
-// fixme theme not used
 const Root = variance(View)(() => ({
   root: {
     flexDirection: "row",
@@ -38,7 +37,7 @@ const Root = variance(View)(() => ({
 
 const BASE = (300 - GAP * 2) / 4;
 
-const NumberView = variance(View)((theme) => ({
+const NumberView = variance(View)(() => ({
   root: {
     flexBasis: BASE,
     flexGrow: 1,

@@ -50,7 +50,7 @@ export function indexContentByAnnualDate(dump: {
     let dateTag;
     try {
       dateTag = createDateTag(day, month);
-    } catch (ignore) {
+    } catch {
       continue;
     }
     map.set(dateTag, { topic });
