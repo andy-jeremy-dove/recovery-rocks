@@ -1,4 +1,11 @@
-import { TextInput, TextInputProps, View, ViewProps } from "react-native";
+import {
+  StyleProp,
+  TextInput,
+  TextInputProps,
+  View,
+  ViewProps,
+  ViewStyle,
+} from "react-native";
 
 import { variance } from "../styling";
 
@@ -6,46 +13,54 @@ export type DatePickerProps = {
   day: number;
   month: number;
   year: number;
+  dayContainerStyle?: StyleProp<ViewStyle>;
+  monthContainerStyle?: StyleProp<ViewStyle>;
+  yearContainerStyle?: StyleProp<ViewStyle>;
 } & ViewProps;
 
 export function DatePicker(props: DatePickerProps) {
-  const { day, month, year, ...rest } = props;
+  const {
+    day,
+    month,
+    year,
+    dayContainerStyle,
+    monthContainerStyle,
+    yearContainerStyle,
+    ...rest
+  } = props;
   return (
     <Root {...rest}>
-      <NumberView>
+      <NumberView style={dayContainerStyle}>
         <NumberText defaultValue={day.toString()} />
       </NumberView>
-      <NumberView>
+      <NumberView style={monthContainerStyle}>
         <NumberText defaultValue={month.toString()} />
       </NumberView>
-      <NumberView double>
+      <NumberView double style={yearContainerStyle}>
         <NumberText defaultValue={year.toString()} />
       </NumberView>
     </Root>
   );
 }
 
-const GAP = 2;
-
 const Root = variance(View)(() => ({
   root: {
     flexDirection: "row",
-    gap: GAP,
+    justifyContent: "center",
+    gap: 3,
     flexWrap: "wrap",
   },
 }));
 
-const BASE = (300 - GAP * 2) / 4;
-
 const NumberView = variance(View)(() => ({
   root: {
-    flexBasis: BASE,
+    flexBasis: 1,
     flexGrow: 1,
     flexShrink: 0,
     alignItems: "stretch",
   },
   double: {
-    flexBasis: BASE * 2,
+    flexBasis: 2,
     flexGrow: 2,
     flexShrink: 0,
   },

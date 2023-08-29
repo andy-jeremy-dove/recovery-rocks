@@ -8,17 +8,17 @@ export enum Gender {
   Female,
 }
 
-export type GenderPickerProps = {
+export type GenderPickerProps = ViewProps & {
   value: Gender;
   onChange?: (_: Gender) => void;
 };
 
 export function GenderPicker(props: GenderPickerProps) {
-  const { value, onChange } = props;
+  const { value, onChange, ...rest } = props;
   const setMale = useCallback(() => onChange?.(Gender.Male), [onChange]);
   const setFemale = useCallback(() => onChange?.(Gender.Female), [onChange]);
   return (
-    <GenderPickerRow>
+    <GenderPickerRow {...rest}>
       <GenderPickerEntry
         tabIndex={0}
         checked={value === Gender.Male}
@@ -42,7 +42,6 @@ export function GenderPicker(props: GenderPickerProps) {
 const GenderPickerRow = variance(View)(
   (theme) => ({
     root: {
-      marginVertical: 8,
       flexDirection: "row",
       flexWrap: "wrap",
       gap: 1,

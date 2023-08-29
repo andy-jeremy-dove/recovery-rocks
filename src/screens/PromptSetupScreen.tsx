@@ -14,7 +14,6 @@ import {
 import { ContentScrollView } from "../components/ContentScrollView";
 import { DatePicker } from "../components/DatePicker";
 import { Gender, GenderPicker } from "../components/GenderPicker";
-import { HorizontalFrame } from "../components/HorizontalFrame";
 import { variance } from "../styling";
 
 export type SetupScreenProps = {
@@ -39,19 +38,27 @@ export function PromptSetupScreen(props: SetupScreenProps) {
       <View style={topStyle} />
       <View>
         <FieldTitle secondary>Ваше имя</FieldTitle>
-        <HorizontalFrame>
-          <NameInput tabIndex={0} />
-        </HorizontalFrame>
-        <HorizontalFrame>
-          <GenderPicker value={gender} onChange={setGender} />
-        </HorizontalFrame>
+        <View style={layoutStyles.row}>
+          <NameInput style={fixedWide} tabIndex={0} />
+        </View>
+        <View style={layoutStyles.row}>
+          <GenderPicker style={fixedWide} value={gender} onChange={setGender} />
+        </View>
       </View>
       <View style={layoutStyles.grow1} />
       <View>
         <FieldTitle>Первый день чистоты</FieldTitle>
-        <HorizontalFrame>
-          <DatePicker day={12} month={12} year={2012} />
-        </HorizontalFrame>
+        <View style={layoutStyles.row}>
+          <DatePicker
+            style={datePickerStyle}
+            day={12}
+            month={12}
+            year={2012}
+            dayContainerStyle={layoutStyles.dayMonthContainerStyle}
+            monthContainerStyle={layoutStyles.dayMonthContainerStyle}
+            yearContainerStyle={layoutStyles.yearContainerStyle}
+          />
+        </View>
       </View>
       <View style={layoutStyles.grow3} />
       <View>
@@ -69,7 +76,40 @@ export function PromptSetupScreen(props: SetupScreenProps) {
   );
 }
 
+const DAY_MONTH_BASIS = 85;
+const YEAR_BASIS = 162;
+const GAP = 3;
+const CONTAINER_BASIS = DAY_MONTH_BASIS * 2 + YEAR_BASIS + GAP * 2;
+
 const layoutStyles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  fixed: {
+    flexGrow: 0,
+    flexShrink: 1,
+    minWidth: 0,
+    marginVertical: 8,
+    marginHorizontal: 8,
+  },
+  wide: {
+    flexBasis: 300,
+  },
+  wider: {
+    flexBasis: CONTAINER_BASIS,
+  },
+  datePicker: {
+    gap: GAP,
+  },
+  dayMonthContainerStyle: {
+    flexBasis: DAY_MONTH_BASIS,
+    flexGrow: DAY_MONTH_BASIS,
+  },
+  yearContainerStyle: {
+    flexBasis: YEAR_BASIS,
+    flexGrow: YEAR_BASIS,
+  },
   grow1: {
     flexBasis: 0,
     flexGrow: 1,
@@ -91,6 +131,14 @@ const layoutStyles = StyleSheet.create({
     flexShrink: 7,
   },
 });
+
+const fixedWide = [layoutStyles.fixed, layoutStyles.wide];
+
+const datePickerStyle = [
+  layoutStyles.datePicker,
+  layoutStyles.fixed,
+  layoutStyles.wider,
+];
 
 const FieldTitle = variance(Text)(
   (theme) => ({
@@ -114,7 +162,6 @@ const FieldTitle = variance(Text)(
 const NameInput = variance(TextInput)(
   (theme) => ({
     root: {
-      marginVertical: 8,
       borderWidth: 1,
       borderColor: theme.palette.borderSecondary,
       borderRadius: 12,
