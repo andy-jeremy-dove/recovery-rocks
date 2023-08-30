@@ -1,5 +1,5 @@
 import { ComponentType, useMemo } from "react";
-import { View, Text, ViewStyle } from "react-native";
+import { Text, ViewStyle } from "react-native";
 
 import { DailyAchievement } from "../RecoveryRocks/computeDailyAchievement";
 import { MemorableDate } from "../RecoveryRocks/detectAnniversary";
@@ -37,19 +37,16 @@ export function ShowProgressScreen(props: ShowProgressScreenProps) {
     onQuotePress,
     compensateHeaderHeight,
   } = props;
-  const topStyle: ViewStyle = useMemo(
-    () => ({
-      minHeight: compensateHeaderHeight ?? 0,
-      flexBasis: compensateHeaderHeight ?? 0,
-      flexShrink: 0,
-      flexGrow: 0,
-    }),
+  const contentContainerStyle: ViewStyle = useMemo(
+    () => ({ paddingTop: compensateHeaderHeight ?? 0 }),
     [compensateHeaderHeight],
   );
   const topIsCompensated = compensateHeaderHeight !== undefined;
   return (
-    <ContentScrollView topIsCompensated={topIsCompensated}>
-      <View style={topStyle} />
+    <ContentScrollView
+      contentContainerStyle={contentContainerStyle}
+      topIsCompensated={topIsCompensated}
+    >
       <Today>{today}</Today>
       {progressInfo === null ? (
         <ProgressFallback />

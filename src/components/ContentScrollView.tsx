@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,20 +8,32 @@ import {
 } from "react-native";
 import { Edges, SafeAreaView } from "react-native-safe-area-context";
 
-import { variance } from "../styling";
+import { useStyles, variance } from "../styling";
 
 export type ContentScrollViewProps = ScrollViewProps & {
   topIsCompensated?: boolean;
 };
 
 export function ContentScrollView(props: ContentScrollViewProps) {
-  const { topIsCompensated, children, ...rest } = props;
+  const { topIsCompensated, children, contentContainerStyle, ...rest } = props;
+  const styles = useStyles((theme) => ({
+    contentContainer: {
+      flexGrow: 1,
+      flexShrink: 0,
+      alignItems: "stretch",
+      backgroundColor: theme.palette.background,
+    },
+  }));
+  const _contentContainerStyle = useMemo(
+    () => [styles.contentContainer, contentContainerStyle],
+    [contentContainerStyle, styles],
+  );
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={layoutStyles.root}
     >
-      <Content {...rest}>
+      <Content contentContainerStyle={_contentContainerStyle} {...rest}>
         <SafeAreaView
           mode="padding"
           style={layoutStyles.root}
@@ -50,15 +63,8 @@ const Content = variance(ScrollView)(
       flexWrap: "nowrap",
       backgroundColor: theme.palette.background,
     },
-    contentContainer: {
-      flexGrow: 1,
-      flexShrink: 0,
-      alignItems: "stretch",
-      backgroundColor: theme.palette.background,
-    },
   }),
-  (_theme, styles): ScrollViewProps => ({
-    contentContainerStyle: styles.contentContainer,
+  (_theme): ScrollViewProps => ({
     keyboardShouldPersistTaps: "handled",
   }),
 );
