@@ -4,7 +4,6 @@
     "slug": "RecoveryRocks",
     "scheme": "recoveryrocks",
     "version": "1.0.0",
-    "orientation": "all",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {

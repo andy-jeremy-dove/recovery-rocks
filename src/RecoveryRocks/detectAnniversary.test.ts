@@ -1,9 +1,17 @@
 import dayjs from "dayjs";
 
-import { Anniversary, AnniversaryId } from "./TheWholeDump";
 import {
+  anniversaries,
+  oneYear,
+  nineMonths,
+  eighteenMonths,
+  sixMonths,
+  thirtiethDay,
+  sixtiethDay,
+  ninetiethDay,
+} from "./anniversaries";
+import detectAnniversary, {
   AnniversaryDetectionResult,
-  detectAnniversary,
 } from "./detectAnniversary";
 import { Millisecond } from "../Time";
 
@@ -182,65 +190,6 @@ it("detects three years", () => {
 
 const $start = dayjs("2018-04-13 19:18");
 const start = $start.valueOf() as Millisecond;
-
-const thirtiethDay: Anniversary = {
-  id: "1" as AnniversaryId,
-  value: 29,
-  unit: "day",
-  periodic: false,
-};
-
-const sixtiethDay: Anniversary = {
-  id: "2" as AnniversaryId,
-  value: 59,
-  unit: "day",
-  periodic: false,
-};
-
-const ninetiethDay: Anniversary = {
-  id: "3" as AnniversaryId,
-  value: 89,
-  unit: "day",
-  periodic: false,
-};
-
-const sixMonths: Anniversary = {
-  id: "4" as AnniversaryId,
-  value: 6,
-  unit: "month",
-  periodic: false,
-};
-
-const nineMonths: Anniversary = {
-  id: "5" as AnniversaryId,
-  value: 9,
-  unit: "month",
-  periodic: false,
-};
-
-const eighteenMonths: Anniversary = {
-  id: "6" as AnniversaryId,
-  value: 18,
-  unit: "month",
-  periodic: false,
-};
-
-const oneYear: Anniversary = {
-  id: "7" as AnniversaryId,
-  value: 1,
-  unit: "year",
-  periodic: true,
-};
-
-const anniversaries: Anniversary[] = [
-  thirtiethDay,
-  sixtiethDay,
-  ninetiethDay,
-  sixMonths,
-  nineMonths,
-  eighteenMonths,
-  oneYear,
-];
 
 const zeroResult: AnniversaryDetectionResult = {
   previous: undefined,

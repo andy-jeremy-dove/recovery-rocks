@@ -26,7 +26,7 @@ import {
 import "dayjs/locale/ru";
 
 import app from "./app.json";
-import { RootStack, RootStackParamList } from "./src/RootStack/RootStack";
+import RootStack, { RootStackParamList } from "./src/RootStack/RootStack";
 import {
   lightPalette,
   ThemeImpl,

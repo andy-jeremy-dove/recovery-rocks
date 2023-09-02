@@ -6,9 +6,12 @@ const darkPalette: Palette = {
   textSecondary: "#fff",
   borderPrimary: "#fff",
   borderSecondary: "#fff",
-  backgroundAccent: "#4f4f4f",
+  backgroundAccent: "#ffffff33",
+  backgroundSelection: "#5b5b5b",
   textAccent: "#fff",
-  textHighlight: "#fff",
+  textHighlight: "#ffd700",
+  textBackground: "#fff",
+  link: "#ffd700",
   textSpecter: "#4f4f4f",
 };
 

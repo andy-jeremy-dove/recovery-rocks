@@ -18,7 +18,7 @@ export type DatePickerProps = {
   yearContainerStyle?: StyleProp<ViewStyle>;
 } & ViewProps;
 
-export function DatePicker(props: DatePickerProps) {
+export default function DatePicker(props: DatePickerProps) {
   const {
     day,
     month,
@@ -78,6 +78,7 @@ const NumberText = variance(TextInput)(
 
       textAlign: "center",
       ...theme.fontByWeight("bold"),
+      color: theme.palette.textPrimary,
       fontSize: 53,
       lineHeight: 64,
     },

@@ -14,7 +14,7 @@ export type MemorableDate = {
   anniversary: Anniversary;
 };
 
-export function detectAnniversary(
+export default function detectAnniversary(
   target: Millisecond,
   dump: { anniversaries: Anniversary[] },
   start: Millisecond,

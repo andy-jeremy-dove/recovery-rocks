@@ -10,15 +10,15 @@ import {
 import { useMemo } from "react";
 import { Platform, StyleSheet } from "react-native";
 
-import { PromptSetupBinding } from "../bindings/PromptSetupBinding";
-import { ShowProgressBinding } from "../bindings/ShowProgressBinding";
+import PromptSetupBinding from "../bindings/PromptSetupBinding";
+import ShowProgressBinding from "../bindings/ShowProgressBinding";
 
 export type RootStackParamList = {
   PromptSetup: undefined;
   ShowProgress: undefined;
 };
 
-export function RootStack() {
+export default function RootStack() {
   const theme = useTheme();
   const options = useMemo<StackNavigationOptions>(() => {
     const tintColor = Platform.select({

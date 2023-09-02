@@ -13,7 +13,7 @@ export type GenderPickerProps = ViewProps & {
   onChange?: (_: Gender) => void;
 };
 
-export function GenderPicker(props: GenderPickerProps) {
+export default function GenderPicker(props: GenderPickerProps) {
   const { value, onChange, ...rest } = props;
   const setMale = useCallback(() => onChange?.(Gender.Male), [onChange]);
   const setFemale = useCallback(() => onChange?.(Gender.Female), [onChange]);
@@ -69,9 +69,10 @@ const GenderPickerEntry = variance(Text)(
       fontSize: 20,
       lineHeight: 26,
       backgroundColor: theme.palette.background,
+      userSelect: "none",
     },
     checked: {
-      backgroundColor: theme.palette.backgroundAccent,
+      backgroundColor: theme.palette.backgroundSelection,
     },
   }),
   (): TextProps => ({

@@ -3,14 +3,14 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { useCallback } from "react";
 
 import { RootStackParamList } from "../RootStack/RootStack";
-import { PromptSetupScreen } from "../screens/PromptSetupScreen";
+import PromptSetupScreen from "../screens/PromptSetupScreen";
 
 export type PromptSetupBindingProps = StackScreenProps<
   RootStackParamList,
   "PromptSetup"
 >;
 
-export function PromptSetupBinding(props: PromptSetupBindingProps) {
+export default function PromptSetupBinding(props: PromptSetupBindingProps) {
   const { navigation } = props;
   const onCancel = useCallback(() => {
     if (navigation.canGoBack()) {

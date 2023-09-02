@@ -14,6 +14,9 @@ export type ColorKey =
   | "borderPrimary"
   | "borderSecondary"
   | "backgroundAccent"
+  | "backgroundSelection"
   | "textAccent"
   | "textHighlight"
+  | "textBackground"
+  | "link"
   | "textSpecter";

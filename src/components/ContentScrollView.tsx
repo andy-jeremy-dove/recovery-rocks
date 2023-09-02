@@ -14,7 +14,7 @@ export type ContentScrollViewProps = ScrollViewProps & {
   topIsCompensated?: boolean;
 };
 
-export function ContentScrollView(props: ContentScrollViewProps) {
+export default function ContentScrollView(props: ContentScrollViewProps) {
   const { topIsCompensated, children, contentContainerStyle, ...rest } = props;
   const styles = useStyles((theme) => ({
     contentContainer: {

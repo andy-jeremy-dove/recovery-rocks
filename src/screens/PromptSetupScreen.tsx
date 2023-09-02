@@ -11,9 +11,10 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { ContentScrollView } from "../components/ContentScrollView";
-import { DatePicker } from "../components/DatePicker";
-import { Gender, GenderPicker } from "../components/GenderPicker";
+import ContentScrollView from "../components/ContentScrollView";
+import DatePicker from "../components/DatePicker";
+import GenderPicker, { Gender } from "../components/GenderPicker";
+import { fillSpace } from "../styles";
 import { variance } from "../styling";
 
 export type SetupScreenProps = {
@@ -22,7 +23,7 @@ export type SetupScreenProps = {
   compensateHeaderHeight?: number;
 };
 
-export function PromptSetupScreen(props: SetupScreenProps) {
+export default function PromptSetupScreen(props: SetupScreenProps) {
   const { compensateHeaderHeight, cancellation, onCancel } = props;
   const [gender, setGender] = useState(Gender.Male);
   const onPress = useCallback(() => {
@@ -30,7 +31,7 @@ export function PromptSetupScreen(props: SetupScreenProps) {
   }, []);
   const topStyle: StyleProp<ViewStyle> = useMemo(
     () => [
-      layoutStyles.grow5,
+      layoutStyles.grow3,
       {
         minHeight: compensateHeaderHeight,
         flexBasis: compensateHeaderHeight ?? 0,
@@ -51,7 +52,7 @@ export function PromptSetupScreen(props: SetupScreenProps) {
           <GenderPicker style={fixedWide} value={gender} onChange={setGender} />
         </View>
       </View>
-      <View style={layoutStyles.grow1} />
+      <View style={layoutStyles.grow2} />
       <View>
         <FieldTitle>Первый день чистоты</FieldTitle>
         <View style={layoutStyles.row}>
@@ -66,7 +67,7 @@ export function PromptSetupScreen(props: SetupScreenProps) {
           />
         </View>
       </View>
-      <View style={layoutStyles.grow3} />
+      <View style={layoutStyles.grow4} />
       <View>
         <SubmitButton tabIndex={0} onPress={onPress}>
           Готово
@@ -116,26 +117,10 @@ const layoutStyles = StyleSheet.create({
     flexBasis: YEAR_BASIS,
     flexGrow: YEAR_BASIS,
   },
-  grow1: {
-    flexBasis: 0,
-    flexGrow: 1,
-    flexShrink: 1,
-  },
-  grow3: {
-    flexBasis: 0,
-    flexGrow: 3,
-    flexShrink: 3,
-  },
-  grow5: {
-    flexBasis: 0,
-    flexGrow: 5,
-    flexShrink: 5,
-  },
-  grow7: {
-    flexBasis: 0,
-    flexGrow: 7,
-    flexShrink: 7,
-  },
+  grow2: fillSpace(2),
+  grow3: fillSpace(3),
+  grow4: fillSpace(4),
+  grow7: fillSpace(7),
 });
 
 const fixedWide = [layoutStyles.fixed, layoutStyles.wide];
@@ -155,6 +140,7 @@ const FieldTitle = variance(Text)(
       color: theme.palette.textPrimary,
       fontSize: 20,
       lineHeight: 26,
+      userSelect: "none",
     },
     secondary: {
       color: theme.palette.textSecondary,
