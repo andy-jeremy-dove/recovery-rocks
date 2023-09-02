@@ -111,10 +111,11 @@ const AccretionText = flavor(Text)((theme) => ({
 
 const UNIT_FONT_SIZE = 15;
 const UNIT_LINE_HEIGHT = 18;
+const UNIT_MARGIN_TOP = -UNIT_LINE_HEIGHT / 2;
 
 const UnitText = flavor(Text)((theme) => ({
   root: {
-    marginTop: -UNIT_LINE_HEIGHT / 2,
+    marginTop: UNIT_MARGIN_TOP,
     textAlign: "center",
     ...theme.fontByWeight("400"),
     color: theme.palette.textPrimary,
@@ -141,6 +142,9 @@ function scaledText(
     lineHeight: Math.floor(lineHeight * scale),
   };
 }
+
+export const TIME_UNIT_VIEW_HEIGHT =
+  VALUE_LINE_HEIGHT + UNIT_MARGIN_TOP + UNIT_LINE_HEIGHT;
 
 const dayByCategory = {
   one: "день",

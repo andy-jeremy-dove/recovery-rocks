@@ -17,15 +17,21 @@ import {
 import { DailyAchievement } from "../RecoveryRocks/computeDailyAchievement";
 import AnniversaryAchievementView from "../components/AnniversaryAchievementView";
 import ContentScrollView from "../components/ContentScrollView";
-import DailyAchievementView from "../components/DailyAchievementView";
+import DailyAchievementTabView, {
+  ProgressTabKey,
+} from "../components/DailyAchievementTabView";
 import LogoView from "../components/LogoView";
-import { TimeUnit } from "../components/TimeUnitView";
+import { TIME_UNIT_VIEW_HEIGHT, TimeUnit } from "../components/TimeUnitView";
 import { fillSpace } from "../styles";
 import { variance } from "../styling";
+
+export type { ProgressTabKey } from "../components/DailyAchievementTabView";
 
 export type ShowProgressScreenProps = {
   today: string;
   announcement?: string | ReactNode;
+  tabKey?: ProgressTabKey;
+  setTabKey?: (_: ProgressTabKey) => void;
   dailyAchievement?: DailyAchievement | null;
   anniversaryAchievement?: AnniversaryAchievement | null;
   congratulation?: string;
@@ -48,6 +54,8 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
   const {
     today,
     announcement,
+    tabKey,
+    setTabKey,
     dailyAchievement,
     anniversaryAchievement,
     congratulation,
@@ -84,13 +92,14 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
         </View>
       )}
       {dailyAchievement && !anniversaryAchievement && (
-        <DailyAchievementView
-          style={layoutStyles.indent}
-          fullDaysReached={dailyAchievement.fullDaysReached}
-          fullMonthsReached={dailyAchievement.fullMonthsReached}
-          fullYearsReached={dailyAchievement.fullYearsReached}
-          accretion={accretion}
-        />
+        <View style={[layoutStyles.indent, layoutStyles.pageRoot]}>
+          <DailyAchievementTabView
+            tabKey={tabKey}
+            setTabKey={setTabKey}
+            dailyAchievement={dailyAchievement}
+            accretion={accretion}
+          />
+        </View>
       )}
       {anniversaryAchievement && (
         <AnniversaryAchievementView
@@ -141,11 +150,8 @@ const layoutStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
   },
-  achievementRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 32,
+  pageRoot: {
+    height: TIME_UNIT_VIEW_HEIGHT,
   },
   logo: {
     alignSelf: "center",

@@ -7,13 +7,18 @@ import { Platform, Pressable, Text } from "react-native";
 import { anniversaries } from "../RecoveryRocks/anniversaries";
 import computeDailyAchievement from "../RecoveryRocks/computeDailyAchievement";
 import detectAnniversary from "../RecoveryRocks/detectAnniversary";
-import { RootStackParamList } from "../RootStack/RootStack";
+import {
+  ProgressTab,
+  RootStackParamList,
+} from "../RootStack/RootStackParamList";
 import { Millisecond } from "../Time";
 import { TimeUnit } from "../components/TimeUnitView";
 import ShowProgressScreen, {
   AnniversaryAchievement,
+  ProgressTabKey,
 } from "../screens/ShowProgressScreen";
 import { variance } from "../styling";
+import turnOut from "../util/turnOut";
 
 export type ShowProgressBindingProps = StackScreenProps<
   RootStackParamList,
@@ -21,13 +26,20 @@ export type ShowProgressBindingProps = StackScreenProps<
 >;
 
 export default function ShowProgressBinding(props: ShowProgressBindingProps) {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const tabKey = tabMap[route.params?.tab ?? ProgressTab.Accumulative];
+  const setTabKey = useCallback(
+    (_: ProgressTabKey) => navigation.setParams({ tab: tabMapReversed[_] }),
+    [navigation],
+  );
   const promptSetup = useCallback(() => {
     navigation.navigate("PromptSetup");
   }, [navigation]);
   const headerHeight = useHeaderHeight();
   const [$now] = useState(() => dayjs());
-  const [$start] = useState(() => $now.subtract(1, "year"));
+  const [$start] = useState(() =>
+    $now.subtract(22, "year").subtract(11, "month").subtract(29, "day"),
+  );
   const today = $now.format("D MMMM YYYY").toLowerCase();
   const announcement = useMemo(
     () => <Greeting onPress={() => navigation.navigate("PromptSetup")} />,
@@ -70,6 +82,8 @@ export default function ShowProgressBinding(props: ShowProgressBindingProps) {
       today={today}
       announcement={announcement}
       // announcement="Илья, ты чист"
+      tabKey={tabKey}
+      setTabKey={setTabKey}
       dailyAchievement={dailyAchievement}
       anniversaryAchievement={anniversaryAchievement}
       // anniversaryAchievement={{
@@ -145,3 +159,11 @@ const timeUnitMap = {
   month: TimeUnit.Month,
   year: TimeUnit.Year,
 };
+
+const tabMap = {
+  [ProgressTab.Accumulative]: "accumulative",
+  [ProgressTab.Days]: "days",
+  [ProgressTab.Months]: "months",
+} as const;
+
+const tabMapReversed = turnOut(tabMap);

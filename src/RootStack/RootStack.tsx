@@ -10,13 +10,9 @@ import {
 import { useMemo } from "react";
 import { Platform, StyleSheet } from "react-native";
 
+import { RootStackParamList } from "./RootStackParamList";
 import PromptSetupBinding from "../bindings/PromptSetupBinding";
 import ShowProgressBinding from "../bindings/ShowProgressBinding";
-
-export type RootStackParamList = {
-  PromptSetup: undefined;
-  ShowProgress: undefined;
-};
 
 export default function RootStack() {
   const theme = useTheme();

@@ -4,50 +4,43 @@ import { StyleSheet, View, ViewProps } from "react-native";
 import TimeUnitView, { Plural, TimeUnit } from "./TimeUnitView";
 
 export type DailyAchievementViewProps = ViewProps & {
-  fullDaysReached?: number;
-  fullMonthsReached?: number;
-  fullYearsReached?: number;
+  days?: number;
+  months?: number;
+  years?: number;
   accretion?: boolean;
 };
 
 export default function DailyAchievementView(props: DailyAchievementViewProps) {
-  const {
-    fullYearsReached,
-    fullMonthsReached,
-    fullDaysReached,
-    accretion,
-    style,
-    ...rest
-  } = props;
-  const daysAreLone = !fullYearsReached && !fullMonthsReached;
+  const { years, months, days, accretion, style, ...rest } = props;
+  const daysAreLone = !years && !months;
   const rootStyle = useMemo(() => [layoutStyles.root, style], [style]);
   return (
     <View style={rootStyle} {...rest}>
-      {!!fullYearsReached && (
+      {!!years && (
         <TimeUnitView
-          value={fullYearsReached}
+          value={years}
           unit={TimeUnit.Year}
           plural={Plural.Cardinal}
         />
       )}
-      {!!fullMonthsReached && (
+      {!!months && (
         <TimeUnitView
-          value={fullMonthsReached}
+          value={months}
           unit={TimeUnit.Month}
           plural={Plural.Cardinal}
         />
       )}
       {daysAreLone ? (
         <TimeUnitView
-          value={(fullDaysReached ?? 0) + 1}
+          value={(days ?? 0) + 1}
           unit={TimeUnit.Day}
           plural={Plural.Ordinal}
           accretion={accretion}
         />
       ) : (
-        !!fullDaysReached && (
+        !!days && (
           <TimeUnitView
-            value={fullDaysReached}
+            value={days}
             unit={TimeUnit.Day}
             plural={Plural.Cardinal}
           />
