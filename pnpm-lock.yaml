@@ -32,6 +32,9 @@ dependencies:
   expo-font:
     specifier: ~11.4.0
     version: 11.4.0(expo@49.0.7)
+  expo-haptics:
+    specifier: ~12.4.0
+    version: 12.4.0(expo@49.0.7)
   expo-linking:
     specifier: ~5.0.2
     version: 5.0.2(expo@49.0.7)
@@ -7088,6 +7091,14 @@ packages:
     dependencies:
       expo: 49.0.7(@babel/core@7.20.2)
       fontfaceobserver: 2.3.0
+    dev: false
+
+  /expo-haptics@12.4.0(expo@49.0.7):
+    resolution: {integrity: sha512-eELhZOO64oJa6AtEUxosatjSENE/tQgF2rVJxDsvRdx8Vgd3uFC+FRoM3nbMVJkxDgAaP3EKOPT1zVM41sNurw==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.7(@babel/core@7.20.2)
     dev: false
 
   /expo-keep-awake@12.3.0(expo@49.0.7):

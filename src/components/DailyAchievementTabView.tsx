@@ -8,6 +8,7 @@ import DailyAchievementView from "./DailyAchievementView";
 import { TIME_UNIT_VIEW_HEIGHT } from "./TimeUnitView";
 import { DailyAchievement } from "../RecoveryRocks/computeDailyAchievement";
 import { createNullableContext, useForcedContext } from "../context";
+import { heavyImpact, lightImpact } from "../haptics/haptics";
 
 export type DailyAchievementTabViewProps = {
   tabKey?: ProgressTabKey;
@@ -71,11 +72,12 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
   }, [routes, tabKey]);
 
   const isSwipingRef = useRef(false);
-  const onSwipeStart = useCallback(() => {
+  const onSwipeStart = useCallback(async () => {
     isSwipingRef.current = true;
   }, []);
-  const onSwipeEnd = useCallback(() => {
+  const onSwipeEnd = useCallback(async () => {
     isSwipingRef.current = false;
+    heavyImpact();
   }, []);
   const onPress = useCallback(() => {
     if (!isSwipingRef.current) {
@@ -83,6 +85,11 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
       setTabKey?.(routes[nextIndex].key as ProgressTabKey);
     }
   }, [index, routes, setTabKey]);
+  const onPressOut = useCallback(() => {
+    if (!isSwipingRef.current) {
+      heavyImpact();
+    }
+  }, []);
   const onIndexChange = useCallback(
     (nextIndex: number) => {
       setTabKey?.(routes[nextIndex].key as ProgressTabKey);
@@ -91,8 +98,13 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
   );
 
   const tabsProps = useMemo(
-    () => ({ onPress, accretion }),
-    [onPress, accretion],
+    () => ({
+      onPress,
+      onPressIn: lightImpact,
+      onPressOut,
+      accretion,
+    }),
+    [onPress, onPressOut, accretion],
   );
 
   return (
@@ -128,9 +140,14 @@ type DailyAchievementProps = {
 function DailyAchievementBinding(props: DailyAchievementBindingProps) {
   const { route } = props;
   const { days, months, years } = route;
-  const { accretion, onPress } = useForcedContext(TabsContext);
+  const { accretion, onPress, onPressIn, onPressOut } =
+    useForcedContext(TabsContext);
   return (
-    <PlatformPressable onPress={onPress}>
+    <PlatformPressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+    >
       <DailyAchievementView
         pointerEvents="box-only"
         style={layoutStyles.page}
@@ -162,7 +179,9 @@ const layoutStyles = StyleSheet.create({
 });
 
 type TabsContextProps = {
-  onPress: () => void;
+  onPress?: () => void;
+  onPressIn?: () => void;
+  onPressOut?: () => void;
   accretion?: boolean;
 };
 
