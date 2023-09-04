@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import {useMemo} from 'react';
+import {StyleSheet, View, ViewProps} from 'react-native';
 
-import TimeUnitView, { Plural, TimeUnit } from "./TimeUnitView";
+import TimeUnitView, {Plural, TimeUnit} from './TimeUnitView';
 
 export type DailyAchievementViewProps = ViewProps & {
   days?: number;
@@ -11,7 +11,7 @@ export type DailyAchievementViewProps = ViewProps & {
 };
 
 export default function DailyAchievementView(props: DailyAchievementViewProps) {
-  const { years, months, days, accretion, style, ...rest } = props;
+  const {years, months, days, accretion, style, ...rest} = props;
   const daysAreLone = !years && !months;
   const rootStyle = useMemo(() => [layoutStyles.root, style], [style]);
   return (
@@ -52,9 +52,9 @@ export default function DailyAchievementView(props: DailyAchievementViewProps) {
 
 const layoutStyles = StyleSheet.create({
   root: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     gap: 32,
   },
 });

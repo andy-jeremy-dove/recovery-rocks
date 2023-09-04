@@ -1,41 +1,36 @@
-import "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
+import 'react-native-gesture-handler';
+import {Ionicons} from '@expo/vector-icons';
 import {
   useFonts,
   Inter_400Regular,
   Inter_800ExtraBold,
-} from "@expo-google-fonts/inter";
+} from '@expo-google-fonts/inter';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
   Theme,
-} from "@react-navigation/native";
+} from '@react-navigation/native';
 import {
   DocumentTitleOptions,
   LinkingOptions,
-} from "@react-navigation/native/lib/typescript/src/types";
-import dayjs from "dayjs";
-import { createURL } from "expo-linking";
-import { StatusBar } from "expo-status-bar";
-import { useMemo } from "react";
+} from '@react-navigation/native/lib/typescript/src/types';
+import dayjs from 'dayjs';
+import {createURL} from 'expo-linking';
+import {StatusBar} from 'expo-status-bar';
+import {useMemo} from 'react';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
-} from "react-native-safe-area-context";
-import "dayjs/locale/ru";
+} from 'react-native-safe-area-context';
+import 'dayjs/locale/ru';
 
-import app from "./app.json";
-import RootStack from "./src/RootStack/RootStack";
-import { RootStackParamList } from "./src/RootStack/RootStackParamList";
-import {
-  lightPalette,
-  ThemeImpl,
-  ThemeProvider,
-  useTheme,
-} from "./src/styling";
+import app from './app.json';
+import RootStack from './src/RootStack/RootStack';
+import {RootStackParamList} from './src/RootStack/RootStackParamList';
+import {lightPalette, ThemeImpl, ThemeProvider, useTheme} from './src/styling';
 
-dayjs.locale("ru");
+dayjs.locale('ru');
 
 export default function App() {
   const [isLoaded] = useFonts({
@@ -80,8 +75,7 @@ function NavigationRoot() {
     <NavigationContainer
       documentTitle={documentTitle}
       theme={navigationTheme}
-      linking={linking}
-    >
+      linking={linking}>
       <RootStack />
     </NavigationContainer>
   );
@@ -90,22 +84,22 @@ function NavigationRoot() {
 const linking: LinkingOptions<RootStackParamList> = {
   enabled: true,
   prefixes: [
-    createURL("/"),
+    createURL('/'),
     `${app.expo.scheme}://`,
-    ...(__DEV__ ? ["http://localhost:3000", "http://localhost:19006"] : []),
+    ...(__DEV__ ? ['http://localhost:3000', 'http://localhost:19006'] : []),
   ],
   config: {
-    initialRouteName: "ShowProgress",
+    initialRouteName: 'ShowProgress',
     screens: {
-      ShowProgress: "",
-      PromptSetup: "setup",
+      ShowProgress: '',
+      PromptSetup: 'setup',
     },
   },
 };
 
 const documentTitle: DocumentTitleOptions = {
   enabled: true,
-  formatter: (options) => {
+  formatter: options => {
     if (options?.title) {
       return `${options.title} @ ${app.expo.name}`;
     }
@@ -122,7 +116,7 @@ function GlobalStatusBar() {
       animated
       hideTransitionAnimation="slide"
       networkActivityIndicatorVisible
-      style={theme.isDark ? "light" : "dark"}
+      style={theme.isDark ? 'light' : 'dark'}
     />
   );
 }

@@ -1,23 +1,23 @@
-import React from "react";
+import React from 'react';
 
-import { StyleType } from "./StyleType";
-import deferFlavor, { FlavorConfig, Stylable } from "./deferFlavor";
-import { FlavoredComponent, isComponent } from "./flavor";
-import { Theme } from "../Theme";
+import {StyleType} from './StyleType';
+import deferFlavor, {FlavorConfig, Stylable} from './deferFlavor';
+import {FlavoredComponent, isComponent} from './flavor';
+import {Theme} from '../Theme';
 
 export type PropsExtension<
   ComponentType extends Stylable,
   StyleEnumeration extends Record<
-    keyof StyleEnumeration | "root",
+    keyof StyleEnumeration | 'root',
     StyleType<ComponentType>
   >,
-> = Partial<Record<Exclude<keyof StyleEnumeration, "root">, boolean>>;
+> = Partial<Record<Exclude<keyof StyleEnumeration, 'root'>, boolean>>;
 
 function variance<ComponentType extends Stylable>(
   config?: FlavorConfig<ComponentType>,
 ): <
   StyleEnumeration extends Record<
-    keyof StyleEnumeration | "root",
+    keyof StyleEnumeration | 'root',
     StyleType<ComponentType>
   >,
   OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = object,
@@ -36,7 +36,7 @@ function variance<ComponentType extends Stylable>(
   config?: FlavorConfig<ComponentType>,
 ): <
   StyleEnumeration extends Record<
-    keyof StyleEnumeration | "root",
+    keyof StyleEnumeration | 'root',
     StyleType<ComponentType>
   >,
   OverriddenProps extends Partial<React.ComponentProps<ComponentType>> = object,
@@ -54,7 +54,7 @@ function variance<ComponentType extends Stylable>(
 ) {
   return <
     StyleEnumeration extends Record<
-      keyof StyleEnumeration | "root",
+      keyof StyleEnumeration | 'root',
       StyleType<ComponentType>
     >,
     OverriddenProps extends Partial<
@@ -88,9 +88,9 @@ function variance<ComponentType extends Stylable>(
       for (const _prop in styles) {
         if (styles.hasOwnProperty(_prop)) {
           const prop = _prop as keyof StyleEnumeration;
-          if (prop !== "root") {
+          if (prop !== 'root') {
             if (
-              props[prop as Exclude<keyof StyleEnumeration, "root">] === true
+              props[prop as Exclude<keyof StyleEnumeration, 'root'>] === true
             ) {
               result.push(styles[prop]);
             }

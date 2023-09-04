@@ -1,4 +1,4 @@
-import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
+import {impactAsync, ImpactFeedbackStyle} from 'expo-haptics';
 
 export function lightImpact() {
   impactAsync(ImpactFeedbackStyle.Light).catch();

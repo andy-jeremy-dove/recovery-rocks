@@ -1,7 +1,7 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, {Dayjs} from 'dayjs';
 
-import { Anniversary, TimeUnit } from "./TheWholeDump";
-import { Millisecond } from "../Time";
+import {Anniversary, TimeUnit} from './TheWholeDump';
+import {Millisecond} from '../Time';
 
 export type AnniversaryDetectionResult = {
   previous?: MemorableDate;
@@ -16,11 +16,11 @@ export type MemorableDate = {
 
 export default function detectAnniversary(
   target: Millisecond,
-  dump: { anniversaries: Anniversary[] },
+  dump: {anniversaries: Anniversary[]},
   start: Millisecond,
 ): AnniversaryDetectionResult {
-  const $target = dayjs(target).startOf("day");
-  const $start = dayjs(start).startOf("day");
+  const $target = dayjs(target).startOf('day');
+  const $start = dayjs(start).startOf('day');
 
   const timePassedMap = new Map<TimeUnit, number>();
 
@@ -39,7 +39,7 @@ export default function detectAnniversary(
       const remainder = timePassed % anniversary.value;
       const itIsToday = remainder === 0 && timePassed !== 0;
       if (itIsToday) {
-        today = { timePassed, anniversary };
+        today = {timePassed, anniversary};
       }
 
       const _timePassed = timePassed - remainder;
@@ -61,7 +61,7 @@ export default function detectAnniversary(
           previousRef,
         );
       } else {
-        today = { timePassed, anniversary };
+        today = {timePassed, anniversary};
       }
     }
   }
@@ -74,7 +74,7 @@ export default function detectAnniversary(
 }
 
 type Point = [$date: Dayjs, mem: MemorableDate];
-type Ref<T> = { current?: T };
+type Ref<T> = {current?: T};
 
 function updateHigherIfNeeded(
   _: number,
@@ -87,7 +87,7 @@ function updateHigherIfNeeded(
     nextRef.current === undefined ||
     $higherDate.isBefore(nextRef.current[0])
   ) {
-    nextRef.current = [$higherDate, { timePassed: _, anniversary }];
+    nextRef.current = [$higherDate, {timePassed: _, anniversary}];
   }
 }
 
@@ -102,6 +102,6 @@ function updateLowerIfNeeded(
     previousRef.current === undefined ||
     $lowerDate.isAfter(previousRef.current[0])
   ) {
-    previousRef.current = [$lowerDate, { timePassed: _, anniversary }];
+    previousRef.current = [$lowerDate, {timePassed: _, anniversary}];
   }
 }

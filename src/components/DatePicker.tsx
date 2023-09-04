@@ -5,9 +5,9 @@ import {
   View,
   ViewProps,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 
-import { variance } from "../styling";
+import {variance} from '../styling';
 
 export type DatePickerProps = {
   day: number;
@@ -45,10 +45,10 @@ export default function DatePicker(props: DatePickerProps) {
 
 const Root = variance(View)(() => ({
   root: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     gap: 3,
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
   },
 }));
 
@@ -57,7 +57,7 @@ const NumberView = variance(View)(() => ({
     flexBasis: 1,
     flexGrow: 1,
     flexShrink: 0,
-    alignItems: "stretch",
+    alignItems: 'stretch',
   },
   double: {
     flexBasis: 2,
@@ -67,7 +67,7 @@ const NumberView = variance(View)(() => ({
 }));
 
 const NumberText = variance(TextInput)(
-  (theme) => ({
+  theme => ({
     root: {
       paddingVertical: 8,
       paddingHorizontal: 4,
@@ -76,17 +76,17 @@ const NumberText = variance(TextInput)(
       borderWidth: 1,
       borderColor: theme.palette.borderSecondary,
 
-      textAlign: "center",
-      ...theme.fontByWeight("bold"),
+      textAlign: 'center',
+      ...theme.fontByWeight('bold'),
       color: theme.palette.textPrimary,
       fontSize: 53,
       lineHeight: 64,
     },
   }),
   (theme): TextInputProps => ({
-    textAlign: "center",
-    textAlignVertical: "center",
-    inputMode: "decimal",
-    keyboardAppearance: theme.isDark ? "dark" : "light",
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    inputMode: 'decimal',
+    keyboardAppearance: theme.isDark ? 'dark' : 'light',
   }),
 );

@@ -8,15 +8,15 @@ export type Palette = {
 };
 
 export type ColorKey =
-  | "background"
-  | "textPrimary"
-  | "textSecondary"
-  | "borderPrimary"
-  | "borderSecondary"
-  | "backgroundAccent"
-  | "backgroundSelection"
-  | "textAccent"
-  | "textHighlight"
-  | "textBackground"
-  | "link"
-  | "textSpecter";
+  | 'background'
+  | 'textPrimary'
+  | 'textSecondary'
+  | 'borderPrimary'
+  | 'borderSecondary'
+  | 'backgroundAccent'
+  | 'backgroundSelection'
+  | 'textAccent'
+  | 'textHighlight'
+  | 'textBackground'
+  | 'link'
+  | 'textSpecter';

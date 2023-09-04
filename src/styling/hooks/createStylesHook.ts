@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { StyleSheet } from "react-native";
+import {useMemo} from 'react';
+import {StyleSheet} from 'react-native';
 
-import { Theme, useTheme } from "../Theme";
+import {Theme, useTheme} from '../Theme';
 
 export default <
     T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>,

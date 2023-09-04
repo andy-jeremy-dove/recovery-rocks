@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { Text, TextProps, View, ViewProps } from "react-native";
+import {useCallback} from 'react';
+import {Text, TextProps, View, ViewProps} from 'react-native';
 
-import { variance } from "../styling";
+import {variance} from '../styling';
 
 export enum Gender {
   Male,
@@ -14,7 +14,7 @@ export type GenderPickerProps = ViewProps & {
 };
 
 export default function GenderPicker(props: GenderPickerProps) {
-  const { value, onChange, ...rest } = props;
+  const {value, onChange, ...rest} = props;
   const setMale = useCallback(() => onChange?.(Gender.Male), [onChange]);
   const setFemale = useCallback(() => onChange?.(Gender.Female), [onChange]);
   return (
@@ -23,16 +23,14 @@ export default function GenderPicker(props: GenderPickerProps) {
         tabIndex={0}
         checked={value === Gender.Male}
         aria-checked={value === Gender.Male}
-        onPress={setMale}
-      >
+        onPress={setMale}>
         Мужчина
       </GenderPickerEntry>
       <GenderPickerEntry
         tabIndex={0}
         checked={value === Gender.Female}
         aria-checked={value === Gender.Male}
-        onPress={setFemale}
-      >
+        onPress={setFemale}>
         Женщина
       </GenderPickerEntry>
     </GenderPickerRow>
@@ -40,43 +38,43 @@ export default function GenderPicker(props: GenderPickerProps) {
 }
 
 const GenderPickerRow = variance(View)(
-  (theme) => ({
+  theme => ({
     root: {
-      flexDirection: "row",
-      flexWrap: "wrap",
+      flexDirection: 'row',
+      flexWrap: 'wrap',
       gap: 1,
       borderWidth: 1,
       borderColor: theme.palette.borderSecondary,
       borderRadius: 12,
       backgroundColor: theme.palette.borderSecondary,
-      overflow: "hidden",
+      overflow: 'hidden',
     },
   }),
   (): ViewProps => ({
-    role: "radiogroup",
+    role: 'radiogroup',
   }),
 );
 
 const GenderPickerEntry = variance(Text)(
-  (theme) => ({
+  theme => ({
     root: {
       flex: 1,
       paddingVertical: 8,
       paddingHorizontal: 16,
-      textAlign: "center",
-      ...theme.fontByWeight("400"),
+      textAlign: 'center',
+      ...theme.fontByWeight('400'),
       color: theme.palette.textPrimary,
       fontSize: 20,
       lineHeight: 26,
       backgroundColor: theme.palette.background,
-      userSelect: "none",
+      userSelect: 'none',
     },
     checked: {
       backgroundColor: theme.palette.backgroundSelection,
     },
   }),
   (): TextProps => ({
-    role: "radio",
+    role: 'radio',
     selectable: false,
     accessible: true,
     suppressHighlighting: true,

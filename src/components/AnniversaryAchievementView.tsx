@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import {useMemo} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -6,11 +6,11 @@ import {
   View,
   ViewProps,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 
-import TimeUnitView, { Plural, TimeUnit } from "./TimeUnitView";
-import TrinketSvg from "../../assets/bdp22.svg";
-import { useStyles, useTheme } from "../styling";
+import TimeUnitView, {Plural, TimeUnit} from './TimeUnitView';
+import TrinketSvg from '../../assets/bdp22.svg';
+import {useStyles, useTheme} from '../styling';
 
 export type AnniversaryAchievementViewProps = ViewProps & {
   previousValue?: number;
@@ -36,7 +36,7 @@ export default function AnniversaryAchievementView(
     style,
     ...rest
   } = props;
-  const styles = useStyles((theme) => ({
+  const styles = useStyles(theme => ({
     current: {
       color: theme.palette.textHighlight,
     },
@@ -95,20 +95,20 @@ const OFFSET = 50;
 
 const layoutStyles = StyleSheet.create({
   root: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   base: {
     width: 300,
     height: 108,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   specter: {
-    position: "absolute",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    position: 'absolute',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
     opacity: 0.1,
   },
   previous: {
@@ -120,11 +120,11 @@ const layoutStyles = StyleSheet.create({
     right: -130,
   },
   image: {
-    position: "absolute",
-    left: "50%",
-    right: "50%",
-    top: "50%",
-    bottom: "50%",
+    position: 'absolute',
+    left: '50%',
+    right: '50%',
+    top: '50%',
+    bottom: '50%',
     ...scaledImage(),
   },
   larger: scaledImage(LARGER),
@@ -150,7 +150,7 @@ type ValueViewProps = ViewProps & {
 };
 
 function ValueView(props: ValueViewProps) {
-  const { value, unit, accretion, imageStyle, valueTextStyle, scale, ...rest } =
+  const {value, unit, accretion, imageStyle, valueTextStyle, scale, ...rest} =
     props;
   const theme = useTheme();
   const style = useMemo(

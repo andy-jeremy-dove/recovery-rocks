@@ -1,10 +1,10 @@
-import React, { forwardRef } from "react";
-import { StyleProp } from "react-native";
+import React, {forwardRef} from 'react';
+import {StyleProp} from 'react-native';
 
-import { StyleType } from "./StyleType";
-import { Theme } from "../Theme";
-import useTheme from "../Theme/useTheme";
-import memoize, { MemoCache } from "../util/memoize";
+import {StyleType} from './StyleType';
+import {Theme} from '../Theme';
+import useTheme from '../Theme/useTheme';
+import memoize, {MemoCache} from '../util/memoize';
 
 export default <ComponentType extends Stylable>(
     config?: FlavorConfig<ComponentType>,

@@ -1,22 +1,22 @@
-import { useHeaderHeight } from "@react-navigation/elements";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useCallback } from "react";
+import {useHeaderHeight} from '@react-navigation/elements';
+import {StackScreenProps} from '@react-navigation/stack';
+import {useCallback} from 'react';
 
-import { RootStackParamList } from "../RootStack/RootStackParamList";
-import PromptSetupScreen from "../screens/PromptSetupScreen";
+import {RootStackParamList} from '../RootStack/RootStackParamList';
+import PromptSetupScreen from '../screens/PromptSetupScreen';
 
 export type PromptSetupBindingProps = StackScreenProps<
   RootStackParamList,
-  "PromptSetup"
+  'PromptSetup'
 >;
 
 export default function PromptSetupBinding(props: PromptSetupBindingProps) {
-  const { navigation } = props;
+  const {navigation} = props;
   const onCancel = useCallback(() => {
     if (navigation.canGoBack()) {
       return navigation.goBack();
     }
-    navigation.reset({ index: 0, routes: [{ name: "ShowProgress" }] });
+    navigation.reset({index: 0, routes: [{name: 'ShowProgress'}]});
   }, [navigation]);
   const headerHeight = useHeaderHeight();
   return (

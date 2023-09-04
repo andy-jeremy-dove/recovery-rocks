@@ -1,48 +1,45 @@
-import { useHeaderHeight } from "@react-navigation/elements";
-import { StackScreenProps } from "@react-navigation/stack";
-import dayjs from "dayjs";
-import { useCallback, useMemo, useState } from "react";
-import { Platform, Pressable, Text } from "react-native";
+import {useHeaderHeight} from '@react-navigation/elements';
+import {StackScreenProps} from '@react-navigation/stack';
+import dayjs from 'dayjs';
+import {useCallback, useMemo, useState} from 'react';
+import {Platform, Pressable, Text} from 'react-native';
 
-import { anniversaries } from "../RecoveryRocks/anniversaries";
-import computeDailyAchievement from "../RecoveryRocks/computeDailyAchievement";
-import detectAnniversary from "../RecoveryRocks/detectAnniversary";
-import {
-  ProgressTab,
-  RootStackParamList,
-} from "../RootStack/RootStackParamList";
-import { Millisecond } from "../Time";
-import { TimeUnit } from "../components/TimeUnitView";
+import {anniversaries} from '../RecoveryRocks/anniversaries';
+import computeDailyAchievement from '../RecoveryRocks/computeDailyAchievement';
+import detectAnniversary from '../RecoveryRocks/detectAnniversary';
+import {ProgressTab, RootStackParamList} from '../RootStack/RootStackParamList';
+import {Millisecond} from '../Time';
+import {TimeUnit} from '../components/TimeUnitView';
 import ShowProgressScreen, {
   AnniversaryAchievement,
   ProgressTabKey,
-} from "../screens/ShowProgressScreen";
-import { variance } from "../styling";
-import turnOut from "../util/turnOut";
+} from '../screens/ShowProgressScreen';
+import {variance} from '../styling';
+import turnOut from '../util/turnOut';
 
 export type ShowProgressBindingProps = StackScreenProps<
   RootStackParamList,
-  "ShowProgress"
+  'ShowProgress'
 >;
 
 export default function ShowProgressBinding(props: ShowProgressBindingProps) {
-  const { navigation, route } = props;
+  const {navigation, route} = props;
   const tabKey = tabMap[route.params?.tab ?? ProgressTab.Accumulative];
   const setTabKey = useCallback(
-    (_: ProgressTabKey) => navigation.setParams({ tab: tabMapReversed[_] }),
+    (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
     [navigation],
   );
   const promptSetup = useCallback(() => {
-    navigation.navigate("PromptSetup");
+    navigation.navigate('PromptSetup');
   }, [navigation]);
   const headerHeight = useHeaderHeight();
   const [$now] = useState(() => dayjs());
   const [$start] = useState(() =>
-    $now.subtract(22, "year").subtract(11, "month").subtract(29, "day"),
+    $now.subtract(22, 'year').subtract(11, 'month').subtract(29, 'day'),
   );
-  const today = $now.format("D MMMM YYYY").toLowerCase();
+  const today = $now.format('D MMMM YYYY').toLowerCase();
   const announcement = useMemo(
-    () => <Greeting onPress={() => navigation.navigate("PromptSetup")} />,
+    () => <Greeting onPress={() => navigation.navigate('PromptSetup')} />,
     [navigation],
   );
   const dailyAchievement = useMemo(
@@ -58,7 +55,7 @@ export default function ShowProgressBinding(props: ShowProgressBindingProps) {
   >(() => {
     const detection = detectAnniversary(
       $now.valueOf() as Millisecond,
-      { anniversaries },
+      {anniversaries},
       $start.valueOf() as Millisecond,
     );
     if (!detection.today) {
@@ -114,11 +111,11 @@ type GreetingProps = {
 };
 
 function Greeting(props: GreetingProps) {
-  const { onPress } = props;
+  const {onPress} = props;
   const link = Platform.select({
     web: (
       <Pressable onPress={onPress}>
-        {({ focused, hovered, pressed }) => (
+        {({focused, hovered, pressed}) => (
           <Link hover={focused || hovered} active={pressed} />
         )}
       </Pressable>
@@ -127,23 +124,23 @@ function Greeting(props: GreetingProps) {
   });
   return (
     <Text>
-      Приветствуем, незнакомец!{"\n"}Как давно ты с нами?{"\n"}
+      Приветствуем, незнакомец!{'\n'}Как давно ты с нами?{'\n'}
       {link}
     </Text>
   );
 }
 
-const LINK_TEXT = "Установи начало отсчёта.";
+const LINK_TEXT = 'Установи начало отсчёта.';
 
 const Link = variance(Text)(
-  (theme) => ({
+  theme => ({
     root: {
       color: theme.palette.link,
     },
     hover: {
       textDecorationColor: theme.palette.link,
-      textDecorationLine: "underline",
-      textDecorationStyle: "solid",
+      textDecorationLine: 'underline',
+      textDecorationStyle: 'solid',
     },
     active: {
       backgroundColor: theme.palette.backgroundAccent,
@@ -161,9 +158,9 @@ const timeUnitMap = {
 };
 
 const tabMap = {
-  [ProgressTab.Accumulative]: "accumulative",
-  [ProgressTab.Days]: "days",
-  [ProgressTab.Months]: "months",
+  [ProgressTab.Accumulative]: 'accumulative',
+  [ProgressTab.Days]: 'days',
+  [ProgressTab.Months]: 'months',
 } as const;
 
 const tabMapReversed = turnOut(tabMap);

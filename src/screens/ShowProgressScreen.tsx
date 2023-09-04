@@ -1,4 +1,4 @@
-import { ComponentProps, ReactNode, useMemo } from "react";
+import {ComponentProps, ReactNode, useMemo} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,25 +7,25 @@ import {
   View,
   ViewProps,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 import {
   AnimatableComponent,
   CustomAnimation,
   View as AnimatableView,
-} from "react-native-animatable";
+} from 'react-native-animatable';
 
-import { DailyAchievement } from "../RecoveryRocks/computeDailyAchievement";
-import AnniversaryAchievementView from "../components/AnniversaryAchievementView";
-import ContentScrollView from "../components/ContentScrollView";
+import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
+import AnniversaryAchievementView from '../components/AnniversaryAchievementView';
+import ContentScrollView from '../components/ContentScrollView';
 import DailyAchievementTabView, {
   ProgressTabKey,
-} from "../components/DailyAchievementTabView";
-import LogoView from "../components/LogoView";
-import { TIME_UNIT_VIEW_HEIGHT, TimeUnit } from "../components/TimeUnitView";
-import { fillSpace } from "../styles";
-import { variance } from "../styling";
+} from '../components/DailyAchievementTabView';
+import LogoView from '../components/LogoView';
+import {TIME_UNIT_VIEW_HEIGHT, TimeUnit} from '../components/TimeUnitView';
+import {fillSpace} from '../styles';
+import {variance} from '../styling';
 
-export type { ProgressTabKey } from "../components/DailyAchievementTabView";
+export type {ProgressTabKey} from '../components/DailyAchievementTabView';
 
 export type ShowProgressScreenProps = {
   today: string;
@@ -65,15 +65,14 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
     compensateHeaderHeight,
   } = props;
   const contentContainerStyle: ViewStyle = useMemo(
-    () => ({ paddingTop: compensateHeaderHeight ?? 0 }),
+    () => ({paddingTop: compensateHeaderHeight ?? 0}),
     [compensateHeaderHeight],
   );
   const topIsCompensated = compensateHeaderHeight !== undefined;
   return (
     <ContentScrollView
       contentContainerStyle={contentContainerStyle}
-      topIsCompensated={topIsCompensated}
-    >
+      topIsCompensated={topIsCompensated}>
       <Today>{today}</Today>
       <View
         style={anniversaryAchievement ? layoutStyles.grow5 : layoutStyles.grow3}
@@ -143,18 +142,18 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
 
 const layoutStyles = StyleSheet.create({
   skeletonContainer: {
-    alignSelf: "center",
+    alignSelf: 'center',
     width: 300,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   pageRoot: {
     height: TIME_UNIT_VIEW_HEIGHT,
   },
   logo: {
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   indent: {
     marginVertical: 20,
@@ -170,16 +169,16 @@ const LINE_HEIGHT = 21;
 const PADDING = 4;
 const BORDER_RADIUS = (LINE_HEIGHT + PADDING * 2) / 2;
 
-const Today = variance(Text)((theme) => ({
+const Today = variance(Text)(theme => ({
   root: {
-    alignSelf: "center",
-    overflow: "hidden",
+    alignSelf: 'center',
+    overflow: 'hidden',
     paddingVertical: PADDING,
     paddingHorizontal: BORDER_RADIUS,
     borderRadius: BORDER_RADIUS,
-    textAlign: "center",
+    textAlign: 'center',
     backgroundColor: theme.palette.backgroundAccent,
-    ...theme.fontByWeight("400"),
+    ...theme.fontByWeight('400'),
     color: theme.palette.textAccent,
     fontSize: 17,
     lineHeight: LINE_HEIGHT,
@@ -188,22 +187,22 @@ const Today = variance(Text)((theme) => ({
 
 const WIDTH = 300;
 
-const Announcement = variance(Text)((theme) => ({
+const Announcement = variance(Text)(theme => ({
   root: {
     width: WIDTH,
-    alignSelf: "center",
-    textAlign: "center",
-    ...theme.fontByWeight("400"),
+    alignSelf: 'center',
+    textAlign: 'center',
+    ...theme.fontByWeight('400'),
     color: theme.palette.textPrimary,
     fontSize: 20,
     lineHeight: 26,
   },
 }));
 
-const Congratulations = variance(Text)((theme) => ({
+const Congratulations = variance(Text)(theme => ({
   root: {
-    textAlign: "center",
-    ...theme.fontByWeight("400"),
+    textAlign: 'center',
+    ...theme.fontByWeight('400'),
     color: theme.palette.textPrimary,
     fontSize: 23,
     lineHeight: 27,
@@ -221,13 +220,13 @@ function fixedBasis(_: number): TextStyle {
 function textSkeleton(fontSize: number, lineHeight: number): TextStyle {
   const height = (fontSize / 20) * 16;
   const margin = ((lineHeight - fontSize) / 6) * 5;
-  return { height, margin };
+  return {height, margin};
 }
 
 const Skeleton = variance(AnimatableView)(
-  (theme) => ({
+  theme => ({
     root: {
-      flexBasis: "100%",
+      flexBasis: '100%',
       flexGrow: 1,
       flexShrink: 1,
       ...textSkeleton(20, 26),
@@ -243,7 +242,7 @@ const Skeleton = variance(AnimatableView)(
   (): AnimatableViewProps => ({
     animation: fadeInOut,
     duration: 2000,
-    iterationCount: "infinite",
+    iterationCount: 'infinite',
     useNativeDriver: true,
   }),
 );
@@ -251,9 +250,9 @@ const Skeleton = variance(AnimatableView)(
 const OPACITY = 0.05;
 
 const fadeInOut: CustomAnimation = {
-  0: { opacity: OPACITY },
-  0.5: { opacity: 0.1 },
-  1: { opacity: OPACITY },
+  0: {opacity: OPACITY},
+  0.5: {opacity: 0.1},
+  1: {opacity: OPACITY},
 };
 
 type AnimatableViewProps = ComponentProps<
@@ -261,12 +260,12 @@ type AnimatableViewProps = ComponentProps<
 >;
 
 const Quote = variance(Text)(
-  (theme) => ({
+  theme => ({
     root: {
       width: 310,
-      alignSelf: "center",
-      textAlign: "center",
-      ...theme.fontByWeight("400"),
+      alignSelf: 'center',
+      textAlign: 'center',
+      ...theme.fontByWeight('400'),
       color: theme.palette.textPrimary,
       fontSize: 18,
       lineHeight: 24,
@@ -274,6 +273,6 @@ const Quote = variance(Text)(
   }),
   (): TextProps => ({
     numberOfLines: 4,
-    ellipsizeMode: "tail",
+    ellipsizeMode: 'tail',
   }),
 );

@@ -1,4 +1,4 @@
-import { Context, useContext } from "react";
+import {Context, useContext} from 'react';
 
 export default <T extends any>(context: Context<T | undefined>): T | never => {
   const value = useContext(context);

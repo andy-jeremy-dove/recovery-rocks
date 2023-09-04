@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import {useMemo} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -6,10 +6,10 @@ import {
   TextStyle,
   View,
   ViewProps,
-} from "react-native";
+} from 'react-native';
 
-import getRussianPluralCategory from "../i18n/getRussianPluralCategory";
-import { flavor } from "../styling";
+import getRussianPluralCategory from '../i18n/getRussianPluralCategory';
+import {flavor} from '../styling';
 
 export type TimeUnitViewProps = ViewProps & {
   value: number;
@@ -47,7 +47,7 @@ export default function TimeUnitView(props: TimeUnitViewProps) {
   } = props;
   const rootStyle = useMemo(() => [layoutStyles.root, style], [style]);
   const category =
-    plural === Plural.Cardinal ? getRussianPluralCategory(value) : "one";
+    plural === Plural.Cardinal ? getRussianPluralCategory(value) : 'one';
   const unitText = textsByUnit[unit][category];
   return (
     <View style={rootStyle} {...rest}>
@@ -69,19 +69,19 @@ export default function TimeUnitView(props: TimeUnitViewProps) {
 const layoutStyles = StyleSheet.create({
   root: {},
   valueRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "baseline",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'baseline',
   },
 });
 
 const VALUE_FONT_SIZE = 75;
 const VALUE_LINE_HEIGHT = 90;
 
-const ValueText = flavor(Text)((theme) => ({
+const ValueText = flavor(Text)(theme => ({
   root: {
-    textAlign: "center",
-    ...theme.fontByWeight("800"),
+    textAlign: 'center',
+    ...theme.fontByWeight('800'),
     color: theme.palette.textPrimary,
     fontSize: VALUE_FONT_SIZE,
     lineHeight: VALUE_LINE_HEIGHT,
@@ -95,10 +95,10 @@ const ValueText = flavor(Text)((theme) => ({
 const ACCRETION_FONT_SIZE = VALUE_FONT_SIZE / 3;
 const ACCRETION_LINE_HEIGHT = VALUE_LINE_HEIGHT / 3;
 
-const AccretionText = flavor(Text)((theme) => ({
+const AccretionText = flavor(Text)(theme => ({
   root: {
-    textAlign: "center",
-    ...theme.fontByWeight("400"),
+    textAlign: 'center',
+    ...theme.fontByWeight('400'),
     color: theme.palette.textPrimary,
     fontSize: ACCRETION_FONT_SIZE,
     lineHeight: ACCRETION_LINE_HEIGHT,
@@ -113,11 +113,11 @@ const UNIT_FONT_SIZE = 15;
 const UNIT_LINE_HEIGHT = 18;
 const UNIT_MARGIN_TOP = -UNIT_LINE_HEIGHT / 2;
 
-const UnitText = flavor(Text)((theme) => ({
+const UnitText = flavor(Text)(theme => ({
   root: {
     marginTop: UNIT_MARGIN_TOP,
-    textAlign: "center",
-    ...theme.fontByWeight("400"),
+    textAlign: 'center',
+    ...theme.fontByWeight('400'),
     color: theme.palette.textPrimary,
     fontSize: UNIT_FONT_SIZE,
     lineHeight: UNIT_LINE_HEIGHT,
@@ -147,24 +147,24 @@ export const TIME_UNIT_VIEW_HEIGHT =
   VALUE_LINE_HEIGHT + UNIT_MARGIN_TOP + UNIT_LINE_HEIGHT;
 
 const dayByCategory = {
-  one: "день",
-  few: "дня",
-  many: "дней",
-  other: "дня",
+  one: 'день',
+  few: 'дня',
+  many: 'дней',
+  other: 'дня',
 };
 
 const monthByCategory = {
-  one: "месяц",
-  few: "месяца",
-  many: "месяцев",
-  other: "месяца",
+  one: 'месяц',
+  few: 'месяца',
+  many: 'месяцев',
+  other: 'месяца',
 };
 
 const yearByCategory = {
-  one: "год",
-  few: "года",
-  many: "лет",
-  other: "года",
+  one: 'год',
+  few: 'года',
+  many: 'лет',
+  other: 'года',
 };
 
 const textsByUnit = {

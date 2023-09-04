@@ -1,5 +1,5 @@
 export type ValidKey = string | number | symbol;
-export type ObjectMap = { readonly [k: ValidKey]: ValidKey };
+export type ObjectMap = {readonly [k: ValidKey]: ValidKey};
 export type Swap<T extends ObjectMap> = {
   [K in keyof T as T[K]]: K;
 };

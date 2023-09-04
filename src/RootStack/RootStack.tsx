@@ -1,18 +1,18 @@
-import { Ionicons } from "@expo/vector-icons";
-import { PlatformPressable } from "@react-navigation/elements";
-import { useTheme } from "@react-navigation/native";
+import {Ionicons} from '@expo/vector-icons';
+import {PlatformPressable} from '@react-navigation/elements';
+import {useTheme} from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationOptions,
   StackScreenProps,
   TransitionPresets,
-} from "@react-navigation/stack";
-import { useMemo } from "react";
-import { Platform, StyleSheet } from "react-native";
+} from '@react-navigation/stack';
+import {useMemo} from 'react';
+import {Platform, StyleSheet} from 'react-native';
 
-import { RootStackParamList } from "./RootStackParamList";
-import PromptSetupBinding from "../bindings/PromptSetupBinding";
-import ShowProgressBinding from "../bindings/ShowProgressBinding";
+import {RootStackParamList} from './RootStackParamList';
+import PromptSetupBinding from '../bindings/PromptSetupBinding';
+import ShowProgressBinding from '../bindings/ShowProgressBinding';
 
 export default function RootStack() {
   const theme = useTheme();
@@ -22,8 +22,8 @@ export default function RootStack() {
       default: theme.colors.text,
     });
     const pressColor = theme.dark
-      ? "rgba(255, 255, 255, .32)"
-      : "rgba(0, 0, 0, .32)";
+      ? 'rgba(255, 255, 255, .32)'
+      : 'rgba(0, 0, 0, .32)';
     return {
       ...commonOptions,
       headerTintColor: tintColor,
@@ -36,8 +36,7 @@ export default function RootStack() {
     <Navigator
       id="root"
       initialRouteName="ShowProgress"
-      screenOptions={options}
-    >
+      screenOptions={options}>
       <Screen
         name="ShowProgress"
         component={ShowProgressBinding}
@@ -55,8 +54,8 @@ export default function RootStack() {
 const commonOptions: StackNavigationOptions = {
   headerBackTitleVisible: false,
   headerTransparent: true,
-  headerMode: "float",
-  headerTitle: "",
+  headerMode: 'float',
+  headerTitle: '',
   ...TransitionPresets.DefaultTransition,
 };
 
@@ -64,17 +63,16 @@ function showProgressOptions({
   navigation,
 }: StackScreenProps<
   RootStackParamList,
-  "ShowProgress"
+  'ShowProgress'
 >): StackNavigationOptions {
   return {
-    title: "Прогресс",
+    title: 'Прогресс',
     headerShown: true,
-    headerRight: (props) => (
+    headerRight: props => (
       <PlatformPressable
-        onPress={() => navigation.navigate("PromptSetup")}
+        onPress={() => navigation.navigate('PromptSetup')}
         pressColor={props.pressColor}
-        pressOpacity={props.pressOpacity}
-      >
+        pressOpacity={props.pressOpacity}>
         <Ionicons
           name="settings-outline"
           size={24}
@@ -93,8 +91,8 @@ const styles = StyleSheet.create({
 });
 
 const promptSetupOptions: StackNavigationOptions = {
-  title: "Установка",
-  presentation: "modal",
+  title: 'Установка',
+  presentation: 'modal',
 };
 
-const { Screen, Navigator } = createStackNavigator<RootStackParamList>();
+const {Screen, Navigator} = createStackNavigator<RootStackParamList>();

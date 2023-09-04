@@ -1,6 +1,6 @@
-import "react-native";
+import 'react-native';
 
-declare module "react-native" {
+declare module 'react-native' {
   export interface CommonWebViewProps {
     tabIndex?: number;
     dataSet?: Record<string, any>;

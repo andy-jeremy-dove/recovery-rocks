@@ -1,21 +1,21 @@
 export default function getRussianPluralCategory(_: number) {
   if (!Number.isInteger(_)) {
-    return "other";
+    return 'other';
   }
 
   if (_ % 10 === 1 && _ % 100 !== 11) {
-    return "one";
+    return 'one';
   }
 
   if (!!fewCases[_ % 10] && !notFewCases[_ % 100]) {
-    return "few";
+    return 'few';
   }
 
   if (_ % 10 === 0 || !!manyCases[_ % 10] || !!manyCases[_ % 100]) {
-    return "many";
+    return 'many';
   }
 
-  return "other";
+  return 'other';
 }
 
 const fewCases = mapCases([2, 3, 4]);

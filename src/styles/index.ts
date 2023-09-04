@@ -1,1 +1,1 @@
-export { default as fillSpace } from "./fillSpace";
+export {default as fillSpace} from './fillSpace';

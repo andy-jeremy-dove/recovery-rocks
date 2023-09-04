@@ -1,14 +1,14 @@
-import { PlatformPressable } from "@react-navigation/elements";
-import { useCallback, useMemo, useRef } from "react";
-import { StyleSheet, useWindowDimensions } from "react-native";
-import { Route, SceneMap, TabView } from "react-native-tab-view";
-import { SceneRendererProps } from "react-native-tab-view/src/types";
+import {PlatformPressable} from '@react-navigation/elements';
+import {useCallback, useMemo, useRef} from 'react';
+import {StyleSheet, useWindowDimensions} from 'react-native';
+import {Route, SceneMap, TabView} from 'react-native-tab-view';
+import {SceneRendererProps} from 'react-native-tab-view/src/types';
 
-import DailyAchievementView from "./DailyAchievementView";
-import { TIME_UNIT_VIEW_HEIGHT } from "./TimeUnitView";
-import { DailyAchievement } from "../RecoveryRocks/computeDailyAchievement";
-import { createNullableContext, useForcedContext } from "../context";
-import { heavyImpact, lightImpact } from "../haptics/haptics";
+import DailyAchievementView from './DailyAchievementView';
+import {TIME_UNIT_VIEW_HEIGHT} from './TimeUnitView';
+import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
+import {createNullableContext, useForcedContext} from '../context';
+import {heavyImpact, lightImpact} from '../haptics/haptics';
 
 export type DailyAchievementTabViewProps = {
   tabKey?: ProgressTabKey;
@@ -17,12 +17,12 @@ export type DailyAchievementTabViewProps = {
   accretion?: boolean;
 };
 
-export type ProgressTabKey = "accumulative" | "months" | "days";
+export type ProgressTabKey = 'accumulative' | 'months' | 'days';
 
 export default function DailyAchievementTabView(
   props: DailyAchievementTabViewProps,
 ) {
-  const { dailyAchievement, accretion } = props;
+  const {dailyAchievement, accretion} = props;
   if (
     dailyAchievement.fullMonthsReached ===
       dailyAchievement.fullMonthsAfterYearsReached &&
@@ -43,31 +43,31 @@ export default function DailyAchievementTabView(
 }
 
 function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
-  const { tabKey, setTabKey, dailyAchievement, accretion } = props;
+  const {tabKey, setTabKey, dailyAchievement, accretion} = props;
 
   const layout = useWindowDimensions();
 
   const routes = useMemo<DailyAchievementRoute[]>(
     () => [
       {
-        key: "accumulative",
+        key: 'accumulative',
         years: dailyAchievement.fullYearsReached,
         months: dailyAchievement.fullMonthsAfterYearsReached,
         days: dailyAchievement.fullDaysAfterMonthsReached,
       },
       ...(dailyAchievement.fullMonthsReached !==
       dailyAchievement.fullMonthsAfterYearsReached
-        ? [{ key: "months", months: dailyAchievement.fullMonthsReached }]
+        ? [{key: 'months', months: dailyAchievement.fullMonthsReached}]
         : []),
       ...(dailyAchievement.fullDaysReached !==
       dailyAchievement.fullDaysAfterMonthsReached
-        ? [{ key: "days", days: dailyAchievement.fullDaysReached }]
+        ? [{key: 'days', days: dailyAchievement.fullDaysReached}]
         : []),
     ],
     [dailyAchievement],
   );
   const index = useMemo(() => {
-    const index = routes.findIndex((_) => _.key === tabKey);
+    const index = routes.findIndex(_ => _.key === tabKey);
     return index === -1 ? 0 : index;
   }, [routes, tabKey]);
 
@@ -110,7 +110,7 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
   return (
     <TabsContext.Provider value={tabsProps}>
       <TabView
-        navigationState={{ index, routes }}
+        navigationState={{index, routes}}
         renderScene={renderScene}
         onIndexChange={onIndexChange}
         renderTabBar={renderNull}
@@ -119,7 +119,7 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
         sceneContainerStyle={layoutStyles.page}
         onSwipeStart={onSwipeStart}
         onSwipeEnd={onSwipeEnd}
-        initialLayout={{ width: layout.width, height: TIME_UNIT_VIEW_HEIGHT }}
+        initialLayout={{width: layout.width, height: TIME_UNIT_VIEW_HEIGHT}}
       />
     </TabsContext.Provider>
   );
@@ -138,16 +138,15 @@ type DailyAchievementProps = {
 };
 
 function DailyAchievementBinding(props: DailyAchievementBindingProps) {
-  const { route } = props;
-  const { days, months, years } = route;
-  const { accretion, onPress, onPressIn, onPressOut } =
+  const {route} = props;
+  const {days, months, years} = route;
+  const {accretion, onPress, onPressIn, onPressOut} =
     useForcedContext(TabsContext);
   return (
     <PlatformPressable
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      onPress={onPress}
-    >
+      onPress={onPress}>
       <DailyAchievementView
         pointerEvents="box-only"
         style={layoutStyles.page}

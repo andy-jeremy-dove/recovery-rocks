@@ -5,13 +5,13 @@ export function createDateTag(day: number, month: number) {
 
 export function dateTagInvariant(day: number, month: number) {
   if (!Number.isInteger(month) || !Number.isFinite(month)) {
-    throw new TypeError("Month must be integer");
+    throw new TypeError('Month must be integer');
   }
   if (month < 0 || month > 11) {
-    throw new RangeError("Month must be from 0 to 11");
+    throw new RangeError('Month must be from 0 to 11');
   }
   if (!Number.isInteger(day) || !Number.isFinite(day)) {
-    throw new TypeError("Day must be integer");
+    throw new TypeError('Day must be integer');
   }
   const max = daysInMonth[month as Month];
   if (day < 1 || day > max) {
@@ -54,8 +54,8 @@ export const daysInMonth = {
   [Month.December]: 31,
 } as const;
 
-export type Range<L, C extends any[] = [], R = L> = C["length"] extends L
+export type Range<L, C extends any[] = [], R = L> = C['length'] extends L
   ? R
-  : Range<L, [...C, 0], C["length"] | R>;
+  : Range<L, [...C, 0], C['length'] | R>;
 
 export type NaturalRange<T> = Exclude<Range<T>, 0>;

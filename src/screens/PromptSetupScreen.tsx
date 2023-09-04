@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import {useCallback, useMemo, useState} from 'react';
 import {
   Keyboard,
   StyleProp,
@@ -9,13 +9,13 @@ import {
   TextProps,
   View,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 
-import ContentScrollView from "../components/ContentScrollView";
-import DatePicker from "../components/DatePicker";
-import GenderPicker, { Gender } from "../components/GenderPicker";
-import { fillSpace } from "../styles";
-import { variance } from "../styling";
+import ContentScrollView from '../components/ContentScrollView';
+import DatePicker from '../components/DatePicker';
+import GenderPicker, {Gender} from '../components/GenderPicker';
+import {fillSpace} from '../styles';
+import {variance} from '../styling';
 
 export type SetupScreenProps = {
   cancellation?: boolean;
@@ -24,7 +24,7 @@ export type SetupScreenProps = {
 };
 
 export default function PromptSetupScreen(props: SetupScreenProps) {
-  const { compensateHeaderHeight, cancellation, onCancel } = props;
+  const {compensateHeaderHeight, cancellation, onCancel} = props;
   const [gender, setGender] = useState(Gender.Male);
   const onPress = useCallback(() => {
     Keyboard.dismiss();
@@ -90,8 +90,8 @@ const CONTAINER_BASIS = DAY_MONTH_BASIS * 2 + YEAR_BASIS + GAP * 2;
 
 const layoutStyles = StyleSheet.create({
   row: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   fixed: {
     flexGrow: 0,
@@ -132,15 +132,15 @@ const datePickerStyle = [
 ];
 
 const FieldTitle = variance(Text)(
-  (theme) => ({
+  theme => ({
     root: {
       marginVertical: 8,
-      textAlign: "center",
-      ...theme.fontByWeight("400"),
+      textAlign: 'center',
+      ...theme.fontByWeight('400'),
       color: theme.palette.textPrimary,
       fontSize: 20,
       lineHeight: 26,
-      userSelect: "none",
+      userSelect: 'none',
     },
     secondary: {
       color: theme.palette.textSecondary,
@@ -152,34 +152,34 @@ const FieldTitle = variance(Text)(
 );
 
 const NameInput = variance(TextInput)(
-  (theme) => ({
+  theme => ({
     root: {
       borderWidth: 1,
       borderColor: theme.palette.borderSecondary,
       borderRadius: 12,
       paddingVertical: 8,
       paddingHorizontal: 16,
-      ...theme.fontByWeight("400"),
+      ...theme.fontByWeight('400'),
       color: theme.palette.textPrimary,
       fontSize: 20,
       lineHeight: 26,
     },
   }),
   (theme): TextInputProps => ({
-    inputMode: "text",
-    autoComplete: "name",
+    inputMode: 'text',
+    autoComplete: 'name',
     autoCorrect: true,
     hitSlop,
-    keyboardAppearance: theme.isDark ? "dark" : "light",
+    keyboardAppearance: theme.isDark ? 'dark' : 'light',
   }),
 );
 
-const hitSlop = { left: 16, top: 8, right: 16, bottom: 8 } as const;
+const hitSlop = {left: 16, top: 8, right: 16, bottom: 8} as const;
 
 const SubmitButton = variance(Text)(
-  (theme) => ({
+  theme => ({
     root: {
-      alignSelf: "center",
+      alignSelf: 'center',
       marginVertical: 8,
       minWidth: 160,
       borderWidth: 1,
@@ -187,15 +187,15 @@ const SubmitButton = variance(Text)(
       borderColor: theme.palette.borderPrimary,
       paddingVertical: 8,
       paddingHorizontal: 32,
-      textAlign: "center",
-      ...theme.fontByWeight("400"),
+      textAlign: 'center',
+      ...theme.fontByWeight('400'),
       color: theme.palette.textPrimary,
       fontSize: 20,
       lineHeight: 24,
     },
   }),
   (): TextProps => ({
-    role: "button",
+    role: 'button',
     suppressHighlighting: true,
   }),
 );
