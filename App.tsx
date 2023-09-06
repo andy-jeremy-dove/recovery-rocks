@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import './src/structure/Disposable/shim';
 import {Ionicons} from '@expo/vector-icons';
 import {
   useFonts,

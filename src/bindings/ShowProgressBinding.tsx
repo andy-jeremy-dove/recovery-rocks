@@ -1,9 +1,10 @@
 import {useHeaderHeight} from '@react-navigation/elements';
 import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
-import {useCallback, useMemo, useState} from 'react';
+import {memo, useCallback, useMemo, useState} from 'react';
 import {Platform, Pressable, Text} from 'react-native';
 
+import {useStackNavigationState} from '../Navigation';
 import {anniversaries} from '../RecoveryRocks/anniversaries';
 import computeDailyAchievement from '../RecoveryRocks/computeDailyAchievement';
 import detectAnniversary from '../RecoveryRocks/detectAnniversary';
@@ -14,6 +15,7 @@ import ShowProgressScreen, {
   AnniversaryAchievement,
   ProgressTabKey,
 } from '../screens/ShowProgressScreen';
+import {narrow} from '../structure';
 import {variance} from '../styling';
 import turnOut from '../util/turnOut';
 
@@ -23,8 +25,28 @@ export type ShowProgressBindingProps = StackScreenProps<
 >;
 
 export default function ShowProgressBinding(props: ShowProgressBindingProps) {
-  const {navigation, route} = props;
-  const tabKey = tabMap[route.params?.tab ?? ProgressTab.Accumulative];
+  const {navigation} = props;
+  return <ShowProgressStableBinding navigation={navigation} />;
+}
+
+const ShowProgressStableBinding = memo(_ShowProgressStableBinding);
+
+type ShowProgressStableBindingProps = Pick<
+  ShowProgressBindingProps,
+  'navigation'
+>;
+
+function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
+  const {navigation} = props;
+  const $state = useStackNavigationState(navigation);
+  const $tabKey = useMemo(
+    () =>
+      narrow(
+        $state,
+        _ => tabMap[_.routes[_.index].params?.tab ?? ProgressTab.Accumulative],
+      ),
+    [$state],
+  );
   const setTabKey = useCallback(
     (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
     [navigation],
@@ -79,7 +101,7 @@ export default function ShowProgressBinding(props: ShowProgressBindingProps) {
       today={today}
       announcement={announcement}
       // announcement="Илья, ты чист"
-      tabKey={tabKey}
+      $tabKey={$tabKey}
       setTabKey={setTabKey}
       dailyAchievement={dailyAchievement}
       anniversaryAchievement={anniversaryAchievement}

@@ -22,6 +22,7 @@ import DailyAchievementTabView, {
 } from '../components/DailyAchievementTabView';
 import LogoView from '../components/LogoView';
 import {TIME_UNIT_VIEW_HEIGHT, TimeUnit} from '../components/TimeUnitView';
+import {OptionalObservable} from '../structure';
 import {fillSpace} from '../styles';
 import {variance} from '../styling';
 
@@ -30,7 +31,7 @@ export type {ProgressTabKey} from '../components/DailyAchievementTabView';
 export type ShowProgressScreenProps = {
   today: string;
   announcement?: string | ReactNode;
-  tabKey?: ProgressTabKey;
+  $tabKey?: OptionalObservable<ProgressTabKey>;
   setTabKey?: (_: ProgressTabKey) => void;
   dailyAchievement?: DailyAchievement | null;
   anniversaryAchievement?: AnniversaryAchievement | null;
@@ -54,7 +55,7 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
   const {
     today,
     announcement,
-    tabKey,
+    $tabKey,
     setTabKey,
     dailyAchievement,
     anniversaryAchievement,
@@ -93,7 +94,7 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
       {dailyAchievement && !anniversaryAchievement && (
         <View style={[layoutStyles.indent, layoutStyles.pageRoot]}>
           <DailyAchievementTabView
-            tabKey={tabKey}
+            $tabKey={$tabKey}
             setTabKey={setTabKey}
             dailyAchievement={dailyAchievement}
             accretion={accretion}

@@ -9,9 +9,10 @@ import {TIME_UNIT_VIEW_HEIGHT} from './TimeUnitView';
 import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
 import {createNullableContext, useForcedContext} from '../context';
 import {heavyImpact, lightImpact} from '../haptics/haptics';
+import {OptionalObservable, useObservable, narrow, peek} from '../structure';
 
 export type DailyAchievementTabViewProps = {
-  tabKey?: ProgressTabKey;
+  $tabKey?: OptionalObservable<ProgressTabKey>;
   setTabKey?: (_: ProgressTabKey) => void;
   dailyAchievement: DailyAchievement;
   accretion?: boolean;
@@ -43,7 +44,7 @@ export default function DailyAchievementTabView(
 }
 
 function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
-  const {tabKey, setTabKey, dailyAchievement, accretion} = props;
+  const {$tabKey, setTabKey, dailyAchievement, accretion} = props;
 
   const layout = useWindowDimensions();
 
@@ -66,10 +67,18 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
     ],
     [dailyAchievement],
   );
-  const index = useMemo(() => {
-    const index = routes.findIndex(_ => _.key === tabKey);
-    return index === -1 ? 0 : index;
-  }, [routes, tabKey]);
+  const $index = useMemo(
+    () =>
+      narrow($tabKey, tabKey => {
+        if (tabKey === undefined) {
+          return 0;
+        }
+        const index = routes.findIndex(_ => _.key === tabKey);
+        return index === -1 ? 0 : index;
+      }),
+    [$tabKey, routes],
+  );
+  const index = useObservable($index);
 
   const isSwipingRef = useRef(false);
   const onSwipeStart = useCallback(async () => {
@@ -81,10 +90,10 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
   }, []);
   const onPress = useCallback(() => {
     if (!isSwipingRef.current) {
-      const nextIndex = (index + 1) % routes.length;
+      const nextIndex = (peek($index) + 1) % routes.length;
       setTabKey?.(routes[nextIndex].key as ProgressTabKey);
     }
-  }, [index, routes, setTabKey]);
+  }, [$index, routes, setTabKey]);
   const onPressOut = useCallback(() => {
     if (!isSwipingRef.current) {
       heavyImpact();
