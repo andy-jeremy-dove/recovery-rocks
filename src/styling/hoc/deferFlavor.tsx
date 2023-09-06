@@ -53,7 +53,6 @@ export default <ComponentType extends Stylable>(
         ...props,
       } as React.ComponentProps<ComponentType> & PropsExtension;
       const style = pickStyles(styles, _props, theme);
-      // return <Component {..._props} ref={ref} style={[style, _props['style']]} />;
       return React.createElement(Component, {
         ..._props,
         ref,
