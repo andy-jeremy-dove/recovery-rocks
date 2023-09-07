@@ -1,7 +1,9 @@
 import {PlatformPressable} from '@react-navigation/elements';
 import {useCallback, useMemo, useRef} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Route, SceneMap, TabView} from 'react-native-tab-view';
+import {Layout} from 'react-native-tab-view/lib/typescript/src/types';
 import {SceneRendererProps} from 'react-native-tab-view/src/types';
 
 import DailyAchievementView from './DailyAchievementView';
@@ -46,6 +48,7 @@ export default function DailyAchievementTabView(
 function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
   const {$tabKey, setTabKey, dailyAchievement, accretion} = props;
 
+  const insets = useSafeAreaInsets();
   const layout = useWindowDimensions();
 
   const routes = useMemo<DailyAchievementRoute[]>(
@@ -116,6 +119,15 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
     [onPress, onPressOut, accretion],
   );
 
+  const width = layout.width - insets.left - insets.right;
+  const initialLayout = useMemo<Partial<Layout>>(
+    () => ({
+      width,
+      height: TIME_UNIT_VIEW_HEIGHT,
+    }),
+    [width],
+  );
+
   return (
     <TabsContext.Provider value={tabsProps}>
       <TabView
@@ -128,7 +140,7 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
         sceneContainerStyle={layoutStyles.page}
         onSwipeStart={onSwipeStart}
         onSwipeEnd={onSwipeEnd}
-        initialLayout={{width: layout.width, height: TIME_UNIT_VIEW_HEIGHT}}
+        initialLayout={initialLayout}
       />
     </TabsContext.Provider>
   );
