@@ -104,7 +104,7 @@ const documentTitle: DocumentTitleOptions = {
   enabled: true,
   formatter: options => {
     if (options?.title) {
-      return `${options.title} @ ${app.expo.name}`;
+      return `${options.title} | ${app.expo.name}`;
     }
     return app.expo.name;
   },
