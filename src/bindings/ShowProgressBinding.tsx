@@ -26,8 +26,10 @@ export type ShowProgressBindingProps = StackScreenProps<
 >;
 
 export default function ShowProgressBinding(props: ShowProgressBindingProps) {
-  const {navigation} = props;
-  return <ShowProgressStableBinding navigation={navigation} />;
+  const {navigation, route} = props;
+  return (
+    <ShowProgressStableBinding navigation={navigation} routeKey={route.key} />
+  );
 }
 
 const ShowProgressStableBinding = memo(_ShowProgressStableBinding);
@@ -35,18 +37,24 @@ const ShowProgressStableBinding = memo(_ShowProgressStableBinding);
 type ShowProgressStableBindingProps = Pick<
   ShowProgressBindingProps,
   'navigation'
->;
+> & {
+  routeKey: string;
+};
 
 function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
-  const {navigation} = props;
+  const {navigation, routeKey} = props;
   const $state = useStackNavigationState(navigation);
   const $tabKey = useMemo(
     () =>
       narrow(
         $state,
-        _ => tabMap[_.routes[_.index].params?.tab ?? ProgressTab.Accumulative],
+        _ =>
+          tabMap[
+            _.routes.find(__ => __.key === routeKey)?.params?.tab ??
+              ProgressTab.Accumulative
+          ],
       ),
-    [$state],
+    [$state, routeKey],
   );
   const setTabKey = useCallback(
     (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
@@ -101,29 +109,13 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
     <ShowProgressScreen
       today={today}
       announcement={announcement}
-      // announcement="Илья, ты чист"
       $tabKey={$tabKey}
       setTabKey={setTabKey}
       dailyAchievement={dailyAchievement}
       anniversaryAchievement={anniversaryAchievement}
-      // anniversaryAchievement={{
-      //   previousValue: 9,
-      //   previousUnit: TimeUnit.Month,
-      //   // currentValue: 29,
-      //   // currentUnit: TimeUnit.Day,
-      //   currentValue: 33,
-      //   currentUnit: TimeUnit.Year,
-      //   // currentValue: 18,
-      //   // currentUnit: TimeUnit.Month,
-      //   nextValue: 18,
-      //   nextUnit: TimeUnit.Month,
-      // }}
       congratulation="Сегодня юбилей!"
-      // quote="Не важно, сколько нам уже удалось пройти или сколько нам еще предстоит пройти, – когда мы живем чистыми, путешествие продолжается."
-      quote="Мы никогда не видели срыв человека, живущего Программой «Анонимные Наркоманы»"
-      // quote={undefined}
+      quote="Не важно, сколько нам уже удалось пройти или сколько нам еще предстоит пройти, – когда мы живем чистыми, путешествие продолжается."
       onQuotePress={onQuotePress}
-      // accretion
       compensateHeaderHeight={headerHeight}
     />
   );
