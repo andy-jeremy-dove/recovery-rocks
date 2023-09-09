@@ -1,6 +1,5 @@
-import {PlatformPressable} from '@react-navigation/elements';
 import {useCallback, useMemo, useRef} from 'react';
-import {StyleSheet, useWindowDimensions} from 'react-native';
+import {Pressable, StyleSheet, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Route, SceneMap, TabView} from 'react-native-tab-view';
 import {Layout} from 'react-native-tab-view/lib/typescript/src/types';
@@ -167,10 +166,7 @@ function DailyAchievementBinding(props: DailyAchievementBindingProps) {
   const {accretion, onPress, onPressIn, onPressOut} =
     useForcedContext(TabsContext);
   return (
-    <PlatformPressable
-      onPressIn={onPressIn}
-      onPressOut={onPressOut}
-      onPress={onPress}>
+    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
       <DailyAchievementView
         pointerEvents="box-only"
         style={layoutStyles.page}
@@ -179,7 +175,7 @@ function DailyAchievementBinding(props: DailyAchievementBindingProps) {
         years={years}
         accretion={accretion}
       />
-    </PlatformPressable>
+    </Pressable>
   );
 }
 
