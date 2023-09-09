@@ -18,6 +18,8 @@ export default class StackNavigationStateObservableImpl<
   extends ObservableIdentityImpl
   implements StackNavigationStateObservable<ParamList>
 {
+  private _isListened = false;
+
   constructor(private _navigation: StackNavigationProp<ParamList>) {
     super();
   }
@@ -25,6 +27,9 @@ export default class StackNavigationStateObservableImpl<
   setNavigation(navigation: StackNavigationProp<ParamList>) {
     this._navigation.removeListener('state', this._listener);
     this._navigation = navigation;
+    if (this._isListened) {
+      this._navigation.addListener('state', this._listener);
+    }
   }
 
   peek() {
@@ -44,10 +49,12 @@ export default class StackNavigationStateObservableImpl<
     const that = this;
     return {
       onBeforeAnyListener() {
+        that._isListened = true;
         that._navigation.addListener('state', that._listener);
       },
       onAfterCompletelyForgot() {
         that._navigation.removeListener('state', that._listener);
+        that._isListened = false;
       },
     };
   });
