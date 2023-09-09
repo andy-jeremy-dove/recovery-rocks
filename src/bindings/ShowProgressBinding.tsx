@@ -2,7 +2,7 @@ import {useHeaderHeight} from '@react-navigation/elements';
 import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
 import {memo, useCallback, useMemo, useState} from 'react';
-import {Platform, Pressable, Text} from 'react-native';
+import {Pressable} from 'react-native';
 
 import {useStackNavigationState} from '../Navigation';
 import {anniversaries} from '../RecoveryRocks/anniversaries';
@@ -10,13 +10,14 @@ import computeDailyAchievement from '../RecoveryRocks/computeDailyAchievement';
 import detectAnniversary from '../RecoveryRocks/detectAnniversary';
 import {ProgressTab, RootStackParamList} from '../RootStack/RootStackParamList';
 import {Millisecond} from '../Time';
+import AnnouncementText from '../components/AnnouncementText';
+import LinkText from '../components/LinkText';
 import {TimeUnit} from '../components/TimeUnitView';
 import ShowProgressScreen, {
   AnniversaryAchievement,
   ProgressTabKey,
 } from '../screens/ShowProgressScreen';
 import {narrow} from '../structure';
-import {variance} from '../styling';
 import turnOut from '../util/turnOut';
 
 export type ShowProgressBindingProps = StackScreenProps<
@@ -51,8 +52,8 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
     (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
     [navigation],
   );
-  const promptSetup = useCallback(() => {
-    navigation.navigate('PromptSetup');
+  const onQuotePress = useCallback(() => {
+    navigation.navigate('PromptSettings');
   }, [navigation]);
   const headerHeight = useHeaderHeight();
   const [$now] = useState(() => dayjs());
@@ -121,7 +122,7 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
       // quote="Не важно, сколько нам уже удалось пройти или сколько нам еще предстоит пройти, – когда мы живем чистыми, путешествие продолжается."
       quote="Мы никогда не видели срыв человека, живущего Программой «Анонимные Наркоманы»"
       // quote={undefined}
-      onQuotePress={promptSetup}
+      onQuotePress={onQuotePress}
       // accretion
       compensateHeaderHeight={headerHeight}
     />
@@ -134,44 +135,19 @@ type GreetingProps = {
 
 function Greeting(props: GreetingProps) {
   const {onPress} = props;
-  const link = Platform.select({
-    web: (
-      <Pressable onPress={onPress}>
-        {({focused, hovered, pressed}) => (
-          <Link hover={focused || hovered} active={pressed} />
-        )}
-      </Pressable>
-    ),
-    default: <Link onPress={onPress} />,
-  });
   return (
-    <Text>
-      Приветствуем, незнакомец!{'\n'}Как давно ты с нами?{'\n'}
-      {link}
-    </Text>
+    <Pressable onPress={onPress}>
+      {({focused, hovered, pressed}) => (
+        <AnnouncementText>
+          Приветствуем, незнакомец!{'\n'}Как давно ты с нами?{'\n'}
+          <LinkText hover={focused || hovered} active={pressed}>
+            Установи начало отсчёта.
+          </LinkText>
+        </AnnouncementText>
+      )}
+    </Pressable>
   );
 }
-
-const LINK_TEXT = 'Установи начало отсчёта.';
-
-const Link = variance(Text)(
-  theme => ({
-    root: {
-      color: theme.palette.link,
-    },
-    hover: {
-      textDecorationColor: theme.palette.link,
-      textDecorationLine: 'underline',
-      textDecorationStyle: 'solid',
-    },
-    active: {
-      backgroundColor: theme.palette.backgroundAccent,
-    },
-  }),
-  () => ({
-    children: LINK_TEXT,
-  }),
-);
 
 const timeUnitMap = {
   day: TimeUnit.Day,

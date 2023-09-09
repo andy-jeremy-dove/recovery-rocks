@@ -4,7 +4,9 @@ import {
   Platform,
   ScrollView,
   ScrollViewProps,
+  StyleProp,
   StyleSheet,
+  ViewStyle,
 } from 'react-native';
 import {Edges, SafeAreaView} from 'react-native-safe-area-context';
 
@@ -12,10 +14,17 @@ import {useStyles, variance} from '../styling';
 
 export type ContentScrollViewProps = ScrollViewProps & {
   topIsCompensated?: boolean;
+  rootStyle?: StyleProp<ViewStyle>;
 };
 
 export default function ContentScrollView(props: ContentScrollViewProps) {
-  const {topIsCompensated, children, contentContainerStyle, ...rest} = props;
+  const {
+    topIsCompensated,
+    rootStyle,
+    children,
+    contentContainerStyle,
+    ...rest
+  } = props;
   const styles = useStyles(theme => ({
     contentContainer: {
       flexGrow: 1,
@@ -35,7 +44,7 @@ export default function ContentScrollView(props: ContentScrollViewProps) {
       <Content contentContainerStyle={_contentContainerStyle} {...rest}>
         <SafeAreaView
           mode="padding"
-          style={layoutStyles.root}
+          style={[layoutStyles.root, rootStyle]}
           edges={topIsCompensated ? excludeTop : undefined}>
           {children}
         </SafeAreaView>

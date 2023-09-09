@@ -11,6 +11,7 @@ import {useMemo} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 
 import {RootStackParamList} from './RootStackParamList';
+import PromptSettingsBinding from '../bindings/PromptSettingsBinding';
 import PromptSetupBinding from '../bindings/PromptSetupBinding';
 import ShowProgressBinding from '../bindings/ShowProgressBinding';
 
@@ -47,6 +48,11 @@ export default function RootStack() {
         component={PromptSetupBinding}
         options={promptSetupOptions}
       />
+      <Screen
+        name="PromptSettings"
+        component={PromptSettingsBinding}
+        options={promptSettingsOptions}
+      />
     </Navigator>
   );
 }
@@ -70,7 +76,7 @@ function showProgressOptions({
     headerShown: true,
     headerRight: props => (
       <PlatformPressable
-        onPress={() => navigation.navigate('PromptSetup')}
+        onPress={() => navigation.navigate('PromptSettings')}
         pressColor={props.pressColor}
         pressOpacity={props.pressOpacity}>
         <Ionicons
@@ -92,6 +98,11 @@ const styles = StyleSheet.create({
 
 const promptSetupOptions: StackNavigationOptions = {
   title: 'Установка',
+  presentation: 'modal',
+};
+
+const promptSettingsOptions: StackNavigationOptions = {
+  title: 'Настройки',
   presentation: 'modal',
 };
 

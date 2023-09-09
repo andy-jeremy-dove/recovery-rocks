@@ -1,29 +1,26 @@
-import {ComponentProps, ReactNode, useMemo} from 'react';
+import {ReactNode, useMemo} from 'react';
 import {
   StyleSheet,
   Text,
   TextProps,
   TextStyle,
   View,
-  ViewProps,
   ViewStyle,
 } from 'react-native';
-import {
-  AnimatableComponent,
-  CustomAnimation,
-  View as AnimatableView,
-} from 'react-native-animatable';
 
 import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
 import AnniversaryAchievementView from '../components/AnniversaryAchievementView';
+import AnnouncementText from '../components/AnnouncementText';
 import ContentScrollView from '../components/ContentScrollView';
 import DailyAchievementTabView, {
   ProgressTabKey,
 } from '../components/DailyAchievementTabView';
+import DatePillText from '../components/DatePillText';
 import LogoView from '../components/LogoView';
+import SkeletonBaseView from '../components/SkeletonBaseView';
 import {TIME_UNIT_VIEW_HEIGHT, TimeUnit} from '../components/TimeUnitView';
 import {OptionalObservable} from '../structure';
-import {fillSpace} from '../styles';
+import {fillSpace, textSkeleton} from '../styles';
 import {variance} from '../styling';
 
 export type {ProgressTabKey} from '../components/DailyAchievementTabView';
@@ -74,7 +71,7 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
     <ContentScrollView
       contentContainerStyle={contentContainerStyle}
       topIsCompensated={topIsCompensated}>
-      <Today>{today}</Today>
+      <DatePillText style={layoutStyles.center}>{today}</DatePillText>
       <View
         style={anniversaryAchievement ? layoutStyles.grow5 : layoutStyles.grow3}
       />
@@ -86,8 +83,12 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
               <Skeleton announcement long />
               <Skeleton announcement short />
             </View>
+          ) : typeof announcement === 'string' ? (
+            <AnnouncementText style={layoutStyles.announcement}>
+              {announcement}
+            </AnnouncementText>
           ) : (
-            <Announcement>{announcement}</Announcement>
+            announcement
           )}
         </View>
       )}
@@ -141,7 +142,12 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
   );
 }
 
+const WIDTH = 300;
+
 const layoutStyles = StyleSheet.create({
+  center: {
+    alignSelf: 'center',
+  },
   skeletonContainer: {
     alignSelf: 'center',
     width: 300,
@@ -149,6 +155,10 @@ const layoutStyles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'flex-start',
+  },
+  announcement: {
+    width: WIDTH,
+    alignSelf: 'center',
   },
   pageRoot: {
     height: TIME_UNIT_VIEW_HEIGHT,
@@ -165,40 +175,6 @@ const layoutStyles = StyleSheet.create({
   grow4: fillSpace(4),
   grow5: fillSpace(5),
 });
-
-const LINE_HEIGHT = 21;
-const PADDING = 4;
-const BORDER_RADIUS = (LINE_HEIGHT + PADDING * 2) / 2;
-
-const Today = variance(Text)(theme => ({
-  root: {
-    alignSelf: 'center',
-    overflow: 'hidden',
-    paddingVertical: PADDING,
-    paddingHorizontal: BORDER_RADIUS,
-    borderRadius: BORDER_RADIUS,
-    textAlign: 'center',
-    backgroundColor: theme.palette.backgroundAccent,
-    ...theme.fontByWeight('400'),
-    color: theme.palette.textAccent,
-    fontSize: 17,
-    lineHeight: LINE_HEIGHT,
-  },
-}));
-
-const WIDTH = 300;
-
-const Announcement = variance(Text)(theme => ({
-  root: {
-    width: WIDTH,
-    alignSelf: 'center',
-    textAlign: 'center',
-    ...theme.fontByWeight('400'),
-    color: theme.palette.textPrimary,
-    fontSize: 20,
-    lineHeight: 26,
-  },
-}));
 
 const Congratulations = variance(Text)(theme => ({
   root: {
@@ -218,47 +194,18 @@ function fixedBasis(_: number): TextStyle {
   };
 }
 
-function textSkeleton(fontSize: number, lineHeight: number): TextStyle {
-  const height = (fontSize / 20) * 16;
-  const margin = ((lineHeight - fontSize) / 6) * 5;
-  return {height, margin};
-}
-
-const Skeleton = variance(AnimatableView)(
-  theme => ({
-    root: {
-      flexBasis: '100%',
-      flexGrow: 1,
-      flexShrink: 1,
-      ...textSkeleton(20, 26),
-      borderRadius: 4,
-      opacity: OPACITY,
-      backgroundColor: theme.palette.textPrimary,
-    },
-    long: fixedBasis(WIDTH / 3),
-    short: fixedBasis((WIDTH / 30) * 4),
-    announcement: textSkeleton(20, 26),
-    quote: textSkeleton(18, 24),
-  }),
-  (): AnimatableViewProps => ({
-    animation: fadeInOut,
-    duration: 2000,
-    iterationCount: 'infinite',
-    useNativeDriver: true,
-  }),
-);
-
-const OPACITY = 0.05;
-
-const fadeInOut: CustomAnimation = {
-  0: {opacity: OPACITY},
-  0.5: {opacity: 0.1},
-  1: {opacity: OPACITY},
-};
-
-type AnimatableViewProps = ComponentProps<
-  AnimatableComponent<ViewProps, ViewStyle>
->;
+const Skeleton = variance(SkeletonBaseView)(() => ({
+  root: {
+    flexBasis: '100%',
+    flexGrow: 1,
+    flexShrink: 1,
+    ...textSkeleton(20, 26),
+  },
+  long: fixedBasis(WIDTH / 3),
+  short: fixedBasis((WIDTH / 30) * 4),
+  announcement: textSkeleton(20, 26),
+  quote: textSkeleton(18, 24),
+}));
 
 const Quote = variance(Text)(
   theme => ({

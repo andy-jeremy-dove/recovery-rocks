@@ -29,7 +29,8 @@ import 'dayjs/locale/ru';
 import app from './app.json';
 import RootStack from './src/RootStack/RootStack';
 import {RootStackParamList} from './src/RootStack/RootStackParamList';
-import {lightPalette, ThemeImpl, ThemeProvider, useTheme} from './src/styling';
+import {ThemeProvider, useTheme} from './src/styling';
+import lightTheme from './src/styling/Theme/lightTheme';
 
 dayjs.locale('ru');
 
@@ -52,7 +53,7 @@ export default function App() {
   );
 }
 
-const globalTheme = new ThemeImpl(false, lightPalette);
+const globalTheme = lightTheme;
 
 function NavigationRoot() {
   const theme = useTheme();
@@ -94,6 +95,7 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       ShowProgress: '',
       PromptSetup: 'setup',
+      PromptSettings: 'settings',
     },
   },
 };

@@ -11,6 +11,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import BasicButtonText from '../components/BasicButtonText';
 import ContentScrollView from '../components/ContentScrollView';
 import DatePicker from '../components/DatePicker';
 import GenderPicker, {Gender} from '../components/GenderPicker';
@@ -69,13 +70,19 @@ export default function PromptSetupScreen(props: SetupScreenProps) {
       </View>
       <View style={layoutStyles.grow4} />
       <View>
-        <SubmitButton tabIndex={0} onPress={onPress}>
+        <BasicButtonText
+          style={layoutStyles.submitButton}
+          tabIndex={0}
+          onPress={onPress}>
           Готово
-        </SubmitButton>
+        </BasicButtonText>
         {cancellation && (
-          <SubmitButton tabIndex={0} onPress={onCancel}>
+          <BasicButtonText
+            style={layoutStyles.submitButton}
+            tabIndex={0}
+            onPress={onCancel}>
             Отмена
-          </SubmitButton>
+          </BasicButtonText>
         )}
       </View>
       <View style={layoutStyles.grow7} />
@@ -116,6 +123,11 @@ const layoutStyles = StyleSheet.create({
   yearContainerStyle: {
     flexBasis: YEAR_BASIS,
     flexGrow: YEAR_BASIS,
+  },
+  submitButton: {
+    alignSelf: 'center',
+    marginVertical: 8,
+    minWidth: 160,
   },
   grow2: fillSpace(2),
   grow3: fillSpace(3),
@@ -175,27 +187,3 @@ const NameInput = variance(TextInput)(
 );
 
 const hitSlop = {left: 16, top: 8, right: 16, bottom: 8} as const;
-
-const SubmitButton = variance(Text)(
-  theme => ({
-    root: {
-      alignSelf: 'center',
-      marginVertical: 8,
-      minWidth: 160,
-      borderWidth: 1,
-      borderRadius: 12,
-      borderColor: theme.palette.borderPrimary,
-      paddingVertical: 8,
-      paddingHorizontal: 32,
-      textAlign: 'center',
-      ...theme.fontByWeight('400'),
-      color: theme.palette.textPrimary,
-      fontSize: 20,
-      lineHeight: 24,
-    },
-  }),
-  (): TextProps => ({
-    role: 'button',
-    suppressHighlighting: true,
-  }),
-);

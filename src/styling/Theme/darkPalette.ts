@@ -8,6 +8,7 @@ const darkPalette: Palette = {
   borderSecondary: '#fff',
   backgroundAccent: '#ffffff33',
   backgroundSelection: '#5b5b5b',
+  backgroundAverage: '#80808010',
   textAccent: '#fff',
   textHighlight: '#ffd700',
   textBackground: '#fff',

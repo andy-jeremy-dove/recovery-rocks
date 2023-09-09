@@ -8,6 +8,7 @@ const lightPalette: Palette = {
   borderSecondary: '#ebebeb',
   backgroundAccent: '#00000033',
   backgroundSelection: '#ebebeb',
+  backgroundAverage: '#80808010',
   textAccent: '#fff',
   textHighlight: '#25428b',
   textBackground: '#000',

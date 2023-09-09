@@ -15,6 +15,7 @@ export type ColorKey =
   | 'borderSecondary'
   | 'backgroundAccent'
   | 'backgroundSelection'
+  | 'backgroundAverage'
   | 'textAccent'
   | 'textHighlight'
   | 'textBackground'

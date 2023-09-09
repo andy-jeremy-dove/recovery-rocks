@@ -4,7 +4,7 @@ export type TheWholeDump = {
   quotes: Quote[];
   fallbackQuote: Quote;
   anniversaries: Anniversary[];
-  cards: Card[];
+  cards: MeetingCard[];
   groupLocations: GroupLocation[];
 };
 
@@ -21,8 +21,8 @@ export type GroupLocationId = Opaque<string, typeof GROUP_LOCATION_ID>;
 
 export type LatLng = [number, number];
 
-export type Card = {
-  id: CardId;
+export type MeetingCard = {
+  id: MeetingCardId;
   title: string;
   body: string;
   backgroundColor: string;
@@ -30,8 +30,8 @@ export type Card = {
   borderColor: string;
 };
 
-export const CARD_ID = Symbol();
-export type CardId = Opaque<string, typeof CARD_ID>;
+export const MEETING_CARD_ID = Symbol();
+export type MeetingCardId = Opaque<string, typeof MEETING_CARD_ID>;
 
 export type Anniversary = {
   id: AnniversaryId;
