@@ -88,8 +88,11 @@ function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
     isSwipingRef.current = true;
   }, []);
   const onSwipeEnd = useCallback(async () => {
+    const wasSwiping = isSwipingRef.current;
     isSwipingRef.current = false;
-    heavyImpact();
+    if (wasSwiping) {
+      heavyImpact();
+    }
   }, []);
   const onPress = useCallback(() => {
     if (!isSwipingRef.current) {
