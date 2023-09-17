@@ -11,6 +11,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import BackgroundView from '../components/BackgroundView';
 import BasicButtonText from '../components/BasicButtonText';
 import ContentScrollView from '../components/ContentScrollView';
 import DatePicker from '../components/DatePicker';
@@ -43,6 +44,7 @@ export default function PromptSetupScreen(props: SetupScreenProps) {
   const topIsCompensated = compensateHeaderHeight !== undefined;
   return (
     <ContentScrollView topIsCompensated={topIsCompensated}>
+      <BackgroundView />
       <View style={topStyle} />
       <View>
         <FieldTitle secondary>Ваше имя</FieldTitle>

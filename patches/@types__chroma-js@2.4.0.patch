@@ -1,0 +1,14 @@
+diff --git a/index.d.ts b/index.d.ts
+index 33c3842eac5a89ed904ab5b067e4b53e055f7cb6..fbc94452caedc4ab2de71ace0e5e0b05a3fe3cb9 100755
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -472,7 +472,8 @@ declare namespace chroma {
+ 
+         gamma(g: number): this;
+ 
+-        cache(use: boolean): boolean;
++        cache(use: boolean): this;
++        cache(): boolean;
+ 
+         correctLightness(enable?: boolean): this;
+ 

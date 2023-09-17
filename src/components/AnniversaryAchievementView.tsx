@@ -1,5 +1,7 @@
+import chroma from 'chroma-js';
 import {useMemo} from 'react';
 import {
+  Platform,
   StyleProp,
   StyleSheet,
   TextStyle,
@@ -38,6 +40,7 @@ export default function AnniversaryAchievementView(
   } = props;
   const styles = useStyles(theme => ({
     current: {
+      ...textShadow(theme.palette.textShadowHighlight),
       color: theme.palette.textHighlight,
     },
     other: {
@@ -57,6 +60,7 @@ export default function AnniversaryAchievementView(
               accretion={accretion}
               scale={LARGER}
               valueTextStyle={styles.other}
+              unitTextStyle={styles.other}
             />
           </View>
         )}
@@ -69,6 +73,7 @@ export default function AnniversaryAchievementView(
               accretion={accretion}
               scale={SMALLER}
               valueTextStyle={styles.other}
+              unitTextStyle={styles.other}
             />
           </View>
         )}
@@ -84,6 +89,21 @@ export default function AnniversaryAchievementView(
     </View>
   );
 }
+
+function textShadow(color: string): TextStyle {
+  const $color = chroma(color);
+  if ($color.alpha() === 0) {
+    return {};
+  }
+  return {
+    textShadowColor: $color.alpha(0.4).hex('rgba'),
+    textShadowOffset: {height: -1, width: 0},
+    textShadowRadius: TEXT_SHADOW_RADIUS,
+    paddingHorizontal: Platform.OS === 'ios' ? TEXT_SHADOW_RADIUS : 0,
+  };
+}
+
+const TEXT_SHADOW_RADIUS = 19;
 
 const WIDTH = 133;
 const HEIGHT = 259;
@@ -109,7 +129,7 @@ const layoutStyles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    opacity: 0.1,
+    opacity: 0.2,
   },
   previous: {
     top: 10,
@@ -145,13 +165,22 @@ type ValueViewProps = ViewProps & {
   unit: TimeUnit;
   imageStyle?: StyleProp<ViewStyle>;
   valueTextStyle?: StyleProp<TextStyle>;
+  unitTextStyle?: StyleProp<TextStyle>;
   accretion?: boolean;
   scale?: number;
 };
 
 function ValueView(props: ValueViewProps) {
-  const {value, unit, accretion, imageStyle, valueTextStyle, scale, ...rest} =
-    props;
+  const {
+    value,
+    unit,
+    accretion,
+    imageStyle,
+    valueTextStyle,
+    unitTextStyle,
+    scale,
+    ...rest
+  } = props;
   const theme = useTheme();
   const style = useMemo(
     () => StyleSheet.flatten([layoutStyles.image, imageStyle]),
@@ -174,6 +203,7 @@ function ValueView(props: ValueViewProps) {
         accretion={accretion}
         scale={scale}
         valueTextStyle={valueTextStyle}
+        unitTextStyle={unitTextStyle}
       />
     </View>
   );

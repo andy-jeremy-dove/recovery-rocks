@@ -20,6 +20,7 @@ export type TimeUnitViewProps = ViewProps & {
    * */
   accretion?: boolean;
   valueTextStyle?: StyleProp<TextStyle>;
+  unitTextStyle?: StyleProp<TextStyle>;
   scale?: number;
 };
 
@@ -41,6 +42,7 @@ export default function TimeUnitView(props: TimeUnitViewProps) {
     plural = Plural.Cardinal,
     accretion = false,
     valueTextStyle,
+    unitTextStyle,
     scale,
     style,
     ...rest
@@ -61,7 +63,9 @@ export default function TimeUnitView(props: TimeUnitViewProps) {
           </AccretionText>
         ) : null}
       </View>
-      <UnitText scale={scale}>{unitText}</UnitText>
+      <UnitText scale={scale} style={unitTextStyle}>
+        {unitText}
+      </UnitText>
     </View>
   );
 }
@@ -81,7 +85,10 @@ const VALUE_LINE_HEIGHT = 90;
 const ValueText = flavor(Text)(theme => ({
   root: {
     textAlign: 'center',
-    ...theme.fontByWeight('800'),
+    ...theme.text({
+      weight: '800',
+      name: 'time',
+    }),
     color: theme.palette.textPrimary,
     fontSize: VALUE_FONT_SIZE,
     lineHeight: VALUE_LINE_HEIGHT,

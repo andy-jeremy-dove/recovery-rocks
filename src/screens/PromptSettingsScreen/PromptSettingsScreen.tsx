@@ -4,6 +4,7 @@ import {StyleSheet, TextProps, View, ViewStyle} from 'react-native';
 import CardList from './CardList';
 import {MeetingCard} from './MeetingCard';
 import ThemeGroup from './ThemeGroup';
+import BackgroundView from '../../components/BackgroundView';
 import BasicButtonText from '../../components/BasicButtonText';
 import ContentScrollView from '../../components/ContentScrollView';
 import DatePillText from '../../components/DatePillText';
@@ -39,6 +40,7 @@ export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
     <ContentScrollView
       contentContainerStyle={contentContainerStyle}
       topIsCompensated={topIsCompensated}>
+      <BackgroundView />
       <TodayText style={layoutStyles.center} $today={$today} />
       <View style={layoutStyles.grow1} />
       <ThemeGroup

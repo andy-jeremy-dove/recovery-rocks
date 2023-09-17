@@ -1,11 +1,8 @@
 import 'react-native-gesture-handler';
 import './src/structure/Disposable/shim';
 import {Ionicons} from '@expo/vector-icons';
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_800ExtraBold,
-} from '@expo-google-fonts/inter';
+import {Inter_400Regular, Inter_800ExtraBold} from '@expo-google-fonts/inter';
+import {SourceSerifPro_400Regular} from '@expo-google-fonts/source-serif-pro';
 import {
   DarkTheme,
   DefaultTheme,
@@ -16,21 +13,31 @@ import {
   DocumentTitleOptions,
   LinkingOptions,
 } from '@react-navigation/native/lib/typescript/src/types';
+import chroma from 'chroma-js';
 import dayjs from 'dayjs';
+import {useFonts} from 'expo-font';
 import {createURL} from 'expo-linking';
+import {
+  setBehaviorAsync,
+  setPositionAsync,
+  setButtonStyleAsync,
+  setBackgroundColorAsync,
+  setBorderColorAsync,
+} from 'expo-navigation-bar';
 import {StatusBar} from 'expo-status-bar';
-import {useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
+import {Platform} from 'react-native';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import 'dayjs/locale/ru';
 
-import app from './app.json';
+import app from './app.config';
 import RootStack from './src/RootStack/RootStack';
 import {RootStackParamList} from './src/RootStack/RootStackParamList';
 import {ThemeProvider, useTheme} from './src/styling';
-import lightTheme from './src/styling/Theme/lightTheme';
+import classicTheme from './src/styling/Theme/classicTheme';
 
 dayjs.locale('ru');
 
@@ -38,8 +45,18 @@ export default function App() {
   const [isLoaded] = useFonts({
     Inter_400Regular,
     Inter_800ExtraBold,
+    SourceSerifPro_400Regular,
     ...Ionicons.font,
   });
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      // noinspection JSIgnoredPromiseFromCall
+      Promise.all([
+        setBehaviorAsync('inset-touch'),
+        setPositionAsync('absolute'),
+      ]);
+    }
+  }, []);
   if (!isLoaded) {
     return null;
   }
@@ -53,7 +70,7 @@ export default function App() {
   );
 }
 
-const globalTheme = lightTheme;
+const globalTheme = classicTheme;
 
 function NavigationRoot() {
   const theme = useTheme();
@@ -87,7 +104,7 @@ const linking: LinkingOptions<RootStackParamList> = {
   enabled: true,
   prefixes: [
     createURL('/'),
-    `${app.expo.scheme}://`,
+    `${app.scheme}://`,
     ...(__DEV__ ? ['http://localhost:3000', 'http://localhost:19006'] : []),
   ],
   config: {
@@ -104,18 +121,28 @@ const documentTitle: DocumentTitleOptions = {
   enabled: true,
   formatter: options => {
     if (options?.title) {
-      return `${options.title} | ${app.expo.name}`;
+      return `${options.title} | ${app.name}`;
     }
-    return app.expo.name;
+    return app.name;
   },
 };
 
 function GlobalStatusBar() {
   const theme = useTheme();
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      const background = chroma(theme.palette.background).alpha(0).hex('rgba');
+      // noinspection JSIgnoredPromiseFromCall
+      Promise.all([
+        Platform.Version >= 28 && setBorderColorAsync(background),
+        setBackgroundColorAsync(background),
+        setButtonStyleAsync(theme.isDark ? 'light' : 'dark'),
+      ]);
+    }
+  }, [theme]);
   return (
     <StatusBar
       translucent
-      backgroundColor={theme.palette.background}
       animated
       hideTransitionAnimation="slide"
       networkActivityIndicatorVisible

@@ -3,6 +3,7 @@ import {Pressable, StyleSheet, Text, View, ViewProps} from 'react-native';
 import LinkText from '../../components/LinkText';
 import {OptionalObservable, useObservable} from '../../structure';
 import {ThemeProvider, variance} from '../../styling';
+import classicTheme from '../../styling/Theme/classicTheme';
 import darkTheme from '../../styling/Theme/darkTheme';
 import lightTheme from '../../styling/Theme/lightTheme';
 
@@ -35,6 +36,12 @@ export default function ThemeGroup(props: ThemeGroupProps) {
           <ThemeSelection />
           <ThemeProvider theme={lightTheme}>
             <ThemeButton>Светлая</ThemeButton>
+          </ThemeProvider>
+        </View>
+        <View>
+          <ThemeSelection />
+          <ThemeProvider theme={classicTheme}>
+            <ThemeButton>Классика</ThemeButton>
           </ThemeProvider>
         </View>
         <View>

@@ -1,5 +1,6 @@
 import {ReactNode, useMemo} from 'react';
 import {
+  Platform,
   StyleSheet,
   Text,
   TextProps,
@@ -11,6 +12,7 @@ import {
 import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
 import AnniversaryAchievementView from '../components/AnniversaryAchievementView';
 import AnnouncementText from '../components/AnnouncementText';
+import BackgroundView from '../components/BackgroundView';
 import ContentScrollView from '../components/ContentScrollView';
 import DailyAchievementTabView, {
   ProgressTabKey,
@@ -19,7 +21,7 @@ import DatePillText from '../components/DatePillText';
 import LogoView from '../components/LogoView';
 import SkeletonBaseView from '../components/SkeletonBaseView';
 import {TIME_UNIT_VIEW_HEIGHT, TimeUnit} from '../components/TimeUnitView';
-import {OptionalObservable} from '../structure';
+import {narrow, OptionalObservable} from '../structure';
 import {fillSpace, textSkeleton} from '../styles';
 import {variance} from '../styling';
 
@@ -63,14 +65,22 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
     compensateHeaderHeight,
   } = props;
   const contentContainerStyle: ViewStyle = useMemo(
-    () => ({paddingTop: compensateHeaderHeight ?? 0}),
+    () => ({
+      overflow: Platform.OS === 'web' ? 'hidden' : 'visible',
+      paddingTop: compensateHeaderHeight ?? 0,
+    }),
     [compensateHeaderHeight],
   );
   const topIsCompensated = compensateHeaderHeight !== undefined;
+  const $special = useMemo(
+    () => narrow(anniversaryAchievement, _ => !!_),
+    [anniversaryAchievement],
+  );
   return (
     <ContentScrollView
       contentContainerStyle={contentContainerStyle}
       topIsCompensated={topIsCompensated}>
+      <BackgroundView $special={$special} />
       <DatePillText style={layoutStyles.center}>{today}</DatePillText>
       <View
         style={anniversaryAchievement ? layoutStyles.grow5 : layoutStyles.grow3}

@@ -1,27 +1,34 @@
 import {TextStyle} from 'react-native';
 
 import {Palette} from './Coloring';
-import {FontWeight} from './Fonts';
 import {Theme} from './Theme';
+import {FontName, FontParams, FontWeight} from './Typography';
 
 export default class ThemeImpl implements Theme {
   constructor(
     public readonly isDark: boolean,
     public readonly palette: Palette,
+    private readonly _fontsByName: FontsByName,
   ) {}
 
   fontByWeight(_weight: FontWeight = 'normal'): TextStyle {
+    return this.text({weight: _weight});
+  }
+
+  text(params?: FontParams): TextStyle {
+    const {name = 'base', weight: _weight = 'normal'} = params ?? {};
     const weight = translateWeight(_weight);
-    return {fontFamily: fontByWeightMap[weight]};
+    return {fontFamily: this._fontsByName[name][weight]};
   }
 }
 
-const fontByWeightMap = {
-  400: 'Inter_400Regular',
-  800: 'Inter_800ExtraBold',
-};
+export type FontsByName = Record<FontName, FontByWeight>;
 
-function translateWeight(weight: FontWeight): '400' | '800' {
+export type SupportedWeight = '400' | '800';
+
+export type FontByWeight = Record<SupportedWeight, string>;
+
+function translateWeight(weight: FontWeight): SupportedWeight {
   switch (weight) {
     case '100':
     case '200':

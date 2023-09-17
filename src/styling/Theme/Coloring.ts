@@ -9,6 +9,8 @@ export type Palette = {
 
 export type ColorKey =
   | 'background'
+  | 'backgroundGradient'
+  | 'backgroundSpecialGradient'
   | 'textPrimary'
   | 'textSecondary'
   | 'borderPrimary'
@@ -18,6 +20,7 @@ export type ColorKey =
   | 'backgroundAverage'
   | 'textAccent'
   | 'textHighlight'
+  | 'textShadowHighlight'
   | 'textBackground'
   | 'link'
   | 'textSpecter';

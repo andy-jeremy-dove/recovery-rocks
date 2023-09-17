@@ -1,7 +1,6 @@
 import {createContext} from 'react';
 
 import {Theme} from './Theme';
-import ThemeImpl from './ThemeImpl';
-import lightPalette from './lightPalette';
+import lightTheme from './lightTheme';
 
-export default createContext<Theme>(new ThemeImpl(false, lightPalette));
+export default createContext<Theme>(lightTheme);

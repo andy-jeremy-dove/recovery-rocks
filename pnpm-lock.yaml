@@ -4,8 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@types/chroma-js@2.4.0':
+    hash: s3zixygdfylrmg4sdvogvc7xm4
+    path: patches/@types__chroma-js@2.4.0.patch
+
 dependencies:
   '@expo-google-fonts/inter':
+    specifier: ^0.2.3
+    version: 0.2.3
+  '@expo-google-fonts/source-serif-pro':
     specifier: ^0.2.3
     version: 0.2.3
   '@expo/webpack-config':
@@ -38,6 +46,9 @@ dependencies:
   expo-linking:
     specifier: ~5.0.2
     version: 5.0.2(expo@49.0.7)
+  expo-navigation-bar:
+    specifier: ~2.3.0
+    version: 2.3.0(expo@49.0.7)
   expo-status-bar:
     specifier: ~1.6.0
     version: 1.6.0
@@ -99,7 +110,7 @@ devDependencies:
     version: 8.1.0
   '@types/chroma-js':
     specifier: ^2.4.0
-    version: 2.4.0
+    version: 2.4.0(patch_hash=s3zixygdfylrmg4sdvogvc7xm4)
   '@types/jest':
     specifier: ^29.5.4
     version: 29.5.4
@@ -2763,6 +2774,10 @@ packages:
     resolution: {integrity: sha512-iHK9FI+dnE45X5c2Z5hSFwNH4zUWethizpbv3XUn0FIGw5jwvzriENz0a6wCdkI4/d+1QkurnHo5XHti7TbNJA==}
     dev: false
 
+  /@expo-google-fonts/source-serif-pro@0.2.3:
+    resolution: {integrity: sha512-nVxz2QDeRBAwxETOKatKnfD67O3rdw3HxeUq8alsP9Z+GtmsO2CIyZIB3ipC75E+M/0+zaKDO4VhoBm8tNIyQA==}
+    dev: false
+
   /@expo/bunyan@4.0.0:
     resolution: {integrity: sha512-Ydf4LidRB/EBI+YrB+cVLqIseiRfjUI/AeHBgjGMtq3GroraDu81OV7zqophRgupngoL3iS3JUMDMnxO7g39qA==}
     engines: {'0': node >=0.10.0}
@@ -4089,9 +4104,10 @@ packages:
       '@types/node': 20.5.1
     dev: false
 
-  /@types/chroma-js@2.4.0:
+  /@types/chroma-js@2.4.0(patch_hash=s3zixygdfylrmg4sdvogvc7xm4):
     resolution: {integrity: sha512-JklMxityrwjBTjGY2anH8JaTx3yjRU3/sEHSblLH1ba5lqcSh1LnImXJZO5peJfXyqKYWjHTGy4s5Wz++hARrw==}
     dev: true
+    patched: true
 
   /@types/connect-history-api-fallback@1.5.0:
     resolution: {integrity: sha512-4x5FkPpLipqwthjPsF7ZRbOv3uoLUFkTA9G9v583qi4pACvq0uTELrB8OLUzPWUI4IJIyvM85vzkV1nyiI2Lig==}
@@ -7170,6 +7186,18 @@ packages:
     dependencies:
       compare-versions: 3.6.0
       invariant: 2.2.4
+    dev: false
+
+  /expo-navigation-bar@2.3.0(expo@49.0.7):
+    resolution: {integrity: sha512-5C9iR+rrj0EUgCPIIxSHEPwj18IOL4zQPYKLbyV9KVeXSBqPspu+vRvF5pxgbyefWfoQDHKfOz56W/gZ3qRiTQ==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@react-native/normalize-color': 2.1.0
+      debug: 4.3.4
+      expo: 49.0.7(@babel/core@7.20.2)
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /expo-pwa@0.0.127(expo@49.0.7):
