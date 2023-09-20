@@ -4,8 +4,7 @@ import fontsByName from './fontsByName';
 
 export default new ThemeImpl(true, classicPalette, {
   ...fontsByName,
-  base: {
-    ...fontsByName.base,
-    400: 'SourceSerifPro_400Regular',
-  },
+  base: 'SourceSerifPro_400Regular',
+  time: 'Inter_800ExtraBold',
+  quoteBody: 'SourceSerifPro_400Regular_Italic',
 });

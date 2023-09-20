@@ -29,6 +29,7 @@ export type {ProgressTabKey} from '../components/DailyAchievementTabView';
 
 export type ShowProgressScreenProps = {
   today: string;
+  onTodayPress?: () => void;
   announcement?: string | ReactNode;
   $tabKey?: OptionalObservable<ProgressTabKey>;
   setTabKey?: (_: ProgressTabKey) => void;
@@ -53,6 +54,7 @@ export type AnniversaryAchievement = {
 export default function ShowProgressScreen(props: ShowProgressScreenProps) {
   const {
     today,
+    onTodayPress,
     announcement,
     $tabKey,
     setTabKey,
@@ -81,7 +83,9 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
       contentContainerStyle={contentContainerStyle}
       topIsCompensated={topIsCompensated}>
       <BackgroundView $special={$special} />
-      <DatePillText style={layoutStyles.center}>{today}</DatePillText>
+      <DatePillText style={layoutStyles.center} onPress={onTodayPress}>
+        {today}
+      </DatePillText>
       <View
         style={anniversaryAchievement ? layoutStyles.grow5 : layoutStyles.grow3}
       />

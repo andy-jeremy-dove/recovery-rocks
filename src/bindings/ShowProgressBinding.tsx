@@ -60,8 +60,8 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
     (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
     [navigation],
   );
-  const onQuotePress = useCallback(() => {
-    navigation.navigate('PromptSettings');
+  const showTopic = useCallback(() => {
+    navigation.navigate('ShowTopic');
   }, [navigation]);
   const headerHeight = useHeaderHeight();
   const [$now] = useState(() => dayjs());
@@ -108,6 +108,7 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
   return (
     <ShowProgressScreen
       today={today}
+      onTodayPress={showTopic}
       announcement={announcement}
       $tabKey={$tabKey}
       setTabKey={setTabKey}
@@ -115,7 +116,7 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
       anniversaryAchievement={anniversaryAchievement}
       congratulation="Сегодня юбилей!"
       quote="Не важно, сколько нам уже удалось пройти или сколько нам еще предстоит пройти, – когда мы живем чистыми, путешествие продолжается."
-      onQuotePress={onQuotePress}
+      onQuotePress={showTopic}
       compensateHeaderHeight={headerHeight}
     />
   );

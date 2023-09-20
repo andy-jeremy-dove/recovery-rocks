@@ -2,7 +2,10 @@ import 'react-native-gesture-handler';
 import './src/structure/Disposable/shim';
 import {Ionicons} from '@expo/vector-icons';
 import {Inter_400Regular, Inter_800ExtraBold} from '@expo-google-fonts/inter';
-import {SourceSerifPro_400Regular} from '@expo-google-fonts/source-serif-pro';
+import {
+  SourceSerifPro_400Regular,
+  SourceSerifPro_400Regular_Italic,
+} from '@expo-google-fonts/source-serif-pro';
 import {
   DarkTheme,
   DefaultTheme,
@@ -46,6 +49,7 @@ export default function App() {
     Inter_400Regular,
     Inter_800ExtraBold,
     SourceSerifPro_400Regular,
+    SourceSerifPro_400Regular_Italic,
     ...Ionicons.font,
   });
   useEffect(() => {
@@ -113,6 +117,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       ShowProgress: '',
       PromptSetup: 'setup',
       PromptSettings: 'settings',
+      ShowTopic: 'topic',
     },
   },
 };

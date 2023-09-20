@@ -14,6 +14,7 @@ import {RootStackParamList} from './RootStackParamList';
 import PromptSettingsBinding from '../bindings/PromptSettingsBinding';
 import PromptSetupBinding from '../bindings/PromptSetupBinding';
 import ShowProgressBinding from '../bindings/ShowProgressBinding';
+import ShowTopicBinding from '../bindings/ShowTopicBinding';
 
 export default function RootStack() {
   const theme = useTheme();
@@ -53,6 +54,11 @@ export default function RootStack() {
         component={PromptSettingsBinding}
         options={promptSettingsOptions}
       />
+      <Screen
+        name="ShowTopic"
+        component={ShowTopicBinding}
+        options={showTopicOptions}
+      />
     </Navigator>
   );
 }
@@ -65,28 +71,46 @@ const commonOptions: StackNavigationOptions = {
   ...TransitionPresets.DefaultTransition,
 };
 
-function showProgressOptions({
-  navigation,
-}: StackScreenProps<
-  RootStackParamList,
-  'ShowProgress'
->): StackNavigationOptions {
+function showProgressOptions(
+  props: StackScreenProps<RootStackParamList, 'ShowProgress'>,
+): StackNavigationOptions {
   return {
+    ...withSettingsButton(props),
     title: 'Прогресс',
+  };
+}
+
+function showTopicOptions(
+  props: StackScreenProps<RootStackParamList, 'ShowTopic'>,
+): StackNavigationOptions {
+  return {
+    ...withSettingsButton(props),
+    title: 'Тема для размышлений',
+  };
+}
+
+function withSettingsButton(
+  props: StackScreenProps<RootStackParamList>,
+): StackNavigationOptions {
+  const {navigation} = props;
+  return {
     headerShown: true,
-    headerRight: props => (
-      <PlatformPressable
-        onPress={() => navigation.navigate('PromptSettings')}
-        pressColor={props.pressColor}
-        pressOpacity={props.pressOpacity}>
-        <Ionicons
-          name="settings-outline"
-          size={24}
-          color={props.tintColor}
-          style={styles.settingsIcon}
-        />
-      </PlatformPressable>
-    ),
+    headerRight: _props => {
+      const {pressColor, pressOpacity, tintColor} = _props;
+      return (
+        <PlatformPressable
+          onPress={() => navigation.navigate('PromptSettings')}
+          pressColor={pressColor}
+          pressOpacity={pressOpacity}>
+          <Ionicons
+            name="settings-outline"
+            size={24}
+            color={tintColor}
+            style={styles.settingsIcon}
+          />
+        </PlatformPressable>
+      );
+    },
   };
 }
 

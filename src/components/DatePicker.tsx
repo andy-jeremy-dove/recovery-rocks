@@ -77,10 +77,7 @@ const NumberText = variance(TextInput)(
       borderColor: theme.palette.borderSecondary,
 
       textAlign: 'center',
-      ...theme.text({
-        weight: '800',
-        name: 'time',
-      }),
+      ...theme.text('time'),
       color: theme.palette.textPrimary,
       fontSize: 53,
       lineHeight: 64,

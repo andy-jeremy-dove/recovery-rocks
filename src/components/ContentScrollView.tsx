@@ -41,7 +41,10 @@ export default function ContentScrollView(props: ContentScrollViewProps) {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={layoutStyles.root}>
-      <Content contentContainerStyle={_contentContainerStyle} {...rest}>
+      <Content
+        overScrollMode="never"
+        contentContainerStyle={_contentContainerStyle}
+        {...rest}>
         <SafeAreaView
           mode="padding"
           style={[layoutStyles.root, rootStyle]}

@@ -2,7 +2,7 @@ import {TextStyle} from 'react-native';
 
 import {Palette} from './Coloring';
 import {Theme} from './Theme';
-import {FontName, FontParams, FontWeight} from './Typography';
+import {FontName, FontWeight} from './Typography';
 
 export default class ThemeImpl implements Theme {
   constructor(
@@ -12,21 +12,18 @@ export default class ThemeImpl implements Theme {
   ) {}
 
   fontByWeight(_weight: FontWeight = 'normal'): TextStyle {
-    return this.text({weight: _weight});
+    const weight = translateWeight(_weight);
+    return weight === '400' ? this.text('base') : this.text('time');
   }
 
-  text(params?: FontParams): TextStyle {
-    const {name = 'base', weight: _weight = 'normal'} = params ?? {};
-    const weight = translateWeight(_weight);
-    return {fontFamily: this._fontsByName[name][weight]};
+  text(name: FontName = 'base'): TextStyle {
+    return {fontFamily: this._fontsByName[name]};
   }
 }
 
-export type FontsByName = Record<FontName, FontByWeight>;
+export type FontsByName = Record<FontName, string>;
 
 export type SupportedWeight = '400' | '800';
-
-export type FontByWeight = Record<SupportedWeight, string>;
 
 function translateWeight(weight: FontWeight): SupportedWeight {
   switch (weight) {

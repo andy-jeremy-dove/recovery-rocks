@@ -6,14 +6,9 @@ export interface Typography {
    * @param weight
    */
   fontByWeight(weight?: FontWeight): TextStyle;
-  text(params?: FontParams): TextStyle;
+  text(name?: FontName): TextStyle;
 }
 
-export type FontParams = {
-  name?: FontName;
-  weight?: FontWeight;
-};
-
-export type FontName = 'base' | 'time';
+export type FontName = 'base' | 'time' | 'quoteBody';
 
 export type FontWeight = NonNullable<TextStyle['fontWeight']>;

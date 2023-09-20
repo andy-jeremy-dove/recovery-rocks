@@ -85,10 +85,7 @@ const VALUE_LINE_HEIGHT = 90;
 const ValueText = flavor(Text)(theme => ({
   root: {
     textAlign: 'center',
-    ...theme.text({
-      weight: '800',
-      name: 'time',
-    }),
+    ...theme.text('time'),
     color: theme.palette.textPrimary,
     fontSize: VALUE_FONT_SIZE,
     lineHeight: VALUE_LINE_HEIGHT,
