@@ -5,6 +5,7 @@ import {memo, useCallback, useMemo, useState} from 'react';
 import {Pressable} from 'react-native';
 
 import {useStackNavigationState} from '../Navigation';
+import useNavigationRoute from '../Navigation/useNavigationRoute';
 import {anniversaries} from '../RecoveryRocks/anniversaries';
 import computeDailyAchievement from '../RecoveryRocks/computeDailyAchievement';
 import detectAnniversary from '../RecoveryRocks/detectAnniversary';
@@ -44,17 +45,16 @@ type ShowProgressStableBindingProps = Pick<
 function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
   const {navigation, routeKey} = props;
   const $state = useStackNavigationState(navigation);
+  const $route = useNavigationRoute<RootStackParamList, 'ShowProgress'>(
+    routeKey,
+    $state,
+  );
   const $tabKey = useMemo(
     () =>
-      narrow(
-        $state,
-        _ =>
-          tabMap[
-            _.routes.find(__ => __.key === routeKey)?.params?.tab ??
-              ProgressTab.Accumulative
-          ],
-      ),
-    [$state, routeKey],
+      narrow($route, _ => {
+        return tabMap[_.params?.tab ?? ProgressTab.Accumulative];
+      }),
+    [$route],
   );
   const setTabKey = useCallback(
     (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),

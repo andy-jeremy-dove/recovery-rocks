@@ -1,23 +1,24 @@
 import {Ionicons} from '@expo/vector-icons';
 import {PlatformPressable} from '@react-navigation/elements';
-import {useTheme} from '@react-navigation/native';
+import {useTheme as useNavigationTheme} from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationOptions,
   StackScreenProps,
   TransitionPresets,
 } from '@react-navigation/stack';
-import {useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 
 import {RootStackParamList} from './RootStackParamList';
 import PromptSettingsBinding from '../bindings/PromptSettingsBinding';
 import PromptSetupBinding from '../bindings/PromptSetupBinding';
+import ShowMeetingCardBinding from '../bindings/ShowMeetingCardBinding';
 import ShowProgressBinding from '../bindings/ShowProgressBinding';
 import ShowTopicBinding from '../bindings/ShowTopicBinding';
 
 export default function RootStack() {
-  const theme = useTheme();
+  const theme = useNavigationTheme();
   const options = useMemo<StackNavigationOptions>(() => {
     const tintColor = Platform.select({
       ios: theme.colors.primary,
@@ -33,6 +34,7 @@ export default function RootStack() {
       headerPressOpacity: 0.3,
     };
   }, [theme]);
+  const showMeetingCardOptions = useShowMeetingCardOptions();
 
   return (
     <Navigator
@@ -58,6 +60,11 @@ export default function RootStack() {
         name="ShowTopic"
         component={ShowTopicBinding}
         options={showTopicOptions}
+      />
+      <Screen
+        name="ShowMeetingCard"
+        component={ShowMeetingCardBinding}
+        options={showMeetingCardOptions}
       />
     </Navigator>
   );
@@ -87,6 +94,23 @@ function showTopicOptions(
     ...withSettingsButton(props),
     title: 'Тема для размышлений',
   };
+}
+
+function useShowMeetingCardOptions() {
+  return useCallback(
+    (
+      props: StackScreenProps<RootStackParamList, 'ShowMeetingCard'>,
+    ): StackNavigationOptions => ({
+      ...withSettingsButton(props),
+      title: 'Карточка собрания',
+      headerTintColor: '#fff',
+      headerPressColor: 'rgba(255, 255, 255, .32)',
+      headerBackgroundContainerStyle: {
+        backgroundColor: '#00000033',
+      },
+    }),
+    [],
+  );
 }
 
 function withSettingsButton(

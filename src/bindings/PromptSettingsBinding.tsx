@@ -3,6 +3,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
 import {useCallback, useState} from 'react';
 
+import {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
 import {RootStackParamList} from '../RootStack/RootStackParamList';
 import {Millisecond} from '../Time';
 import interval from '../Time/interval';
@@ -33,6 +34,12 @@ export default function PromptSettingsBinding(
     [navigation],
   );
   const $cards = useCards();
+  const onCardPress = useCallback(
+    (id: string) => {
+      navigation.navigate('ShowMeetingCard', {id: id as MeetingCardId});
+    },
+    [navigation],
+  );
   const headerHeight = useHeaderHeight();
   return (
     <PromptSettingsScreen
@@ -41,6 +48,7 @@ export default function PromptSettingsBinding(
       toggleSystemObedience={toggleSystemObedience}
       onSetupPress={onSetupPress}
       $cards={$cards}
+      onCardPress={onCardPress}
       compensateHeaderHeight={headerHeight}
     />
   );

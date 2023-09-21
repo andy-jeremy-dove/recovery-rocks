@@ -118,6 +118,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       PromptSetup: 'setup',
       PromptSettings: 'settings',
       ShowTopic: 'topic',
+      ShowMeetingCard: 'card/:id',
     },
   },
 };
