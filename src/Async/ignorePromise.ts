@@ -9,7 +9,7 @@ export default function ignorePromise<T>(
   }
   return Promise.race<T>([
     target,
-    new Promise(reject => {
+    new Promise<never>((_resolve, reject) => {
       function onAbort() {
         reject(signal?.reason ?? new IgnoranceError());
       }
