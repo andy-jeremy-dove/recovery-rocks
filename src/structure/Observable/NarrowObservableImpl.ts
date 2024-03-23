@@ -1,5 +1,6 @@
 import {Observable} from './Observable';
 import TranslatedObservableImpl from './TranslatedObservableImpl';
+import {Comparator} from '../../Comparator';
 import {Bus, UniqueBusImpl} from '../Bus';
 
 export default class NarrowObservableImpl<S, T>
@@ -9,10 +10,9 @@ export default class NarrowObservableImpl<S, T>
   public readonly updates: Bus<(_: T) => any>;
 
   constructor(
-    protected readonly _source: Observable<S>,
-    protected readonly _translate: (_: S) => T,
-    private readonly _areEqual: (one: T, another: T) => boolean = (a, b) =>
-      Object.is(a, b),
+    _source: Observable<S>,
+    _translate: (_: S) => T,
+    _areEqual: Comparator<T> = (a, b) => Object.is(a, b),
   ) {
     super(_source, _translate);
     this.updates = new UniqueBusImpl(

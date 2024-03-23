@@ -1,6 +1,7 @@
 import {Bus} from './Bus';
 import {BaseListener, BusLike} from './BusLike';
 import TranslatedBusImpl from './TranslatedBusImpl';
+import {Comparator, arrays} from '../../Comparator';
 
 /**
  * aka distinct until changed
@@ -13,17 +14,14 @@ export default class UniqueBusImpl<L extends BaseListener>
 
   constructor(
     current: Parameters<L>,
-    protected readonly _source: BusLike<L>,
-    private readonly _areEqual: (
-      one: Parameters<L>,
-      another: Parameters<L>,
-    ) => boolean = shallowCompare,
+    _source: BusLike<L>,
+    _areEqual: Comparator<Parameters<L>> = arrays,
   ) {
     super(
       _source,
       listener =>
         ((...args: Parameters<L>) => {
-          if (!this._areEqual(this._latest, args)) {
+          if (!_areEqual(this._latest, args)) {
             listener(...args);
           }
           this._latest = args;
@@ -31,16 +29,4 @@ export default class UniqueBusImpl<L extends BaseListener>
     );
     this._latest = current;
   }
-}
-
-function shallowCompare(a: unknown[], b: unknown[]) {
-  if (a.length !== b.length) {
-    return false;
-  }
-  for (let i = 0; i < a.length; i++) {
-    if (!Object.is(a[i], b[i])) {
-      return false;
-    }
-  }
-  return true;
 }
