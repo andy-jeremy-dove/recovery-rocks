@@ -3,7 +3,7 @@ import {Bus} from '../Bus';
 export interface Observable<T> {
   readonly [OBSERVABLE]: ObservableMetadata;
   peek(): T;
-  readonly updates: Bus<(_: T) => any>;
+  readonly updates: Bus<(_: T) => unknown>;
 }
 
 export type Peeked<T> = T extends Observable<infer X>

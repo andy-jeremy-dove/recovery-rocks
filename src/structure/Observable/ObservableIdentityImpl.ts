@@ -10,5 +10,5 @@ export default abstract class ObservableIdentityImpl
 
   abstract peek(): unknown;
 
-  abstract get updates(): Bus<(_: unknown) => any>;
+  abstract get updates(): Bus<(_: unknown) => unknown>;
 }

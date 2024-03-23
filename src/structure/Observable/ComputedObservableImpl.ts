@@ -1,7 +1,7 @@
 import {Observable} from './Observable';
 import ObservableIdentityImpl from './ObservableIdentityImpl';
 import {compute, harvest, ReactiveComputation} from './ReactiveComputation';
-import {BusImpl} from '../Bus';
+import {Bus, BusImpl} from '../Bus';
 
 export default class ComputedObservableImpl<T>
   extends ObservableIdentityImpl
@@ -37,14 +37,12 @@ export default class ComputedObservableImpl<T>
     return result;
   };
 
-  private readonly _updates = BusImpl.lazy(() => {
-    return {
-      onBeforeAnyListener: this._subscribe,
-      onAfterCompletelyForgot: this._cleanUp,
-    };
-  });
+  private readonly _updates = BusImpl.lazy<(_: T) => unknown>(() => ({
+    onBeforeAnyListener: this._subscribe,
+    onAfterCompletelyForgot: this._cleanUp,
+  }));
 
-  get updates() {
+  get updates(): Bus<(_: T) => unknown> {
     return this._updates;
   }
 }

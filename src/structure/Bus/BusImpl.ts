@@ -7,18 +7,22 @@ export default class BusImpl<L extends BaseListener>
   extends BaseBusImpl<L>
   implements Bus<L>
 {
+  public constructor() {
+    super();
+  }
+
   private _listeners = new DeferredCollectionImpl<ReadonlySet<L>, Set<L>>(
     new Set(),
     _ => new Set(_),
   );
-  private _onBeforeAnyListener?: () => any;
-  private _onAfterCompletelyForgot?: () => any;
+  private _onBeforeAnyListener?: () => unknown;
+  private _onAfterCompletelyForgot?: () => unknown;
 
   get isBeingListened(): boolean {
     return this._listeners.deferred.size > 0;
   }
 
-  send(...args: Parameters<L>) {
+  public send(...args: Parameters<L>) {
     this._listeners.guard(actual => {
       for (const listener of actual) {
         listener(...args);
@@ -41,11 +45,11 @@ export default class BusImpl<L extends BaseListener>
   }
 
   static lazy<L extends BaseListener>(executor: Executor<L>): BusImpl<L> {
-    const router = new BusImpl<L>();
-    const map = executor(router.send.bind(router));
-    router._onBeforeAnyListener = map.onBeforeAnyListener.bind(map);
-    router._onAfterCompletelyForgot = map.onAfterCompletelyForgot.bind(map);
-    return router;
+    const bus = new BusImpl<L>();
+    const map = executor(bus.send.bind(bus));
+    bus._onBeforeAnyListener = map.onBeforeAnyListener.bind(map);
+    bus._onAfterCompletelyForgot = map.onAfterCompletelyForgot.bind(map);
+    return bus;
   }
 }
 
@@ -54,6 +58,6 @@ export interface Executor<L extends BaseListener> {
 }
 
 export type LazyEventMap = {
-  onBeforeAnyListener: () => any;
-  onAfterCompletelyForgot: () => any;
+  onBeforeAnyListener: () => unknown;
+  onAfterCompletelyForgot: () => unknown;
 };

@@ -3,4 +3,4 @@ export interface BusLike<L extends BaseListener> {
   forget(listener: L): void;
 }
 
-export type BaseListener = (...args: any[]) => any;
+export type BaseListener = (...args: any[]) => unknown;
