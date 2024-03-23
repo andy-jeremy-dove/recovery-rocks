@@ -3,9 +3,9 @@ import {FinalizationError} from './errors';
 
 export default async function performWithAnySignal<T>(
   op: (signal?: AbortSignal) => Promise<T>,
-  ..._signals: (AbortSignal | undefined)[]
+  _signals: Iterable<AbortSignal | undefined>,
 ): Promise<T> {
-  const signals = compact(_signals);
+  const signals = [...compact(_signals)];
   if (signals.length <= 1) {
     const single = signals[0];
     return op(single);
@@ -14,7 +14,7 @@ export default async function performWithAnySignal<T>(
   const final = controller.signal;
   signals.push(final);
   try {
-    const composition = anySignal(...signals);
+    const composition = anySignal(signals);
     return await op(composition);
   } finally {
     // this abortion performs a cleanup for the anySignal function
@@ -22,6 +22,10 @@ export default async function performWithAnySignal<T>(
   }
 }
 
-function compact<T>(source: readonly (T | undefined)[]): T[] {
-  return source.filter(_ => _ !== undefined) as T[];
+function* compact<T>(source: Iterable<T | undefined>): IterableIterator<T> {
+  for (const element of source) {
+    if (element !== undefined) {
+      yield element;
+    }
+  }
 }
