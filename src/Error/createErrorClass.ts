@@ -6,7 +6,7 @@ export default function createErrorClass(
   name: string,
   options?: {
     message?: string;
-    base?: ErrorConstructor;
+    base?: BaseErrorConstructor;
   },
 ): BaseErrorConstructor {
   const BaseError = options?.base ?? Error;
