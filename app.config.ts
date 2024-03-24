@@ -7,6 +7,7 @@ const config: ExpoConfig = {
   version: '1.0.0',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
+  plugins: ['expo-font'],
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
