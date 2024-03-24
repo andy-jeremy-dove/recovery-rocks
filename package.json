@@ -23,6 +23,7 @@
     "@react-navigation/stack": "^6.3.17",
     "chroma-js": "^2.4.2",
     "dayjs": "^1.11.9",
+    "disposablestack": "^1.1.4",
     "expo": "~50.0.14",
     "expo-crypto": "^12.8.1",
     "expo-font": "~11.10.3",

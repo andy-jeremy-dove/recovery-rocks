@@ -1,5 +1,5 @@
+import 'disposablestack/auto';
 import 'react-native-gesture-handler';
-import './src/structure/Disposable/shim';
 import {Ionicons} from '@expo/vector-icons';
 import {Inter_400Regular, Inter_800ExtraBold} from '@expo-google-fonts/inter';
 import {

@@ -1,6 +1,5 @@
 import {Bus} from './Bus';
 import {BaseListener} from './BusLike';
-import {Disposable} from '../Disposable';
 
 export default abstract class BaseBusImpl<L extends BaseListener>
   implements Bus<L>
