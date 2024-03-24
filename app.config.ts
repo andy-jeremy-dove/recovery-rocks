@@ -21,7 +21,8 @@ const config: ExpoConfig = {
     translucent: true,
   },
   androidNavigationBar: {
-    backgroundColor: '#ffffff00',
+    visible: 'leanback',
+    backgroundColor: 'transparent',
   },
   android: {
     adaptiveIcon: {

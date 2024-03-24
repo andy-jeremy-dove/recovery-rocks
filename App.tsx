@@ -26,6 +26,7 @@ import {
   setButtonStyleAsync,
   setBackgroundColorAsync,
   setBorderColorAsync,
+  setVisibilityAsync,
 } from 'expo-navigation-bar';
 import {StatusBar} from 'expo-status-bar';
 import {useEffect, useMemo} from 'react';
@@ -58,6 +59,7 @@ export default function App() {
       Promise.all([
         setBehaviorAsync('inset-touch'),
         setPositionAsync('absolute'),
+        setVisibilityAsync('visible'),
       ]);
     }
   }, []);
