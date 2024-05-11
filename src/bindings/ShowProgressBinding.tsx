@@ -1,7 +1,9 @@
 import {useHeaderHeight} from '@react-navigation/elements';
 import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
-import {memo, useCallback, useMemo, useState} from 'react';
+import {observer} from 'mobx-react-lite';
+import {expr} from 'mobx-utils';
+import {useCallback, useMemo, useState} from 'react';
 import {Pressable} from 'react-native';
 
 import {useStackNavigationState} from '../Navigation';
@@ -18,7 +20,6 @@ import ShowProgressScreen, {
   AnniversaryAchievement,
   ProgressTabKey,
 } from '../screens/ShowProgressScreen';
-import {narrow} from '../structure';
 import turnOut from '../util/turnOut';
 
 export type ShowProgressBindingProps = StackScreenProps<
@@ -33,7 +34,7 @@ export default function ShowProgressBinding(props: ShowProgressBindingProps) {
   );
 }
 
-const ShowProgressStableBinding = memo(_ShowProgressStableBinding);
+const ShowProgressStableBinding = observer(_ShowProgressStableBinding);
 
 type ShowProgressStableBindingProps = Pick<
   ShowProgressBindingProps,
@@ -44,17 +45,15 @@ type ShowProgressStableBindingProps = Pick<
 
 function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
   const {navigation, routeKey} = props;
-  const $state = useStackNavigationState(navigation);
-  const $route = useNavigationRoute<RootStackParamList, 'ShowProgress'>(
+  const state = useStackNavigationState(navigation);
+  const getRoute = useNavigationRoute<RootStackParamList, 'ShowProgress'>(
     routeKey,
-    $state,
+    state,
   );
-  const $tabKey = useMemo(
+  const getTabKey = useCallback(
     () =>
-      narrow($route, _ => {
-        return tabMap[_.params?.tab ?? ProgressTab.Accumulative];
-      }),
-    [$route],
+      expr(() => tabMap[getRoute().params?.tab ?? ProgressTab.Accumulative]),
+    [getRoute],
   );
   const setTabKey = useCallback(
     (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
@@ -110,7 +109,7 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
       today={today}
       onTodayPress={showTopic}
       announcement={announcement}
-      $tabKey={$tabKey}
+      getTabKey={getTabKey}
       setTabKey={setTabKey}
       dailyAchievement={dailyAchievement}
       anniversaryAchievement={anniversaryAchievement}

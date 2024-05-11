@@ -1,18 +1,21 @@
-import {ParamListBase, StackNavigationState} from '@react-navigation/native';
+import {ParamListBase} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
-import StackNavigationStateObservableImpl from './StackNavigationStateObservableImpl';
-import {Observable} from '../structure';
+import {StackNavigationStateProvider} from './StackNavigationStateProvider';
+import StackNavigationStateProviderService from './StackNavigationStateProviderService';
 
 export default function useStackNavigationState<
   ParamList extends ParamListBase,
 >(
   navigation: StackNavigationProp<ParamList>,
-): Observable<StackNavigationState<ParamList>> {
+): StackNavigationStateProvider<ParamList> {
   const [observable] = useState(
-    () => new StackNavigationStateObservableImpl(navigation),
+    () => new StackNavigationStateProviderService(navigation),
   );
+  useEffect(() => {
+    return () => observable[Symbol.dispose]();
+  }, [observable]);
   observable.setNavigation(navigation);
   return observable;
 }

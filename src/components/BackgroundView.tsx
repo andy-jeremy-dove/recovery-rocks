@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react-lite';
 import {useId} from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import Svg, {
@@ -8,15 +9,15 @@ import Svg, {
   Stop,
 } from 'react-native-svg';
 
-import {OptionalObservable, useObservable} from '../structure';
+import {OptionalGetter, use} from '../mobx-toolbox';
 import {exponentialGradient} from '../styles';
 import {useTheme} from '../styling';
 
 export type BackgroundViewProps = {
-  $special?: OptionalObservable<boolean | undefined>;
+  getSpecial?: OptionalGetter<boolean | undefined>;
 };
 
-export default function BackgroundView(props: BackgroundViewProps) {
+export default observer(function BackgroundView(props: BackgroundViewProps) {
   const theme = useTheme();
   const baseId = useId();
   const gradientVisible =
@@ -59,11 +60,13 @@ export default function BackgroundView(props: BackgroundViewProps) {
       {specialGradientVisible && <SpecialGradientFragment {...props} />}
     </>
   );
-}
+});
 
-function SpecialGradientFragment(props: BackgroundViewProps) {
-  const {$special} = props;
-  const special = useObservable($special) ?? false;
+const SpecialGradientFragment = observer(function SpecialGradientFragment(
+  props: BackgroundViewProps,
+) {
+  const {getSpecial} = props;
+  const special = use(getSpecial) ?? false;
   return (
     special && (
       <>
@@ -86,7 +89,7 @@ function SpecialGradientFragment(props: BackgroundViewProps) {
       </>
     )
   );
-}
+});
 
 type SpecialGradientProps = {
   size: NumberProp;
@@ -95,7 +98,9 @@ type SpecialGradientProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-function SpecialGradient(props: SpecialGradientProps) {
+const SpecialGradient = observer(function SpecialGradient(
+  props: SpecialGradientProps,
+) {
   const {size, ratio, points, style} = props;
   const baseId = useId();
   const theme = useTheme();
@@ -124,7 +129,7 @@ function SpecialGradient(props: SpecialGradientProps) {
       <Rect width={size} height={size} fill={`url(#${baseId})`} />
     </Svg>
   );
-}
+});
 
 const GRADIENT_WIDTH = 350 * 2;
 const GRADIENT_HEIGHT = 450 * 2;

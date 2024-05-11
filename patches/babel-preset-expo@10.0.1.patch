@@ -1,0 +1,13 @@
+diff --git a/build/index.js b/build/index.js
+index 3a704258c77096f827a80e6d23e30062d1318047..91c17774562e5e3ccdbd3ed76abaf5772103e330 100644
+--- a/build/index.js
++++ b/build/index.js
+@@ -183,8 +183,6 @@ function babelPresetExpo(api, options = {}) {
+         ],
+         plugins: [
+             ...extraPlugins,
+-            // TODO: Remove
+-            [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
+             require.resolve('@babel/plugin-transform-export-namespace-from'),
+             // Automatically add `react-native-reanimated/plugin` when the package is installed.
+             // TODO: Move to be a customTransformOption.

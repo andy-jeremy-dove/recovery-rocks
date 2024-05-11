@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react-lite';
 import {useCallback, useMemo, useRef} from 'react';
 import {Pressable, StyleSheet, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -10,10 +11,10 @@ import {TIME_UNIT_VIEW_HEIGHT} from './TimeUnitView';
 import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
 import {createNullableContext, useForcedContext} from '../context';
 import {heavyImpact, lightImpact} from '../haptics/haptics';
-import {OptionalObservable, useObservable, narrow, peek} from '../structure';
+import {expr, OptionalGetter, use} from '../mobx-toolbox';
 
 export type DailyAchievementTabViewProps = {
-  $tabKey?: OptionalObservable<ProgressTabKey>;
+  getTabKey?: OptionalGetter<ProgressTabKey>;
   setTabKey?: (_: ProgressTabKey) => void;
   dailyAchievement: DailyAchievement;
   accretion?: boolean;
@@ -21,7 +22,7 @@ export type DailyAchievementTabViewProps = {
 
 export type ProgressTabKey = 'accumulative' | 'months' | 'days';
 
-export default function DailyAchievementTabView(
+export default observer(function DailyAchievementTabView(
   props: DailyAchievementTabViewProps,
 ) {
   const {dailyAchievement, accretion} = props;
@@ -42,111 +43,114 @@ export default function DailyAchievementTabView(
     );
   }
   return <ActualDailyAchievementTabView {...props} />;
-}
+});
 
-function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
-  const {$tabKey, setTabKey, dailyAchievement, accretion} = props;
+const ActualDailyAchievementTabView = observer(
+  function ActualDailyAchievementTabView(props: DailyAchievementTabViewProps) {
+    const {getTabKey, setTabKey, dailyAchievement, accretion} = props;
 
-  const insets = useSafeAreaInsets();
-  const layout = useWindowDimensions();
+    const insets = useSafeAreaInsets();
+    const layout = useWindowDimensions();
 
-  const routes = useMemo<DailyAchievementRoute[]>(
-    () => [
-      {
-        key: 'accumulative',
-        years: dailyAchievement.fullYearsReached,
-        months: dailyAchievement.fullMonthsAfterYearsReached,
-        days: dailyAchievement.fullDaysAfterMonthsReached,
+    const routes = useMemo<DailyAchievementRoute[]>(
+      () => [
+        {
+          key: 'accumulative',
+          years: dailyAchievement.fullYearsReached,
+          months: dailyAchievement.fullMonthsAfterYearsReached,
+          days: dailyAchievement.fullDaysAfterMonthsReached,
+        },
+        ...(dailyAchievement.fullMonthsReached !==
+        dailyAchievement.fullMonthsAfterYearsReached
+          ? [{key: 'months', months: dailyAchievement.fullMonthsReached}]
+          : []),
+        ...(dailyAchievement.fullDaysReached !==
+        dailyAchievement.fullDaysAfterMonthsReached
+          ? [{key: 'days', days: dailyAchievement.fullDaysReached}]
+          : []),
+      ],
+      [dailyAchievement],
+    );
+    const getIndex = useCallback(
+      () =>
+        expr(() => {
+          const tabKey = use(getTabKey);
+          if (tabKey === undefined) {
+            return 0;
+          }
+          const index = routes.findIndex(_ => _.key === tabKey);
+          return index === -1 ? 0 : index;
+        }),
+      [getTabKey, routes],
+    );
+    const index = use(getIndex);
+
+    const isSwipingRef = useRef(false);
+    const onSwipeStart = useCallback(async () => {
+      isSwipingRef.current = true;
+    }, []);
+    const onSwipeEnd = useCallback(async () => {
+      const wasSwiping = isSwipingRef.current;
+      isSwipingRef.current = false;
+      if (wasSwiping) {
+        heavyImpact();
+      }
+    }, []);
+    const onPress = useCallback(() => {
+      if (!isSwipingRef.current) {
+        const nextIndex = (use(getIndex) + 1) % routes.length;
+        setTabKey?.(routes[nextIndex].key as ProgressTabKey);
+      }
+    }, [getIndex, routes, setTabKey]);
+    const onPressOut = useCallback(() => {
+      if (!isSwipingRef.current) {
+        heavyImpact();
+      }
+    }, []);
+    const onIndexChange = useCallback(
+      (nextIndex: number) => {
+        setTabKey?.(routes[nextIndex].key as ProgressTabKey);
       },
-      ...(dailyAchievement.fullMonthsReached !==
-      dailyAchievement.fullMonthsAfterYearsReached
-        ? [{key: 'months', months: dailyAchievement.fullMonthsReached}]
-        : []),
-      ...(dailyAchievement.fullDaysReached !==
-      dailyAchievement.fullDaysAfterMonthsReached
-        ? [{key: 'days', days: dailyAchievement.fullDaysReached}]
-        : []),
-    ],
-    [dailyAchievement],
-  );
-  const $index = useMemo(
-    () =>
-      narrow($tabKey, tabKey => {
-        if (tabKey === undefined) {
-          return 0;
-        }
-        const index = routes.findIndex(_ => _.key === tabKey);
-        return index === -1 ? 0 : index;
+      [routes, setTabKey],
+    );
+
+    const tabsProps = useMemo(
+      () => ({
+        onPress,
+        onPressIn: lightImpact,
+        onPressOut,
+        accretion,
       }),
-    [$tabKey, routes],
-  );
-  const index = useObservable($index);
+      [onPress, onPressOut, accretion],
+    );
 
-  const isSwipingRef = useRef(false);
-  const onSwipeStart = useCallback(async () => {
-    isSwipingRef.current = true;
-  }, []);
-  const onSwipeEnd = useCallback(async () => {
-    const wasSwiping = isSwipingRef.current;
-    isSwipingRef.current = false;
-    if (wasSwiping) {
-      heavyImpact();
-    }
-  }, []);
-  const onPress = useCallback(() => {
-    if (!isSwipingRef.current) {
-      const nextIndex = (peek($index) + 1) % routes.length;
-      setTabKey?.(routes[nextIndex].key as ProgressTabKey);
-    }
-  }, [$index, routes, setTabKey]);
-  const onPressOut = useCallback(() => {
-    if (!isSwipingRef.current) {
-      heavyImpact();
-    }
-  }, []);
-  const onIndexChange = useCallback(
-    (nextIndex: number) => {
-      setTabKey?.(routes[nextIndex].key as ProgressTabKey);
-    },
-    [routes, setTabKey],
-  );
+    const width = layout.width - insets.left - insets.right;
+    const initialLayout = useMemo<Partial<Layout>>(
+      () => ({
+        width,
+        height: TIME_UNIT_VIEW_HEIGHT,
+      }),
+      [width],
+    );
 
-  const tabsProps = useMemo(
-    () => ({
-      onPress,
-      onPressIn: lightImpact,
-      onPressOut,
-      accretion,
-    }),
-    [onPress, onPressOut, accretion],
-  );
-
-  const width = layout.width - insets.left - insets.right;
-  const initialLayout = useMemo<Partial<Layout>>(
-    () => ({
-      width,
-      height: TIME_UNIT_VIEW_HEIGHT,
-    }),
-    [width],
-  );
-
-  return (
-    <TabsContext.Provider value={tabsProps}>
-      <TabView
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        onIndexChange={onIndexChange}
-        renderTabBar={renderNull}
-        style={layoutStyles.page}
-        pagerStyle={layoutStyles.page}
-        sceneContainerStyle={layoutStyles.page}
-        onSwipeStart={onSwipeStart}
-        onSwipeEnd={onSwipeEnd}
-        initialLayout={initialLayout}
-      />
-    </TabsContext.Provider>
-  );
-}
+    return (
+      <TabsContext.Provider value={tabsProps}>
+        <TabView
+          navigationState={{index, routes}}
+          renderScene={renderScene}
+          onIndexChange={onIndexChange}
+          renderTabBar={renderNull}
+          style={layoutStyles.page}
+          pagerStyle={layoutStyles.page}
+          sceneContainerStyle={layoutStyles.page}
+          onSwipeStart={onSwipeStart}
+          onSwipeEnd={onSwipeEnd}
+          initialLayout={initialLayout}
+        />
+      </TabsContext.Provider>
+    );
+  },
+);
 
 type DailyAchievementBindingProps = {
   route: DailyAchievementRoute;
@@ -160,7 +164,9 @@ type DailyAchievementProps = {
   years?: number;
 };
 
-function DailyAchievementBinding(props: DailyAchievementBindingProps) {
+const DailyAchievementBinding = observer(function DailyAchievementBinding(
+  props: DailyAchievementBindingProps,
+) {
   const {route} = props;
   const {days, months, years} = route;
   const {accretion, onPress, onPressIn, onPressOut} =
@@ -177,7 +183,7 @@ function DailyAchievementBinding(props: DailyAchievementBindingProps) {
       />
     </Pressable>
   );
-}
+});
 
 const renderScene = SceneMap({
   accumulative: DailyAchievementBinding,

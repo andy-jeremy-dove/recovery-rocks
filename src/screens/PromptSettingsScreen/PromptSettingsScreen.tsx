@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react-lite';
 import {useMemo} from 'react';
 import {StyleSheet, TextProps, View, ViewStyle} from 'react-native';
 
@@ -8,26 +9,26 @@ import BackgroundView from '../../components/BackgroundView';
 import BasicButtonText from '../../components/BasicButtonText';
 import ContentScrollView from '../../components/ContentScrollView';
 import DatePillText from '../../components/DatePillText';
-import {OptionalObservable, useObservable} from '../../structure';
+import {OptionalGetter, use} from '../../mobx-toolbox';
 import {fillSpace} from '../../styles';
 
 export type PromptSettingsScreenProps = {
-  $today: OptionalObservable<string>;
-  $doesObeySystem?: OptionalObservable<boolean | undefined>;
+  getToday: OptionalGetter<string>;
+  getDoesObeySystem?: OptionalGetter<boolean | undefined>;
   toggleSystemObedience?: () => void;
   onSetupPress?: () => void;
-  $cards: OptionalObservable<MeetingCard[] | null | undefined>;
+  getCards: OptionalGetter<MeetingCard[] | null | undefined>;
   onCardPress?: (id: string) => void;
   compensateHeaderHeight?: number;
 };
 
 export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
   const {
-    $today,
-    $doesObeySystem,
+    getToday,
+    getDoesObeySystem,
     toggleSystemObedience,
     onSetupPress,
-    $cards,
+    getCards,
     onCardPress,
     compensateHeaderHeight,
   } = props;
@@ -41,11 +42,11 @@ export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
       contentContainerStyle={contentContainerStyle}
       topIsCompensated={topIsCompensated}>
       <BackgroundView />
-      <TodayText style={layoutStyles.center} $today={$today} />
+      <TodayText style={layoutStyles.center} getToday={getToday} />
       <View style={layoutStyles.grow1} />
       <ThemeGroup
         style={layoutStyles.indent}
-        $doesObeySystem={$doesObeySystem}
+        getDoesObeySystem={getDoesObeySystem}
         toggleSystemObedience={toggleSystemObedience}
       />
       <View style={layoutStyles.grow1} />
@@ -57,7 +58,7 @@ export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
       <View style={layoutStyles.grow1} />
       <CardList
         style={layoutStyles.indent}
-        $cards={$cards}
+        getCards={getCards}
         onCardPress={onCardPress}
       />
       <View style={layoutStyles.grow1} />
@@ -76,11 +77,11 @@ const layoutStyles = StyleSheet.create({
 });
 
 type TodayTextProps = TextProps & {
-  $today: OptionalObservable<string>;
+  getToday: OptionalGetter<string>;
 };
 
-function TodayText(props: TodayTextProps) {
-  const {$today, ...rest} = props;
-  const today = useObservable($today);
+const TodayText = observer(function TodayText(props: TodayTextProps) {
+  const {getToday, ...rest} = props;
+  const today = use(getToday);
   return <DatePillText {...rest}>{today}</DatePillText>;
-}
+});

@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react-lite';
 import {useMemo} from 'react';
 import {
   StyleSheet,
@@ -14,18 +15,18 @@ import BasicButtonText, {
   BORDER_WIDTH,
 } from '../../components/BasicButtonText';
 import SkeletonBaseView from '../../components/SkeletonBaseView';
-import {OptionalObservable, useObservable} from '../../structure';
+import {OptionalGetter, use} from '../../mobx-toolbox';
 import {fillSpace} from '../../styles';
 import {variance} from '../../styling';
 
 export type CardListProps = ViewProps & {
-  $cards: OptionalObservable<MeetingCard[] | null | undefined>;
+  getCards: OptionalGetter<MeetingCard[] | null | undefined>;
   onCardPress?: (id: string) => void;
 };
 
-export default function CardList(props: CardListProps) {
-  const {$cards, onCardPress, style, ...rest} = props;
-  const cards = useObservable($cards);
+export default observer(function CardList(props: CardListProps) {
+  const {getCards, onCardPress, style, ...rest} = props;
+  const cards = use(getCards);
   if (cards === null) {
     return null;
   }
@@ -63,7 +64,7 @@ export default function CardList(props: CardListProps) {
       )}
     </View>
   );
-}
+});
 
 const layoutStyles = StyleSheet.create({
   cardList: {
@@ -118,7 +119,7 @@ export type CardListItemProps = ViewProps & {
   onCardPress?: (id: string) => void;
 };
 
-function CardListItem(props: CardListItemProps) {
+const CardListItem = observer(function CardListItem(props: CardListItemProps) {
   const {item, onCardPress} = props;
   const {id, textColor, backgroundColor, borderColor, title} = item;
   const onPress = useMemo(
@@ -138,7 +139,7 @@ function CardListItem(props: CardListItemProps) {
       {title}
     </MeetingCardText>
   );
-}
+});
 
 const PADDING_VERTICAL = 8;
 const LINE_HEIGHT = 18;

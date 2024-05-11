@@ -1,3 +1,3 @@
-export * from './StackNavigationStateObservable';
-export {default as StackNavigationStateObservableImpl} from './StackNavigationStateObservableImpl';
+export * from './StackNavigationStateProvider';
+export {default as StackNavigationStateProviderService} from './StackNavigationStateProviderService';
 export {default as useStackNavigationState} from './useStackNavigationState';

@@ -1,20 +1,21 @@
+import {observer} from 'mobx-react-lite';
 import {Pressable, StyleSheet, Text, View, ViewProps} from 'react-native';
 
 import LinkText from '../../components/LinkText';
-import {OptionalObservable, useObservable} from '../../structure';
+import {OptionalGetter, use} from '../../mobx-toolbox';
 import {ThemeProvider, variance} from '../../styling';
 import classicTheme from '../../styling/Theme/classicTheme';
 import darkTheme from '../../styling/Theme/darkTheme';
 import lightTheme from '../../styling/Theme/lightTheme';
 
 export type ThemeGroupProps = ViewProps & {
-  $doesObeySystem?: OptionalObservable<boolean | undefined>;
+  getDoesObeySystem?: OptionalGetter<boolean | undefined>;
   toggleSystemObedience?: () => void;
 };
 
-export default function ThemeGroup(props: ThemeGroupProps) {
-  const {$doesObeySystem, toggleSystemObedience, style, ...rest} = props;
-  const doesObeySystem = useObservable($doesObeySystem);
+export default observer(function ThemeGroup(props: ThemeGroupProps) {
+  const {getDoesObeySystem, toggleSystemObedience, style, ...rest} = props;
+  const doesObeySystem = use(getDoesObeySystem);
   return (
     <View style={[layoutStyles.themeGroup, style]} {...rest}>
       <Pressable onPress={toggleSystemObedience}>
@@ -53,7 +54,7 @@ export default function ThemeGroup(props: ThemeGroupProps) {
       </View>
     </View>
   );
-}
+});
 
 const THEME_SELECTION_WIDTH = 8;
 

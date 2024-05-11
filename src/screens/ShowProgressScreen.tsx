@@ -1,4 +1,5 @@
-import {ReactNode, useMemo} from 'react';
+import {observer} from 'mobx-react-lite';
+import {ReactNode, useCallback, useMemo} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -21,7 +22,7 @@ import DatePillText from '../components/DatePillText';
 import LogoView from '../components/LogoView';
 import SkeletonBaseView from '../components/SkeletonBaseView';
 import {TIME_UNIT_VIEW_HEIGHT, TimeUnit} from '../components/TimeUnitView';
-import {narrow, OptionalObservable} from '../structure';
+import {OptionalGetter, expr, use} from '../mobx-toolbox';
 import {fillSpace, textSkeleton} from '../styles';
 import {variance} from '../styling';
 
@@ -31,7 +32,7 @@ export type ShowProgressScreenProps = {
   today: string;
   onTodayPress?: () => void;
   announcement?: string | ReactNode;
-  $tabKey?: OptionalObservable<ProgressTabKey>;
+  getTabKey?: OptionalGetter<ProgressTabKey>;
   setTabKey?: (_: ProgressTabKey) => void;
   dailyAchievement?: DailyAchievement | null;
   anniversaryAchievement?: AnniversaryAchievement | null;
@@ -51,12 +52,14 @@ export type AnniversaryAchievement = {
   nextUnit?: TimeUnit;
 };
 
-export default function ShowProgressScreen(props: ShowProgressScreenProps) {
+export default observer(function ShowProgressScreen(
+  props: ShowProgressScreenProps,
+) {
   const {
     today,
     onTodayPress,
     announcement,
-    $tabKey,
+    getTabKey,
     setTabKey,
     dailyAchievement,
     anniversaryAchievement,
@@ -74,15 +77,15 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
     [compensateHeaderHeight],
   );
   const topIsCompensated = compensateHeaderHeight !== undefined;
-  const $special = useMemo(
-    () => narrow(anniversaryAchievement, _ => !!_),
+  const getSpecial = useCallback(
+    () => expr(() => !!use(anniversaryAchievement)),
     [anniversaryAchievement],
   );
   return (
     <ContentScrollView
       contentContainerStyle={contentContainerStyle}
       topIsCompensated={topIsCompensated}>
-      <BackgroundView $special={$special} />
+      <BackgroundView getSpecial={getSpecial} />
       <DatePillText style={layoutStyles.center} onPress={onTodayPress}>
         {today}
       </DatePillText>
@@ -109,7 +112,7 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
       {dailyAchievement && !anniversaryAchievement && (
         <View style={[layoutStyles.indent, layoutStyles.pageRoot]}>
           <DailyAchievementTabView
-            $tabKey={$tabKey}
+            getTabKey={getTabKey}
             setTabKey={setTabKey}
             dailyAchievement={dailyAchievement}
             accretion={accretion}
@@ -154,7 +157,7 @@ export default function ShowProgressScreen(props: ShowProgressScreenProps) {
       <View style={layoutStyles.grow2} />
     </ContentScrollView>
   );
-}
+});
 
 const WIDTH = 300;
 

@@ -1,8 +1,9 @@
-import IntervalObservableImpl from './IntervalObservableImpl';
+import {now} from 'mobx-utils';
+
 import {Millisecond} from './units';
 
 export default function interval(
   coarsening = 1000 as Millisecond, // a second
-) {
-  return new IntervalObservableImpl(coarsening);
+): () => Millisecond {
+  return () => now(coarsening) as Millisecond;
 }

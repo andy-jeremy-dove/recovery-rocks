@@ -1,12 +1,13 @@
-import {ParamListBase, StackNavigationState} from '@react-navigation/native';
+import {ParamListBase} from '@react-navigation/native';
 import {
   NavigationState,
   PartialState,
   Route,
 } from '@react-navigation/routers/src/types';
-import {useMemo} from 'react';
+import {useCallback} from 'react';
 
-import {narrow, Observable} from '../structure';
+import {StackNavigationStateProvider} from './StackNavigationStateProvider';
+import {expr} from '../mobx-toolbox';
 
 export type NavigationRoute<
   ParamList extends ParamListBase,
@@ -20,14 +21,16 @@ export default function useNavigationRoute<
   RouteName extends keyof ParamList,
 >(
   routeKey: string,
-  $state: Observable<StackNavigationState<ParamList>>,
-): Observable<NavigationRoute<ParamList, RouteName>> {
-  return useMemo(
+  provider: StackNavigationStateProvider<ParamList>,
+): () => NavigationRoute<ParamList, RouteName> {
+  return useCallback(
     () =>
-      narrow($state, _ => {
-        const currentRoute = _.routes.find(__ => __.key === routeKey);
+      expr(() => {
+        const currentRoute = provider.state.routes.find(
+          _ => _.key === routeKey,
+        );
         return currentRoute as NavigationRoute<ParamList, RouteName>;
       }),
-    [$state, routeKey],
+    [provider, routeKey],
   );
 }

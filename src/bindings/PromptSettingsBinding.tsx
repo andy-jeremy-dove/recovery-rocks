@@ -1,6 +1,9 @@
 import {useHeaderHeight} from '@react-navigation/elements';
 import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
+import {runInAction} from 'mobx';
+import {observer} from 'mobx-react-lite';
+import {expr} from 'mobx-utils';
 import {useCallback, useState} from 'react';
 
 import {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
@@ -11,20 +14,19 @@ import {
   PromptSettingsScreen,
   MeetingCard,
 } from '../screens/PromptSettingsScreen';
-import {computed, Observable} from '../structure';
 
 export type PromptSettingsBindingProps = StackScreenProps<
   RootStackParamList,
   'PromptSettings'
 >;
 
-export default function PromptSettingsBinding(
+export default observer(function PromptSettingsBinding(
   props: PromptSettingsBindingProps,
 ) {
   const {navigation} = props;
   const [$now] = useState(() => dayjs());
-  const today = $now.format('D MMMM YYYY').toLowerCase();
-  const [doesObeySystem, setSystemObedience] = useState(false);
+  const getToday = $now.format('D MMMM YYYY').toLowerCase();
+  const [getDoesObeySystem, setSystemObedience] = useState(false);
   const toggleSystemObedience = useCallback(
     () => setSystemObedience(_ => !_),
     [],
@@ -33,7 +35,7 @@ export default function PromptSettingsBinding(
     () => navigation.navigate('PromptSetup'),
     [navigation],
   );
-  const $cards = useCards();
+  const getCards = useCards();
   const onCardPress = useCallback(
     (id: string) => {
       navigation.navigate('ShowMeetingCard', {id: id as MeetingCardId});
@@ -43,31 +45,33 @@ export default function PromptSettingsBinding(
   const headerHeight = useHeaderHeight();
   return (
     <PromptSettingsScreen
-      $today={today}
-      $doesObeySystem={doesObeySystem}
+      getToday={getToday}
+      getDoesObeySystem={getDoesObeySystem}
       toggleSystemObedience={toggleSystemObedience}
       onSetupPress={onSetupPress}
-      $cards={$cards}
+      getCards={getCards}
       onCardPress={onCardPress}
       compensateHeaderHeight={headerHeight}
     />
   );
-}
+});
 
 function useCards(
   delay = 3000 as Millisecond,
-): Observable<MeetingCard[] | null | undefined> {
-  const [$interval] = useState(() => interval(delay));
-  const [_start] = useState(() => $interval.peek());
-  const [$cards] = useState(() =>
-    computed((use, drop) => {
-      if (use($interval) - _start >= delay) {
-        drop($interval);
-        return cards;
-      }
-    }),
+): () => MeetingCard[] | null | undefined {
+  const [getCurrent] = useState(() => interval(delay));
+  const [_start] = useState(() => getCurrent());
+  return useCallback(
+    () =>
+      expr(() => {
+        const current = runInAction(getCurrent);
+        if (current - _start >= delay) {
+          return cards;
+        }
+        getCurrent();
+      }),
+    [_start, delay, getCurrent],
   );
-  return $cards;
 }
 
 const cards: MeetingCard[] = [
