@@ -36,6 +36,7 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import 'dayjs/locale/ru';
+import './global.css';
 
 import app from './app.config';
 import RootStack from './src/RootStack/RootStack';

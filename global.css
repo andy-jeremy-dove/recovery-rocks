@@ -1,0 +1,11 @@
+[data-scroll-snap-type='x mandatory'] {
+  scroll-snap-type: x mandatory;
+}
+
+[data-scroll-snap-stop='always'] {
+  scroll-snap-stop: always;
+}
+
+[data-scroll-snap-align='start'] {
+  scroll-snap-align: start;
+}

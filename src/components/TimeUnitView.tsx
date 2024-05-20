@@ -147,9 +147,6 @@ function scaledText(
   };
 }
 
-export const TIME_UNIT_VIEW_HEIGHT =
-  VALUE_LINE_HEIGHT + UNIT_MARGIN_TOP + UNIT_LINE_HEIGHT;
-
 const dayByCategory = {
   one: 'день',
   few: 'дня',

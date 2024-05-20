@@ -2,7 +2,6 @@ import {useHeaderHeight} from '@react-navigation/elements';
 import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
 import {observer} from 'mobx-react-lite';
-import {expr} from 'mobx-utils';
 import {useCallback, useMemo, useState} from 'react';
 import {Pressable} from 'react-native';
 
@@ -16,6 +15,7 @@ import {Millisecond} from '../Time';
 import AnnouncementText from '../components/AnnouncementText';
 import LinkText from '../components/LinkText';
 import {TimeUnit} from '../components/TimeUnitView';
+import {expr} from '../mobx-toolbox';
 import ShowProgressScreen, {
   AnniversaryAchievement,
   ProgressTabKey,
@@ -45,10 +45,10 @@ type ShowProgressStableBindingProps = Pick<
 
 function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
   const {navigation, routeKey} = props;
-  const state = useStackNavigationState(navigation);
+  const provider = useStackNavigationState(navigation);
   const getRoute = useNavigationRoute<RootStackParamList, 'ShowProgress'>(
     routeKey,
-    state,
+    provider,
   );
   const getTabKey = useCallback(
     () =>

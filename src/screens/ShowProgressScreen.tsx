@@ -15,13 +15,14 @@ import AnniversaryAchievementView from '../components/AnniversaryAchievementView
 import AnnouncementText from '../components/AnnouncementText';
 import BackgroundView from '../components/BackgroundView';
 import ContentScrollView from '../components/ContentScrollView';
-import DailyAchievementTabView, {
+import {
+  DailyAchievementTabView,
   ProgressTabKey,
 } from '../components/DailyAchievementTabView';
 import DatePillText from '../components/DatePillText';
 import LogoView from '../components/LogoView';
 import SkeletonBaseView from '../components/SkeletonBaseView';
-import {TIME_UNIT_VIEW_HEIGHT, TimeUnit} from '../components/TimeUnitView';
+import {TimeUnit} from '../components/TimeUnitView';
 import {OptionalGetter, expr, use} from '../mobx-toolbox';
 import {fillSpace, textSkeleton} from '../styles';
 import {variance} from '../styling';
@@ -110,14 +111,13 @@ export default observer(function ShowProgressScreen(
         </View>
       )}
       {dailyAchievement && !anniversaryAchievement && (
-        <View style={[layoutStyles.indent, layoutStyles.pageRoot]}>
-          <DailyAchievementTabView
-            getTabKey={getTabKey}
-            setTabKey={setTabKey}
-            dailyAchievement={dailyAchievement}
-            accretion={accretion}
-          />
-        </View>
+        <DailyAchievementTabView
+          style={layoutStyles.indent}
+          getTabKey={getTabKey}
+          setTabKey={setTabKey}
+          dailyAchievement={dailyAchievement}
+          accretion={accretion}
+        />
       )}
       {anniversaryAchievement && (
         <AnniversaryAchievementView
@@ -176,9 +176,6 @@ const layoutStyles = StyleSheet.create({
   announcement: {
     width: WIDTH,
     alignSelf: 'center',
-  },
-  pageRoot: {
-    height: TIME_UNIT_VIEW_HEIGHT,
   },
   logo: {
     alignSelf: 'center',

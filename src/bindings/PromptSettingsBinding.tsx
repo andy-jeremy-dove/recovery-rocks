@@ -3,13 +3,13 @@ import {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
 import {runInAction} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import {expr} from 'mobx-utils';
 import {useCallback, useState} from 'react';
 
 import {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
 import {RootStackParamList} from '../RootStack/RootStackParamList';
 import {Millisecond} from '../Time';
 import interval from '../Time/interval';
+import {expr} from '../mobx-toolbox';
 import {
   PromptSettingsScreen,
   MeetingCard,
