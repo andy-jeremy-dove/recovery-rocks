@@ -41,10 +41,7 @@ export default function ContentScrollView(props: ContentScrollViewProps) {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={layoutStyles.root}>
-      <Content
-        overScrollMode="never"
-        contentContainerStyle={_contentContainerStyle}
-        {...rest}>
+      <Content contentContainerStyle={_contentContainerStyle} {...rest}>
         <SafeAreaView
           mode="padding"
           style={[layoutStyles.root, rootStyle]}
@@ -74,7 +71,14 @@ const Content = variance(ScrollView)(
       backgroundColor: theme.palette.background,
     },
   }),
-  (_theme): ScrollViewProps => ({
+  (theme): ScrollViewProps => ({
+    alwaysBounceVertical: false,
+    automaticallyAdjustContentInsets: false,
+    automaticallyAdjustKeyboardInsets: false,
+    contentInsetAdjustmentBehavior: 'never',
+    indicatorStyle: theme.isDark ? 'white' : 'black',
+    pinchGestureEnabled: false,
+    overScrollMode: 'never',
     keyboardShouldPersistTaps: 'handled',
   }),
 );
