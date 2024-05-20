@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 
 import DailyAchievementView from '../DailyAchievementView';
 
@@ -29,6 +29,7 @@ export default observer(function DailyAchievementBinding(
     <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
       <DailyAchievementView
         pointerEvents="box-only"
+        style={styles.root}
         days={days}
         months={months}
         years={years}
@@ -36,4 +37,10 @@ export default observer(function DailyAchievementBinding(
       />
     </Pressable>
   );
+});
+
+const styles = StyleSheet.create({
+  root: {
+    pointerEvents: 'box-only',
+  },
 });

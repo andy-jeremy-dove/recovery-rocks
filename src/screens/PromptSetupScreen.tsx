@@ -6,7 +6,6 @@ import {
   Text,
   TextInput,
   TextInputProps,
-  TextProps,
   View,
   ViewStyle,
 } from 'react-native';
@@ -145,25 +144,20 @@ const datePickerStyle = [
   layoutStyles.wider,
 ];
 
-const FieldTitle = variance(Text)(
-  theme => ({
-    root: {
-      marginVertical: 8,
-      textAlign: 'center',
-      ...theme.fontByWeight('400'),
-      color: theme.palette.textPrimary,
-      fontSize: 20,
-      lineHeight: 26,
-      userSelect: 'none',
-    },
-    secondary: {
-      color: theme.palette.textSecondary,
-    },
-  }),
-  (): TextProps => ({
-    selectable: false,
-  }),
-);
+const FieldTitle = variance(Text)(theme => ({
+  root: {
+    marginVertical: 8,
+    textAlign: 'center',
+    ...theme.fontByWeight('400'),
+    color: theme.palette.textPrimary,
+    fontSize: 20,
+    lineHeight: 26,
+    userSelect: 'none',
+  },
+  secondary: {
+    color: theme.palette.textSecondary,
+  },
+}));
 
 const NameInput = variance(TextInput)(
   theme => ({

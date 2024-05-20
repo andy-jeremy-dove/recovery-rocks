@@ -1,5 +1,5 @@
 import {ComponentProps} from 'react';
-import {ViewProps, ViewStyle} from 'react-native';
+import {Platform, ViewProps, ViewStyle} from 'react-native';
 import {
   AnimatableComponent,
   CustomAnimation,
@@ -19,7 +19,7 @@ export default variance(AnimatableView)(
     animation: fadeInOut,
     duration: 2000,
     iterationCount: 'infinite',
-    useNativeDriver: true,
+    useNativeDriver: Platform.OS !== 'web',
   }),
 );
 

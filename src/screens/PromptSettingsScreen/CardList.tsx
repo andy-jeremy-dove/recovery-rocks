@@ -99,7 +99,6 @@ const CardsHeader = variance(Text)(
   }),
   (): TextProps => ({
     role: 'heading',
-    accessibilityRole: 'header',
   }),
 );
 

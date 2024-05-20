@@ -75,7 +75,6 @@ const GenderPickerEntry = variance(Text)(
   }),
   (): TextProps => ({
     role: 'radio',
-    selectable: false,
     accessible: true,
     suppressHighlighting: true,
   }),
