@@ -73,14 +73,15 @@ export default observer(function ActualDailyAchievementTabView(
         () => [scrollRef.current, getContentWidth(), getIndex()] as const,
         (current, previous) => {
           const [scroll, width, index] = current;
-          const offset = getOffset() ?? 0;
-          if (scroll === null || width === undefined) {
+          // the width can be zero on web when the screen loses focus
+          if (scroll === null || width === undefined || width === 0) {
             return;
           }
-          const [_scroll, _width] = previous ?? [];
 
+          const offset = getOffset() ?? 0;
           if (index !== getVisibleIndex(offset, width, slideCount)) {
             const x = (index * width) / slideCount;
+            const [_scroll, _width] = previous ?? [];
             const layoutRemainsTheSame =
               Object.is(scroll, _scroll) && Object.is(width, _width);
             scroll.scrollTo({x, animated: layoutRemainsTheSame});
