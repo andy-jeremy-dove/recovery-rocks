@@ -5,7 +5,10 @@ import {observer} from 'mobx-react-lite';
 import {useCallback, useMemo, useState} from 'react';
 import {Pressable} from 'react-native';
 
-import {useStackNavigationState} from '../Navigation';
+import {
+  useStackNavigationState,
+  useNavigationGetIsFocused,
+} from '../Navigation';
 import useNavigationRoute from '../Navigation/useNavigationRoute';
 import {anniversaries} from '../RecoveryRocks/anniversaries';
 import computeDailyAchievement from '../RecoveryRocks/computeDailyAchievement';
@@ -46,6 +49,7 @@ type ShowProgressStableBindingProps = Pick<
 function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
   const {navigation, routeKey} = props;
   const provider = useStackNavigationState(navigation);
+  const getIsFocused = useNavigationGetIsFocused(routeKey, provider);
   const getRoute = useNavigationRoute<RootStackParamList, 'ShowProgress'>(
     routeKey,
     provider,
@@ -111,6 +115,7 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
       announcement={announcement}
       getTabKey={getTabKey}
       setTabKey={setTabKey}
+      getIsFocused={getIsFocused}
       dailyAchievement={dailyAchievement}
       anniversaryAchievement={anniversaryAchievement}
       congratulation="Сегодня юбилей!"

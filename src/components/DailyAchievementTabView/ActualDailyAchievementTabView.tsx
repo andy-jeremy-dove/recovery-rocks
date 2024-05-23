@@ -17,11 +17,19 @@ import useScrollEndEffect from './useScrollEndEffect';
 import useSlides from './useSlides';
 import {lightImpact} from '../../haptics';
 import {useObservableRef} from '../../mobx-react-toolbox';
+import {use} from '../../mobx-toolbox';
 
 export default observer(function ActualDailyAchievementTabView(
   props: DailyAchievementTabViewProps,
 ) {
-  const {getTabKey, setTabKey, dailyAchievement, accretion, ...rest} = props;
+  const {
+    getTabKey,
+    setTabKey,
+    getIsFocused,
+    dailyAchievement,
+    accretion,
+    ...rest
+  } = props;
 
   const [slides, getIndex, setIndex] = useSlides(
     dailyAchievement,
@@ -58,6 +66,17 @@ export default observer(function ActualDailyAchievementTabView(
       processFinalOffset(event.nativeEvent.contentOffset.x);
     },
     [processFinalOffset],
+  );
+
+  const onMomentumScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (Platform.OS === 'ios' && use(getIsFocused) === false) {
+        // avoid iOS bug
+        return;
+      }
+      onScrollEnd(event);
+    },
+    [getIsFocused, onScrollEnd],
   );
 
   const onPress = useCallback(
@@ -101,7 +120,7 @@ export default observer(function ActualDailyAchievementTabView(
       onPressIn={Platform.OS === 'ios' ? lightImpact : undefined}
       accretion={accretion}
       onScrollEndDrag={onScrollEnd}
-      onMomentumScrollEnd={onScrollEnd}
+      onMomentumScrollEnd={onMomentumScrollEnd}
       onContentSizeChange={onContentSizeChange}
       {...rest}
     />

@@ -35,6 +35,7 @@ export type ShowProgressScreenProps = {
   announcement?: string | ReactNode;
   getTabKey?: OptionalGetter<ProgressTabKey>;
   setTabKey?: (_: ProgressTabKey) => void;
+  getIsFocused?: OptionalGetter<boolean>;
   dailyAchievement?: DailyAchievement | null;
   anniversaryAchievement?: AnniversaryAchievement | null;
   congratulation?: string;
@@ -62,6 +63,7 @@ export default observer(function ShowProgressScreen(
     announcement,
     getTabKey,
     setTabKey,
+    getIsFocused,
     dailyAchievement,
     anniversaryAchievement,
     congratulation,
@@ -115,6 +117,7 @@ export default observer(function ShowProgressScreen(
           style={layoutStyles.indent}
           getTabKey={getTabKey}
           setTabKey={setTabKey}
+          getIsFocused={getIsFocused}
           dailyAchievement={dailyAchievement}
           accretion={accretion}
         />
