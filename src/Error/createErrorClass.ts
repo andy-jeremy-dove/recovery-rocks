@@ -15,8 +15,13 @@ export default function createErrorClass(
       constructor(...args: ConstructorParameters<ErrorConstructor>) {
         const [_message = options?.message, ...rest] = args;
         super(_message, ...rest);
-        Object.setPrototypeOf(this, new.target.prototype);
+        if ('captureStackTrace' in Error) {
+          // Available on v8 only
+          Error.captureStackTrace(this, new.target);
+        }
         this.name = name;
+        // some compilers fail to extend built-in classes properly
+        Object.setPrototypeOf(this, new.target.prototype);
       }
     },
   }[name];

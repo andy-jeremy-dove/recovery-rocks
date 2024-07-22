@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {AbstractKeyValueMap, KeyValueStorage} from './KeyValueStorage';
-import {BaseAsyncOptions, throwIfAborted, ignorePromise} from '../Async';
+import type {BaseAsyncOptions} from '../Async';
+import {ignorePromise, throwIfAborted} from '../Async';
+import type {AbstractKeyValueMap, KeyValueStorage} from './KeyValueStorage';
 
 export default class KeyValueStorageImpl<
   KV extends AbstractKeyValueMap = AbstractKeyValueMap,

@@ -1,9 +1,9 @@
-import {AbortedAbortSignal} from './DeterminedAbortSignal';
+import type {AbortedAbortSignal} from './DeterminedAbortSignal';
 
 export default function createAbortedSignal(
   reason?: unknown,
 ): AbortedAbortSignal {
-  if (AbortSignal.abort) {
+  if ('abort' in AbortSignal) {
     return AbortSignal.abort(reason) as AbortedAbortSignal;
   }
   const controller = new AbortController();

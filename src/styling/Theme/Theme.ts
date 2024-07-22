@@ -1,4 +1,4 @@
-import {Coloring} from './Coloring';
-import {Typography} from './Typography';
+import type {Coloring} from './Coloring';
+import type {Typography} from './Typography';
 
 export interface Theme extends Coloring, Typography {}

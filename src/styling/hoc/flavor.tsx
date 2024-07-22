@@ -1,14 +1,16 @@
-import React, {
+import type {
   ForwardRefExoticComponent,
   PropsWithoutRef,
   RefAttributes,
 } from 'react';
+import type React from 'react';
 import {isValidElementType} from 'react-is';
-import {StyleProp} from 'react-native';
+import type {StyleProp} from 'react-native';
 
-import {StyleType} from './StyleType';
-import deferFlavor, {FlavorConfig, Override, Stylable} from './deferFlavor';
-import {Theme} from '../Theme';
+import type {Theme} from '../Theme';
+import type {FlavorConfig, Override, Stylable} from './deferFlavor';
+import deferFlavor from './deferFlavor';
+import type {StyleType} from './StyleType';
 
 function flavor<ComponentType extends Stylable>(
   config?: FlavorConfig<ComponentType>,

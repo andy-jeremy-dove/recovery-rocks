@@ -1,6 +1,7 @@
-import React, {PropsWithChildren} from 'react';
+import type {PropsWithChildren} from 'react';
+import React from 'react';
 
-import {Theme} from './Theme';
+import type {Theme} from './Theme';
 import ThemeContext from './ThemeContext';
 
 type ThemeProviderProps = {

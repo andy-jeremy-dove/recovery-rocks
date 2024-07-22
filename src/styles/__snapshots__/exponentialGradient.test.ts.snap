@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`computes exponential gradient of 2 interim points 1`] = `
+[
+  {
+    "color": "#0068C8",
+    "offset": 0,
+    "opacity": 1,
+  },
+  {
+    "color": "#165ab2",
+    "offset": 0.35,
+    "opacity": 0.6666666666666667,
+  },
+  {
+    "color": "#1f4998",
+    "offset": 0.5774999999999999,
+    "opacity": 0.33333333333333337,
+  },
+  {
+    "color": "#263379",
+    "offset": 1,
+    "opacity": 0,
+  },
+]
+`;
+
+exports[`computes exponential gradient of 3 interim points 1`] = `
+[
+  {
+    "color": "#0068C8",
+    "offset": 0,
+    "opacity": 1,
+  },
+  {
+    "color": "#135eb7",
+    "offset": 0.30000000000000004,
+    "opacity": 0.75,
+  },
+  {
+    "color": "#1b52a5",
+    "offset": 0.51,
+    "opacity": 0.5,
+  },
+  {
+    "color": "#214491",
+    "offset": 0.657,
+    "opacity": 0.25,
+  },
+  {
+    "color": "#263379",
+    "offset": 1,
+    "opacity": 0,
+  },
+]
+`;

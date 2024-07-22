@@ -1,5 +1,5 @@
-import {Time} from './Time';
-import {Millisecond} from './units';
+import type {Time} from './Time';
+import type {Millisecond} from './units';
 
 export default class TimeImpl implements Time {
   now() {

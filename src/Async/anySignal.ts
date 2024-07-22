@@ -20,14 +20,17 @@ export default function anySignal(
   for (const signal of signals) {
     signal.addEventListener('abort', onAbort, {once: true});
   }
+
   function onAbort() {
-    controller.abort(signals.find(_ => _.aborted)!.reason);
+    controller.abort(signals.find(_ => _.aborted)?.reason);
     cleanup();
   }
+
   function cleanup() {
     for (const signal of signals) {
       signal.removeEventListener('abort', onAbort);
     }
   }
+
   return controller.signal;
 }

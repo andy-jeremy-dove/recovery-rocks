@@ -1,23 +1,23 @@
 import {reaction} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import React, {useCallback, useLayoutEffect} from 'react';
-import {
+import type {
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Platform,
   ScrollView,
 } from 'react-native';
+import {Platform} from 'react-native';
 
+import {lightImpact} from '../../haptics';
+import {useObservableRef} from '../../mobx-react-toolbox';
+import {use} from '../../mobx-toolbox';
 import CarouselScrollView from './CarouselScrollView';
-import {DailyAchievementTabViewProps} from './DailyAchievementTabViewProps';
+import type {DailyAchievementTabViewProps} from './DailyAchievementTabViewProps';
 import getVisibleIndex from './getVisibleIndex';
 import useGetContentWidth from './useGetContentWidth';
 import useGetOffset from './useGetOffset';
 import useScrollEndEffect from './useScrollEndEffect';
 import useSlides from './useSlides';
-import {lightImpact} from '../../haptics';
-import {useObservableRef} from '../../mobx-react-toolbox';
-import {use} from '../../mobx-toolbox';
 
 export default observer(function ActualDailyAchievementTabView(
   props: DailyAchievementTabViewProps,
@@ -54,7 +54,7 @@ export default observer(function ActualDailyAchievementTabView(
       if (isExactlyAtSnappingPoint) {
         setIndex(index);
         if (Platform.OS === 'ios') {
-          lightImpact();
+          lightImpactIfPossible();
         }
       }
     },
@@ -79,10 +79,9 @@ export default observer(function ActualDailyAchievementTabView(
     [getIsFocused, onScrollEnd],
   );
 
-  const onPress = useCallback(
-    () => setIndex((getIndex() + 1) % slideCount),
-    [setIndex, getIndex, slideCount],
-  );
+  const onPress = useCallback(() => {
+    setIndex((getIndex() + 1) % slideCount);
+  }, [setIndex, getIndex, slideCount]);
 
   useScrollEndEffect(scrollRef, processFinalOffset);
 
@@ -117,7 +116,7 @@ export default observer(function ActualDailyAchievementTabView(
       ref={scrollRef}
       slides={slides}
       onPress={onPress}
-      onPressIn={Platform.OS === 'ios' ? lightImpact : undefined}
+      onPressIn={Platform.OS === 'ios' ? lightImpactIfPossible : undefined}
       accretion={accretion}
       onScrollEndDrag={onScrollEnd}
       onMomentumScrollEnd={onMomentumScrollEnd}
@@ -126,3 +125,7 @@ export default observer(function ActualDailyAchievementTabView(
     />
   );
 });
+
+function lightImpactIfPossible() {
+  lightImpact().catch(() => {});
+}

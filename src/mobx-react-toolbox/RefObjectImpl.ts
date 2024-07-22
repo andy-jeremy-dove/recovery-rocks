@@ -1,5 +1,5 @@
 import {observable, runInAction} from 'mobx';
-import {MutableRefObject} from 'react';
+import type {MutableRefObject} from 'react';
 
 export default class RefObjectImpl<T> implements MutableRefObject<T> {
   @observable.ref private accessor _current: T;

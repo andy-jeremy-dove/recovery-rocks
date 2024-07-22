@@ -1,27 +1,37 @@
 import {observable, runInAction} from 'mobx';
-import {RefObject, useCallback, useEffect, useState} from 'react';
-import {ScrollView} from 'react-native';
+import type {RefObject} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import type {ScrollView} from 'react-native';
 
-import type _useGetContentWidth from './useGetContentWidth';
 import {ProxyObservableElementImpl} from '../../ObservableElement';
+import type {UseGetContentWidth} from './useGetContentWidth';
 
-const useGetContentWidth = ((scrollRef: RefObject<ScrollView>) => {
+const useGetContentWidth = function useGetContentWidth(
+  scrollRef: RefObject<ScrollView>,
+) {
   const [element] = useState(
     () =>
       new ProxyObservableElementImpl(
-        () => scrollRef.current?.getScrollableNode() ?? undefined,
+        () =>
+          (scrollRef.current?.getScrollableNode() as HTMLElement | undefined) ??
+          undefined,
       ),
   );
-  useEffect(() => () => element[Symbol.dispose](), [element]);
+  useEffect(
+    () => () => {
+      element[Symbol.dispose]();
+    },
+    [element],
+  );
 
   const getScrollWidth = useCallback(() => element.scrollWidth, [element]);
 
   return [getScrollWidth];
-}) satisfies typeof _useGetContentWidth;
+} satisfies UseGetContentWidth;
 
-const useFallbackGetContentWidth = ((
+const useFallbackGetContentWidth = function useFallbackGetContentWidth(
   scrollRef: RefObject<ScrollView>,
-): ReturnType<typeof _useGetContentWidth> => {
+) {
   const [contentWidth] = useState(() => observable.box<number>());
   const getContentWidth = useCallback(() => {
     contentWidth.get();
@@ -32,12 +42,16 @@ const useFallbackGetContentWidth = ((
       .scrollWidth;
   }, [contentWidth, scrollRef]);
   const onContentSizeChange = useCallback(
-    (width: number) => runInAction(() => contentWidth.set(width)),
+    (width: number) => {
+      runInAction(() => {
+        contentWidth.set(width);
+      });
+    },
     [contentWidth],
   );
   return [getContentWidth, onContentSizeChange];
-}) satisfies typeof _useGetContentWidth;
+} satisfies UseGetContentWidth;
 
-export default ('ResizeObserver' in window
+export default 'ResizeObserver' in window
   ? useGetContentWidth
-  : useFallbackGetContentWidth) as typeof _useGetContentWidth;
+  : useFallbackGetContentWidth;

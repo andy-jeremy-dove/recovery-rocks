@@ -1,14 +1,6 @@
 import {useCallback, useMemo, useState} from 'react';
-import {
-  Keyboard,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextInput,
-  TextInputProps,
-  View,
-  ViewStyle,
-} from 'react-native';
+import type {StyleProp, TextInputProps, ViewStyle} from 'react-native';
+import {Keyboard, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import BackgroundView from '../components/BackgroundView';
 import BasicButtonText from '../components/BasicButtonText';

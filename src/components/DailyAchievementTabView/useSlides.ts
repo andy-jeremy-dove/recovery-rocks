@@ -1,9 +1,10 @@
 import {useCallback, useMemo} from 'react';
 
-import {DailyAchievementProps} from './DailyAchievementBinding';
-import {ProgressTabKey} from './DailyAchievementTabViewProps';
-import {DailyAchievement} from '../../RecoveryRocks/computeDailyAchievement';
-import {expr, OptionalGetter, use} from '../../mobx-toolbox';
+import type {OptionalGetter} from '../../mobx-toolbox';
+import {expr, use} from '../../mobx-toolbox';
+import type {DailyAchievement} from '../../RecoveryRocks/computeDailyAchievement';
+import type {DailyAchievementProps} from './DailyAchievementBinding';
+import type {ProgressTabKey} from './DailyAchievementTabViewProps';
 
 export type Slide = {
   key: ProgressTabKey;

@@ -1,19 +1,19 @@
+import {expect, it} from '@jest/globals';
 import dayjs from 'dayjs';
 
+import type {Millisecond} from '../Time';
 import {
   anniversaries,
-  oneYear,
-  nineMonths,
   eighteenMonths,
-  sixMonths,
-  thirtiethDay,
-  sixtiethDay,
+  nineMonths,
   ninetiethDay,
+  oneYear,
+  sixMonths,
+  sixtiethDay,
+  thirtiethDay,
 } from './anniversaries';
-import detectAnniversary, {
-  AnniversaryDetectionResult,
-} from './detectAnniversary';
-import {Millisecond} from '../Time';
+import type {AnniversaryDetectionResult} from './detectAnniversary';
+import detectAnniversary from './detectAnniversary';
 
 it('processes the day zero', () => {
   const result = detectAnniversary(start, {anniversaries}, start);

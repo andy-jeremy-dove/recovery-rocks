@@ -1,1 +1,1 @@
-export * from './haptics';
+export {default as lightImpact} from './haptics';

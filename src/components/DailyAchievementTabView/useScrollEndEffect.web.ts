@@ -2,11 +2,11 @@ import {autorun} from 'mobx';
 import {useEffect} from 'react';
 
 import getVisibleIndex from './getVisibleIndex';
-import type _useScrollEndEffect from './useScrollEndEffect';
+import type {UseScrollEndEffect} from './useScrollEndEffect';
 
-export default function useScrollEndEffect(
-  ...[scrollRef, onScrollEnd]: Parameters<typeof _useScrollEndEffect>
-): ReturnType<typeof _useScrollEndEffect> {
+export default (function useScrollEndEffect(
+  ...[scrollRef, onScrollEnd]: Parameters<UseScrollEndEffect>
+): ReturnType<UseScrollEndEffect> {
   useEffect(() => {
     const stack = new DisposableStack();
     let controller: AbortController | undefined;
@@ -18,21 +18,27 @@ export default function useScrollEndEffect(
           return;
         }
         controller = new AbortController();
-        listen(scroll.getScrollableNode(), onScrollEnd, controller.signal);
+        listen(
+          scroll.getScrollableNode() as HTMLDivElement,
+          onScrollEnd,
+          controller.signal,
+        );
       }),
     );
     stack.defer(() => controller?.abort());
-    return () => stack.dispose();
+    return () => {
+      stack.dispose();
+    };
   }, [onScrollEnd, scrollRef]);
-}
+} satisfies UseScrollEndEffect);
 
 function listen(
   div: HTMLDivElement,
-  onScrollEnd: Parameters<typeof _useScrollEndEffect>[1],
+  onScrollEnd: Parameters<UseScrollEndEffect>[1],
   signal: AbortSignal,
 ) {
   const options = {passive: true, capture: false, signal};
-  const isSupported = ('onscrollend' in div) as boolean;
+  const isSupported: boolean = 'onscrollend' in div;
   if (isSupported) {
     div.addEventListener(
       'scrollend',
@@ -65,9 +71,15 @@ function listen(
       },
       options,
     );
-    signal.addEventListener('abort', () => clearTimeout(id), {
-      once: true,
-    });
+    signal.addEventListener(
+      'abort',
+      () => {
+        clearTimeout(id);
+      },
+      {
+        once: true,
+      },
+    );
   }
 }
 

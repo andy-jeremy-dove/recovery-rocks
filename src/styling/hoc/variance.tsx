@@ -1,9 +1,11 @@
-import React from 'react';
+import type React from 'react';
 
-import {StyleType} from './StyleType';
-import deferFlavor, {FlavorConfig, Stylable} from './deferFlavor';
-import {FlavoredComponent, isComponent} from './flavor';
-import {Theme} from '../Theme';
+import type {Theme} from '../Theme';
+import type {FlavorConfig, Stylable} from './deferFlavor';
+import deferFlavor from './deferFlavor';
+import type {FlavoredComponent} from './flavor';
+import {isComponent} from './flavor';
+import type {StyleType} from './StyleType';
 
 export type PropsExtension<
   ComponentType extends Stylable,
@@ -86,7 +88,7 @@ function variance<ComponentType extends Stylable>(
     ) => {
       const result = [styles.root];
       for (const _prop in styles) {
-        if (styles.hasOwnProperty(_prop)) {
+        if (Object.prototype.hasOwnProperty.call(styles, _prop)) {
           const prop = _prop as keyof StyleEnumeration;
           if (prop !== 'root') {
             if (

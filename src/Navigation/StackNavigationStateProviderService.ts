@@ -1,16 +1,16 @@
-import {
+import type {
   EventListenerCallback,
   EventMapCore,
   ParamListBase,
   StackNavigationState,
 } from '@react-navigation/native';
-import {
+import type {
   StackNavigationEventMap,
   StackNavigationProp,
 } from '@react-navigation/stack';
 import {action, observable, onBecomeObserved, onBecomeUnobserved} from 'mobx';
 
-import {StackNavigationStateProvider} from './StackNavigationStateProvider';
+import type {StackNavigationStateProvider} from './StackNavigationStateProvider';
 
 export default class StackNavigationStateProviderService<
     ParamList extends ParamListBase,

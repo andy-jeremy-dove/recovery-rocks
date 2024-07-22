@@ -1,23 +1,18 @@
 import {observer} from 'mobx-react-lite';
 import {useMemo} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextProps,
-  TextStyle,
-  View,
-  ViewProps,
-} from 'react-native';
+import type {TextProps, TextStyle, ViewProps} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-import {MeetingCard} from './MeetingCard';
 import BasicButtonText, {
   BORDER_RADIUS,
   BORDER_WIDTH,
 } from '../../components/BasicButtonText';
 import SkeletonBaseView from '../../components/SkeletonBaseView';
-import {OptionalGetter, use} from '../../mobx-toolbox';
+import type {OptionalGetter} from '../../mobx-toolbox';
+import {use} from '../../mobx-toolbox';
 import {fillSpace} from '../../styles';
 import {variance} from '../../styling';
+import type {MeetingCard} from './MeetingCard';
 
 export type CardListProps = ViewProps & {
   getCards: OptionalGetter<MeetingCard[] | null | undefined>;
@@ -113,7 +108,7 @@ const CardsContainer = variance(View)(
   }),
 );
 
-export type CardListItemProps = ViewProps & {
+type CardListItemProps = ViewProps & {
   item: MeetingCard;
   onCardPress?: (id: string) => void;
 };
@@ -122,7 +117,11 @@ const CardListItem = observer(function CardListItem(props: CardListItemProps) {
   const {item, onCardPress} = props;
   const {id, textColor, backgroundColor, borderColor, title} = item;
   const onPress = useMemo(
-    () => onCardPress && (() => onCardPress(id)),
+    () =>
+      onCardPress &&
+      (() => {
+        onCardPress(id);
+      }),
     [id, onCardPress],
   );
   const style = useMemo<TextStyle>(

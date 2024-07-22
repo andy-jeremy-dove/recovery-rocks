@@ -1,12 +1,6 @@
 import {useMemo} from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewProps,
-} from 'react-native';
+import type {StyleProp, TextStyle, ViewProps} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import getRussianPluralCategory from '../i18n/getRussianPluralCategory';
 import {flavor} from '../styling';

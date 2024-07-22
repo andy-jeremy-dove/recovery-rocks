@@ -1,9 +1,9 @@
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 
-import ActualDailyAchievementTabView from './ActualDailyAchievementTabView';
-import {DailyAchievementTabViewProps} from './DailyAchievementTabViewProps';
 import DailyAchievementView from '../DailyAchievementView';
+import ActualDailyAchievementTabView from './ActualDailyAchievementTabView';
+import type {DailyAchievementTabViewProps} from './DailyAchievementTabViewProps';
 
 export default observer(function DailyAchievementTabView(
   props: DailyAchievementTabViewProps,

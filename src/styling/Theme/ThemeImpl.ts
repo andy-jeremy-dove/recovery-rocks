@@ -1,8 +1,8 @@
-import {TextStyle} from 'react-native';
+import type {TextStyle} from 'react-native';
 
-import {Palette} from './Coloring';
-import {Theme} from './Theme';
-import {FontName, FontWeight} from './Typography';
+import type {Palette} from './Coloring';
+import type {Theme} from './Theme';
+import type {FontName, FontWeight} from './Typography';
 
 export default class ThemeImpl implements Theme {
   constructor(

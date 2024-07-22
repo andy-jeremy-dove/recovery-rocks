@@ -1,5 +1,6 @@
 import {useMemo} from 'react';
-import {StyleSheet, View, ViewProps} from 'react-native';
+import type {ViewProps} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import TimeUnitView, {Plural, TimeUnit} from './TimeUnitView';
 

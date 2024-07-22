@@ -1,5 +1,6 @@
 import {useCallback} from 'react';
-import {Text, TextProps, View, ViewProps} from 'react-native';
+import type {TextProps, ViewProps} from 'react-native';
+import {Text, View} from 'react-native';
 
 import {variance} from '../styling';
 
@@ -8,7 +9,7 @@ export enum Gender {
   Female,
 }
 
-export type GenderPickerProps = ViewProps & {
+type GenderPickerProps = ViewProps & {
   value: Gender;
   onChange?: (_: Gender) => void;
 };

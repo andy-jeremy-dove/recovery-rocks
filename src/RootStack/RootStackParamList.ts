@@ -1,4 +1,4 @@
-import {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
+import type {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
 
 export type RootStackParamList = {
   PromptSetup: undefined;

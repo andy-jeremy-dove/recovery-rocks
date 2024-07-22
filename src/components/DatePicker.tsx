@@ -1,11 +1,10 @@
-import {
+import type {
   StyleProp,
-  TextInput,
   TextInputProps,
-  View,
   ViewProps,
   ViewStyle,
 } from 'react-native';
+import {TextInput, View} from 'react-native';
 
 import {variance} from '../styling';
 

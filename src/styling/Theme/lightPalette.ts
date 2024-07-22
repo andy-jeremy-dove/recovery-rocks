@@ -1,4 +1,4 @@
-import {Palette} from './Coloring';
+import type {Palette} from './Coloring';
 
 const lightPalette: Palette = {
   background: '#fff',

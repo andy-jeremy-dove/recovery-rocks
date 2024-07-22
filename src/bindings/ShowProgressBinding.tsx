@@ -1,28 +1,30 @@
 import {useHeaderHeight} from '@react-navigation/elements';
-import {StackScreenProps} from '@react-navigation/stack';
+import type {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useMemo, useState} from 'react';
 import {Pressable} from 'react-native';
 
+import AnnouncementText from '../components/AnnouncementText';
+import LinkText from '../components/LinkText';
+import {TimeUnit} from '../components/TimeUnitView';
+import {expr} from '../mobx-toolbox';
 import {
-  useStackNavigationState,
   useNavigationGetIsFocused,
+  useStackNavigationState,
 } from '../Navigation';
 import useNavigationRoute from '../Navigation/useNavigationRoute';
 import {anniversaries} from '../RecoveryRocks/anniversaries';
 import computeDailyAchievement from '../RecoveryRocks/computeDailyAchievement';
 import detectAnniversary from '../RecoveryRocks/detectAnniversary';
-import {ProgressTab, RootStackParamList} from '../RootStack/RootStackParamList';
-import {Millisecond} from '../Time';
-import AnnouncementText from '../components/AnnouncementText';
-import LinkText from '../components/LinkText';
-import {TimeUnit} from '../components/TimeUnitView';
-import {expr} from '../mobx-toolbox';
-import ShowProgressScreen, {
+import type {RootStackParamList} from '../RootStack/RootStackParamList';
+import {ProgressTab} from '../RootStack/RootStackParamList';
+import type {
   AnniversaryAchievement,
   ProgressTabKey,
 } from '../screens/ShowProgressScreen';
+import ShowProgressScreen from '../screens/ShowProgressScreen';
+import type {Millisecond} from '../Time';
 import turnOut from '../util/turnOut';
 
 export type ShowProgressBindingProps = StackScreenProps<
@@ -60,7 +62,9 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
     [getRoute],
   );
   const setTabKey = useCallback(
-    (_: ProgressTabKey) => navigation.setParams({tab: tabMapReversed[_]}),
+    (_: ProgressTabKey) => {
+      navigation.setParams({tab: tabMapReversed[_]});
+    },
     [navigation],
   );
   const showTopic = useCallback(() => {
@@ -73,7 +77,13 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
   );
   const today = $now.format('D MMMM YYYY').toLowerCase();
   const announcement = useMemo(
-    () => <Greeting onPress={() => navigation.navigate('PromptSetup')} />,
+    () => (
+      <Greeting
+        onPress={() => {
+          navigation.navigate('PromptSetup');
+        }}
+      />
+    ),
     [navigation],
   );
   const dailyAchievement = useMemo(

@@ -1,7 +1,8 @@
-import {RefObject, useCallback} from 'react';
-import {ScrollView} from 'react-native';
+import type {RefObject} from 'react';
+import {useCallback} from 'react';
+import type {ScrollView} from 'react-native';
 
-import type _useGetOffset from './useGetOffset';
+import type {UseGetOffset} from './useGetOffset';
 
 export default (function useGetOffset(scrollRef: RefObject<ScrollView>) {
   const getOffset = useCallback(() => {
@@ -12,4 +13,4 @@ export default (function useGetOffset(scrollRef: RefObject<ScrollView>) {
     return (scroll.getScrollableNode() as HTMLElement).scrollLeft;
   }, [scrollRef]);
   return [getOffset];
-} satisfies typeof _useGetOffset);
+} satisfies UseGetOffset);

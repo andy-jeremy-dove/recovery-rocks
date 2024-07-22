@@ -1,29 +1,22 @@
 import {observer} from 'mobx-react-lite';
-import {ReactNode, useCallback, useMemo} from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TextProps,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native';
+import type {ReactNode} from 'react';
+import {useCallback, useMemo} from 'react';
+import type {TextProps, TextStyle, ViewStyle} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 
-import {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
 import AnniversaryAchievementView from '../components/AnniversaryAchievementView';
 import AnnouncementText from '../components/AnnouncementText';
 import BackgroundView from '../components/BackgroundView';
 import ContentScrollView from '../components/ContentScrollView';
-import {
-  DailyAchievementTabView,
-  ProgressTabKey,
-} from '../components/DailyAchievementTabView';
+import type {ProgressTabKey} from '../components/DailyAchievementTabView';
+import {DailyAchievementTabView} from '../components/DailyAchievementTabView';
 import DatePillText from '../components/DatePillText';
 import LogoView from '../components/LogoView';
 import SkeletonBaseView from '../components/SkeletonBaseView';
-import {TimeUnit} from '../components/TimeUnitView';
-import {OptionalGetter, expr, use} from '../mobx-toolbox';
+import type {TimeUnit} from '../components/TimeUnitView';
+import type {OptionalGetter} from '../mobx-toolbox';
+import {expr, use} from '../mobx-toolbox';
+import type {DailyAchievement} from '../RecoveryRocks/computeDailyAchievement';
 import {fillSpace, textSkeleton} from '../styles';
 import {variance} from '../styling';
 

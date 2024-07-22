@@ -1,13 +1,13 @@
-import {ParamListBase} from '@react-navigation/native';
-import {
+import type {ParamListBase} from '@react-navigation/native';
+import type {
   NavigationState,
   PartialState,
   Route,
-} from '@react-navigation/routers/src/types';
+} from '@react-navigation/routers';
 import {useCallback} from 'react';
 
-import {StackNavigationStateProvider} from './StackNavigationStateProvider';
 import {expr} from '../mobx-toolbox';
+import type {StackNavigationStateProvider} from './StackNavigationStateProvider';
 
 export type NavigationRoute<
   ParamList extends ParamListBase,

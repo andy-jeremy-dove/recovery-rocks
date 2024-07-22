@@ -1,5 +1,5 @@
-import {BaseAsyncOptions} from '../Async';
-import {Json} from '../Json';
+import type {BaseAsyncOptions} from '../Async';
+import type {Json} from '../Json';
 
 export interface ReadonlyJsonKeyValueStorage<
   KV extends AbstractJsonKeyValueMap = AbstractJsonKeyValueMap,

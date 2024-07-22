@@ -1,4 +1,4 @@
-import {Opaque} from '../Opaque';
+import type {Opaque} from '../Opaque';
 
 export type AbortedAbortSignal = Opaque<
   AbortSignal,

@@ -1,10 +1,12 @@
-import {StyleSheet} from 'react-native';
+import type {ImageStyle, StyleSheet, TextStyle, ViewStyle} from 'react-native';
 
+import type {Theme} from '../Theme';
 import createStylesHook from './createStylesHook';
-import {Theme} from '../Theme';
 
-export default <
-  T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>,
->(
-  factory: (theme: Theme) => T | StyleSheet.NamedStyles<T>,
-) => createStylesHook(factory)();
+export default function useStyles<
+  T extends
+    | StyleSheet.NamedStyles<T>
+    | {[P in string | number]: ViewStyle | TextStyle | ImageStyle},
+>(factory: (theme: Theme) => T | StyleSheet.NamedStyles<T>) {
+  return createStylesHook(factory)();
+}

@@ -1,7 +1,8 @@
-import dayjs, {Dayjs} from 'dayjs';
+import type {Dayjs} from 'dayjs';
+import dayjs from 'dayjs';
 
-import {Anniversary, TimeUnit} from './TheWholeDump';
-import {Millisecond} from '../Time';
+import type {Millisecond} from '../Time';
+import type {Anniversary, TimeUnit} from './TheWholeDump';
 
 export type AnniversaryDetectionResult = {
   previous?: MemorableDate;
@@ -16,7 +17,7 @@ export type MemorableDate = {
 
 export default function detectAnniversary(
   target: Millisecond,
-  dump: {anniversaries: Anniversary[]},
+  dump: {readonly anniversaries: Anniversary[]},
   start: Millisecond,
 ): AnniversaryDetectionResult {
   const $target = dayjs(target).startOf('day');

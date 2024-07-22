@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["@types/node"],
+    "noEmit": true,
+    "allowJs": true
+  },
+  "exclude": ["*.js"],
+  "include": [
+    "util/**/*.ts",
+    ".eslintrc.ts",
+    "app.config.ts",
+    "babel.config.ts",
+    "jest.config.ts",
+    "lint-staged.config.ts",
+    "metro.config.ts",
+    "prettier.config.ts",
+    "svgr.config.ts"
+  ]
+}

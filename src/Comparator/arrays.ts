@@ -1,4 +1,4 @@
-import {Comparator} from './Comparator';
+import type {Comparator} from './Comparator';
 import strict from './strict';
 
 export default function arrays<T = unknown>(

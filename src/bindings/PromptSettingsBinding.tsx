@@ -1,19 +1,17 @@
 import {useHeaderHeight} from '@react-navigation/elements';
-import {StackScreenProps} from '@react-navigation/stack';
+import type {StackScreenProps} from '@react-navigation/stack';
 import dayjs from 'dayjs';
 import {runInAction} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useState} from 'react';
 
-import {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
-import {RootStackParamList} from '../RootStack/RootStackParamList';
-import {Millisecond} from '../Time';
-import interval from '../Time/interval';
 import {expr} from '../mobx-toolbox';
-import {
-  PromptSettingsScreen,
-  MeetingCard,
-} from '../screens/PromptSettingsScreen';
+import type {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
+import type {RootStackParamList} from '../RootStack/RootStackParamList';
+import type {MeetingCard} from '../screens/PromptSettingsScreen';
+import {PromptSettingsScreen} from '../screens/PromptSettingsScreen';
+import type {Millisecond} from '../Time';
+import interval from '../Time/interval';
 
 export type PromptSettingsBindingProps = StackScreenProps<
   RootStackParamList,
@@ -27,14 +25,12 @@ export default observer(function PromptSettingsBinding(
   const [$now] = useState(() => dayjs());
   const getToday = $now.format('D MMMM YYYY').toLowerCase();
   const [getDoesObeySystem, setSystemObedience] = useState(false);
-  const toggleSystemObedience = useCallback(
-    () => setSystemObedience(_ => !_),
-    [],
-  );
-  const onSetupPress = useCallback(
-    () => navigation.navigate('PromptSetup'),
-    [navigation],
-  );
+  const toggleSystemObedience = useCallback(() => {
+    setSystemObedience(_ => !_);
+  }, []);
+  const onSetupPress = useCallback(() => {
+    navigation.navigate('PromptSetup');
+  }, [navigation]);
   const getCards = useCards();
   const onCardPress = useCallback(
     (id: string) => {

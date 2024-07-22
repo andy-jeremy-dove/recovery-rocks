@@ -1,8 +1,8 @@
-import {TextStyle} from 'react-native';
+import type {TextStyle} from 'react-native';
 
 export interface Typography {
   /**
-   * @deprecated
+   * @deprecated Use Typography#text instead
    * @param weight
    */
   fontByWeight(weight?: FontWeight): TextStyle;

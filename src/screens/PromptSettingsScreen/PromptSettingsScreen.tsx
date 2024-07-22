@@ -1,16 +1,18 @@
 import {observer} from 'mobx-react-lite';
 import {useMemo} from 'react';
-import {StyleSheet, TextProps, View, ViewStyle} from 'react-native';
+import type {TextProps, ViewStyle} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import CardList from './CardList';
-import {MeetingCard} from './MeetingCard';
-import ThemeGroup from './ThemeGroup';
 import BackgroundView from '../../components/BackgroundView';
 import BasicButtonText from '../../components/BasicButtonText';
 import ContentScrollView from '../../components/ContentScrollView';
 import DatePillText from '../../components/DatePillText';
-import {OptionalGetter, use} from '../../mobx-toolbox';
+import type {OptionalGetter} from '../../mobx-toolbox';
+import {use} from '../../mobx-toolbox';
 import {fillSpace} from '../../styles';
+import CardList from './CardList';
+import type {MeetingCard} from './MeetingCard';
+import ThemeGroup from './ThemeGroup';
 
 export type PromptSettingsScreenProps = {
   getToday: OptionalGetter<string>;

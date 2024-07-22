@@ -1,4 +1,4 @@
-import {NeverAbortSignal} from './DeterminedAbortSignal';
+import type {NeverAbortSignal} from './DeterminedAbortSignal';
 
 export default function createNeverSignal(): NeverAbortSignal {
   const controller = new AbortController();

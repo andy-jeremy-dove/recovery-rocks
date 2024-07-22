@@ -1,7 +1,7 @@
-import {Json} from './Json';
-import {JsonString} from './JsonString';
-import {JsonStringifier, JsonStringifierOptions} from './JsonStringifier';
 import {JsonStringifyError} from './errors';
+import type {Json} from './Json';
+import type {JsonString} from './JsonString';
+import type {JsonStringifier, JsonStringifierOptions} from './JsonStringifier';
 
 export default class JsonStringifierImpl implements JsonStringifier {
   stringify<T extends Json = Json>(

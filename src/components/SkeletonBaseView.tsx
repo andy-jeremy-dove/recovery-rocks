@@ -1,10 +1,11 @@
-import {ComponentProps} from 'react';
-import {Platform, ViewProps, ViewStyle} from 'react-native';
-import {
+import type {ComponentProps} from 'react';
+import type {ViewProps, ViewStyle} from 'react-native';
+import {Platform} from 'react-native';
+import type {
   AnimatableComponent,
   CustomAnimation,
-  View as AnimatableView,
 } from 'react-native-animatable';
+import {View as AnimatableView} from 'react-native-animatable';
 
 import {variance} from '../styling';
 

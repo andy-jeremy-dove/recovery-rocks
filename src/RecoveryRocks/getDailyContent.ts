@@ -1,20 +1,26 @@
 import dayjs from 'dayjs';
 
-import {createDateTag, DateTag} from './DateTag';
-import {DailyContent} from './Indexes';
-import {Millisecond} from '../Time';
+import type {Day, Millisecond} from '../Time';
+import type {DateTag} from './DateTag';
+import {createDateTag} from './DateTag';
+import type {DailyContent} from './Indexes';
 
 export default function getDailyContent(
   target: Millisecond,
   indexes: {
-    dailyContentByDaysReached: Map<number, DailyContent>;
-    dailyContentByAnnualDate: Map<DateTag, DailyContent>;
+    readonly dailyContentByDaysReached: Map<Day, DailyContent>;
+    readonly dailyContentByAnnualDate: Map<DateTag, DailyContent>;
   },
   start: Millisecond,
-): DailyContent {
+): DailyContent | undefined {
   const $target = dayjs(target).startOf('day');
   const $start = dayjs(start).startOf('day');
-  const daysReached = $target.diff($start, 'days', false);
+  const daysReached = $target.diff($start, 'days', false) as Day;
+  const byDaysReached = indexes.dailyContentByDaysReached.get(daysReached);
+  if (byDaysReached?.quote && byDaysReached.topic) {
+    return byDaysReached;
+  }
+
   const day = $target.date();
   const month = $target.month();
   let byAnnualDate: DailyContent | undefined;
@@ -22,10 +28,20 @@ export default function getDailyContent(
     byAnnualDate = indexes.dailyContentByAnnualDate.get(
       createDateTag(day, month),
     );
-  } catch {}
-  const byDaysReached = indexes.dailyContentByDaysReached.get(daysReached);
-  return {
-    quote: byDaysReached?.quote ?? byAnnualDate?.quote,
-    topic: byDaysReached?.topic ?? byAnnualDate?.topic,
-  };
+  } catch {
+    /* empty */
+  }
+  const quote = byDaysReached?.quote ?? byAnnualDate?.quote;
+  const topic = byDaysReached?.topic ?? byAnnualDate?.topic;
+  if (!quote && !topic) {
+    return undefined;
+  }
+  const result: DailyContent = {};
+  if (quote) {
+    result.quote = quote;
+  }
+  if (topic) {
+    result.topic = topic;
+  }
+  return result;
 }

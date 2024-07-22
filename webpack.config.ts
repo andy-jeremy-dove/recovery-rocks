@@ -1,7 +1,7 @@
 import createExpoWebpackConfigAsync from '@expo/webpack-config/webpack';
-import {Arguments, Environment} from '@expo/webpack-config/webpack/types';
+import type {Arguments, Environment} from '@expo/webpack-config/webpack/types';
 
-module.exports = async function (env: Environment, argv: Arguments) {
+export default async function getConfig(env: Environment, argv: Arguments) {
   const config = await createExpoWebpackConfigAsync(env, argv);
 
   config.module?.rules?.forEach(rule => {
@@ -27,12 +27,12 @@ module.exports = async function (env: Environment, argv: Arguments) {
   });
 
   config.resolve = {
-    ...config?.resolve,
+    ...config.resolve,
     fallback: {
       crypto: require.resolve('expo-crypto'),
-      ...config?.resolve?.fallback,
+      ...config.resolve?.fallback,
     },
   };
 
   return config;
-};
+}

@@ -1,6 +1,6 @@
 import {action, observable, onBecomeObserved, onBecomeUnobserved} from 'mobx';
 
-import {ObservableElement} from './ObservableElement';
+import type {ObservableElement} from './ObservableElement';
 
 export default class ObservableElementImpl implements ObservableElement {
   @observable.ref private accessor _scrollWidth: number;
@@ -17,16 +17,18 @@ export default class ObservableElementImpl implements ObservableElement {
         }),
       );
       stack.defer(
-        onBecomeObserved(this, '_scrollWidth', () =>
-          resizeObserver.observe(element),
-        ),
+        onBecomeObserved(this, '_scrollWidth', () => {
+          resizeObserver.observe(element);
+        }),
       );
       stack.defer(
-        onBecomeUnobserved(this, '_scrollWidth', () =>
-          resizeObserver.unobserve(element),
-        ),
+        onBecomeUnobserved(this, '_scrollWidth', () => {
+          resizeObserver.unobserve(element);
+        }),
       );
-      stack.defer(() => resizeObserver.disconnect());
+      stack.defer(() => {
+        resizeObserver.disconnect();
+      });
       this._stack = stack.move();
     }
   }

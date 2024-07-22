@@ -1,11 +1,13 @@
-import {
+import type {BaseAsyncOptions} from '../Async';
+import {throwIfAborted} from '../Async';
+import type {JsonParser, JsonStringifier} from '../Json';
+import type {KeyValueStorage} from '../KeyValueStorage';
+import type {Default} from '../Opaque';
+import {fallbackIfNullish} from '../Opaque';
+import type {
   AbstractJsonKeyValueMap,
   JsonKeyValueStorage,
 } from './JsonKeyValueStorage';
-import {BaseAsyncOptions, throwIfAborted} from '../Async';
-import {JsonParser, JsonStringifier} from '../Json';
-import {KeyValueStorage} from '../KeyValueStorage';
-import {Default, fallbackIfNullish} from '../Opaque';
 
 export default class JsonKeyValueStorageImpl<
   KV extends AbstractJsonKeyValueMap = AbstractJsonKeyValueMap,

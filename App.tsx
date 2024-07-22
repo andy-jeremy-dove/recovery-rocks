@@ -1,46 +1,46 @@
-import 'disposablestack/auto';
-import 'react-native-gesture-handler';
-import {Ionicons} from '@expo/vector-icons';
 import {Inter_400Regular, Inter_800ExtraBold} from '@expo-google-fonts/inter';
 import {
   SourceSerifPro_400Regular,
   SourceSerifPro_400Regular_Italic,
 } from '@expo-google-fonts/source-serif-pro';
+import {Ionicons} from '@expo/vector-icons';
+import type {Theme} from '@react-navigation/native';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
-  Theme,
 } from '@react-navigation/native';
-import {
+import type {
   DocumentTitleOptions,
   LinkingOptions,
 } from '@react-navigation/native/lib/typescript/src/types';
 import chroma from 'chroma-js';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import 'disposablestack/auto';
 import {useFonts} from 'expo-font';
 import {createURL} from 'expo-linking';
 import {
-  setBehaviorAsync,
-  setPositionAsync,
-  setButtonStyleAsync,
   setBackgroundColorAsync,
+  setBehaviorAsync,
   setBorderColorAsync,
+  setButtonStyleAsync,
+  setPositionAsync,
   setVisibilityAsync,
 } from 'expo-navigation-bar';
 import {StatusBar} from 'expo-status-bar';
 import {useEffect, useMemo} from 'react';
 import {Platform} from 'react-native';
+import 'react-native-gesture-handler';
 import {
-  SafeAreaProvider,
   initialWindowMetrics,
+  SafeAreaProvider,
 } from 'react-native-safe-area-context';
-import 'dayjs/locale/ru';
-import './global.css';
 
 import app from './app.config';
+import './global.css';
 import RootStack from './src/RootStack/RootStack';
-import {RootStackParamList} from './src/RootStack/RootStackParamList';
+import type {RootStackParamList} from './src/RootStack/RootStackParamList';
 import {ThemeProvider, useTheme} from './src/styling';
 import classicTheme from './src/styling/Theme/classicTheme';
 
@@ -56,8 +56,7 @@ export default function App() {
   });
   useEffect(() => {
     if (Platform.OS === 'android') {
-      // noinspection JSIgnoredPromiseFromCall
-      Promise.all([
+      void Promise.all([
         setBehaviorAsync('inset-touch'),
         setPositionAsync('absolute'),
         setVisibilityAsync('visible'),
@@ -130,7 +129,7 @@ const documentTitle: DocumentTitleOptions = {
   enabled: true,
   formatter: options => {
     if (options?.title) {
-      return `${options.title} | ${app.name}`;
+      return `${String(options.title)} | ${app.name}`;
     }
     return app.name;
   },
@@ -141,8 +140,7 @@ function GlobalStatusBar() {
   useEffect(() => {
     if (Platform.OS === 'android') {
       const background = chroma(theme.palette.background).alpha(0).hex('rgba');
-      // noinspection JSIgnoredPromiseFromCall
-      Promise.all([
+      void Promise.all([
         Platform.Version >= 28 && setBorderColorAsync(background),
         setBackgroundColorAsync(background),
         setButtonStyleAsync(theme.isDark ? 'light' : 'dark'),

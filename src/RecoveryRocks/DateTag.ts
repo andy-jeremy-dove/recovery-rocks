@@ -39,7 +39,7 @@ export enum Month {
 }
 
 export type DaysInMonth = typeof daysInMonth;
-export const daysInMonth = {
+export const daysInMonth = Object.freeze({
   [Month.January]: 31,
   [Month.February]: 29,
   [Month.March]: 31,
@@ -52,10 +52,12 @@ export const daysInMonth = {
   [Month.October]: 31,
   [Month.November]: 30,
   [Month.December]: 31,
-} as const;
+} as const);
 
-export type Range<L, C extends any[] = [], R = L> = C['length'] extends L
-  ? R
-  : Range<L, [...C, 0], C['length'] | R>;
+export type Range<
+  L extends number,
+  C extends number[] = [],
+  R = L,
+> = C['length'] extends L ? R : Range<L, [...C, 0], C['length'] | R>;
 
-export type NaturalRange<T> = Exclude<Range<T>, 0>;
+export type NaturalRange<T extends number> = Exclude<Range<T>, 0>;

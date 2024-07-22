@@ -1,17 +1,10 @@
 import React, {forwardRef, useMemo} from 'react';
-import {
-  Platform,
-  ScrollView,
-  ScrollViewProps,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import type {ScrollViewProps, ViewStyle} from 'react-native';
+import {Platform, ScrollView, StyleSheet, View} from 'react-native';
 
-import DailyAchievementBinding, {
-  TabsContextProps,
-} from './DailyAchievementBinding';
-import {Slide} from './useSlides';
+import type {TabsContextProps} from './DailyAchievementBinding';
+import DailyAchievementBinding from './DailyAchievementBinding';
+import type {Slide} from './useSlides';
 
 export type CarouselScrollViewProps = {
   slides: readonly Slide[];

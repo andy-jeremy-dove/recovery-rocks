@@ -1,5 +1,5 @@
 import chroma from 'chroma-js';
-import {ColorValue} from 'react-native';
+import type {ColorValue} from 'react-native';
 
 export type GradientPoint = {
   /**
@@ -20,7 +20,7 @@ export type GradientPoint = {
  * @param toColor
  * @param toOpacity `[0; 1]`
  * @param ratio `(0; 1)`
- * @param points
+ * @param interimPoints
  */
 export default function exponentialGradient(
   fromColor: ColorValue,
@@ -28,7 +28,7 @@ export default function exponentialGradient(
   toColor: ColorValue,
   toOpacity: number,
   ratio = GOLDEN_RATIO_RECIPROCAL,
-  points = 1,
+  interimPoints = 1,
 ): [GradientPoint, ...GradientPoint[], GradientPoint] {
   const start: GradientPoint = {
     offset: 0,
@@ -36,19 +36,22 @@ export default function exponentialGradient(
     opacity: fromOpacity,
   };
   const stop: GradientPoint = {offset: 1, color: toColor, opacity: toOpacity};
-  if ((fromColor === toColor && fromOpacity === toOpacity) || points <= 0) {
+  if (
+    (fromColor === toColor && fromOpacity === toOpacity) ||
+    interimPoints <= 0
+  ) {
     return [start, stop];
   }
   const gradient = chroma
     .scale([fromColor as string, toColor as string])
     .cache(false)
     .mode('lrgb')
-    .colors(points + 2, 'hex');
+    .colors(interimPoints + 2, 'hex');
   const internal: GradientPoint[] = [];
-  for (let i = 0; i < points; i++) {
+  for (let i = 0; i < interimPoints; i++) {
     const point = i + 1;
     const color = gradient[point];
-    const opacityRatio = (1 / (points + 1)) * point;
+    const opacityRatio = (1 / (interimPoints + 1)) * point;
     const opacity = fromOpacity + (toOpacity - fromOpacity) * opacityRatio;
     const offset = 1 - ratio ** point;
     internal.push({offset, color, opacity});

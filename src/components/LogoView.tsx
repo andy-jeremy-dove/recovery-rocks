@@ -1,5 +1,6 @@
 import {useMemo} from 'react';
-import {StyleSheet, View, Animated, ViewProps} from 'react-native';
+import type {ViewProps} from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 
 import {variance} from '../styling';
 

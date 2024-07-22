@@ -1,5 +1,5 @@
-import {Json} from './Json';
-import {Opaque} from '../Opaque';
+import type {Opaque} from '../Opaque';
+import type {Json} from './Json';
 
 export type JsonString<T extends Json = Json> = Opaque<string, T, JsonTag>;
 

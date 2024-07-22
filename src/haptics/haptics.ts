@@ -1,3 +1,1 @@
-export function lightImpact() {}
-
-export function heavyImpact() {}
+export default async function lightImpact() {}

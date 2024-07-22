@@ -1,14 +1,16 @@
 import {useMemo} from 'react';
-import {StyleSheet} from 'react-native';
+import type {ImageStyle, StyleSheet, TextStyle, ViewStyle} from 'react-native';
 
-import {Theme, useTheme} from '../Theme';
+import type {Theme} from '../Theme';
+import {useTheme} from '../Theme';
 
-export default <
-    T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>,
-  >(
-    factory: (theme: Theme) => T | StyleSheet.NamedStyles<T>,
-  ) =>
-  (): T => {
+export default function createStylesHook<
+  T extends
+    | StyleSheet.NamedStyles<T>
+    | {[P in string | number]: ViewStyle | TextStyle | ImageStyle},
+>(factory: (theme: Theme) => T | StyleSheet.NamedStyles<T>) {
+  return (): T => {
     const theme = useTheme();
     return useMemo(() => factory(theme) as T, [theme]);
   };
+}

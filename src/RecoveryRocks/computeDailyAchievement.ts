@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import {Millisecond} from '../Time';
+import type {Millisecond} from '../Time';
 
 export type DailyAchievement = {
   fullDaysAfterMonthsReached: number;

@@ -1,21 +1,20 @@
 import {Ionicons} from '@expo/vector-icons';
 import {PlatformPressable} from '@react-navigation/elements';
 import {useTheme as useNavigationTheme} from '@react-navigation/native';
-import {
-  createStackNavigator,
+import type {
   StackNavigationOptions,
   StackScreenProps,
-  TransitionPresets,
 } from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {useCallback, useMemo} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 
-import {RootStackParamList} from './RootStackParamList';
 import PromptSettingsBinding from '../bindings/PromptSettingsBinding';
 import PromptSetupBinding from '../bindings/PromptSetupBinding';
 import ShowMeetingCardBinding from '../bindings/ShowMeetingCardBinding';
 import ShowProgressBinding from '../bindings/ShowProgressBinding';
 import ShowTopicBinding from '../bindings/ShowTopicBinding';
+import type {RootStackParamList} from './RootStackParamList';
 
 export default function RootStack() {
   const theme = useNavigationTheme();
@@ -123,7 +122,9 @@ function withSettingsButton(
       const {pressColor, pressOpacity, tintColor} = _props;
       return (
         <PlatformPressable
-          onPress={() => navigation.navigate('PromptSettings')}
+          onPress={() => {
+            navigation.navigate('PromptSettings');
+          }}
           pressColor={pressColor}
           pressOpacity={pressOpacity}>
           <Ionicons

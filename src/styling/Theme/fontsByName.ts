@@ -1,4 +1,4 @@
-import {FontsByName} from './ThemeImpl';
+import type {FontsByName} from './ThemeImpl';
 
 const fontsByName: FontsByName = {
   base: 'Inter_400Regular',

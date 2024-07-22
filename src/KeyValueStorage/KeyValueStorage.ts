@@ -1,4 +1,4 @@
-import {BaseAsyncOptions} from '../Async';
+import type {BaseAsyncOptions} from '../Async';
 
 export interface ReadonlyKeyValueStorage<
   KV extends AbstractKeyValueMap = AbstractKeyValueMap,

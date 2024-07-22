@@ -1,18 +1,11 @@
 import chroma from 'chroma-js';
 import {useMemo} from 'react';
-import {
-  Platform,
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-  View,
-  ViewProps,
-  ViewStyle,
-} from 'react-native';
+import type {StyleProp, TextStyle, ViewProps, ViewStyle} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 
-import TimeUnitView, {Plural, TimeUnit} from './TimeUnitView';
 import TrinketSvg from '../../assets/bdp22.svg';
 import {useStyles, useTheme} from '../styling';
+import TimeUnitView, {Plural, TimeUnit} from './TimeUnitView';
 
 export type AnniversaryAchievementViewProps = ViewProps & {
   previousValue?: number;

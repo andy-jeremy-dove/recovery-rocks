@@ -1,5 +1,6 @@
 import {useMemo} from 'react';
-import {StyleSheet, Text, TextStyle, View, ViewStyle} from 'react-native';
+import type {TextStyle, ViewStyle} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 import ContentScrollView from '../components/ContentScrollView';
 import {fillSpace} from '../styles';

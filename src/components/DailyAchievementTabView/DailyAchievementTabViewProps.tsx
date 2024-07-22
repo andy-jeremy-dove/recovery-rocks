@@ -1,7 +1,7 @@
-import {ViewProps} from 'react-native';
+import type {ViewProps} from 'react-native';
 
-import {DailyAchievement} from '../../RecoveryRocks/computeDailyAchievement';
-import {OptionalGetter} from '../../mobx-toolbox';
+import type {OptionalGetter} from '../../mobx-toolbox';
+import type {DailyAchievement} from '../../RecoveryRocks/computeDailyAchievement';
 
 export type DailyAchievementTabViewProps = {
   getTabKey?: OptionalGetter<ProgressTabKey>;

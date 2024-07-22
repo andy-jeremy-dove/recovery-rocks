@@ -1,4 +1,5 @@
-import {MutableRefObject, RefObject, useState} from 'react';
+import type {MutableRefObject, RefObject} from 'react';
+import {useState} from 'react';
 
 import RefObjectImpl from './RefObjectImpl';
 

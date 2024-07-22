@@ -1,5 +1,5 @@
-import {Json} from './Json';
-import {JsonString} from './JsonString';
+import type {Json} from './Json';
+import type {JsonString} from './JsonString';
 
 export interface JsonStringifier {
   stringify<T extends Json = Json>(

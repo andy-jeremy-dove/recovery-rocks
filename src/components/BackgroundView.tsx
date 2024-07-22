@@ -1,15 +1,12 @@
 import {observer} from 'mobx-react-lite';
 import {useId} from 'react';
-import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
-import Svg, {
-  Defs,
-  NumberProp,
-  RadialGradient,
-  Rect,
-  Stop,
-} from 'react-native-svg';
+import type {StyleProp, ViewStyle} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import type {NumberProp} from 'react-native-svg';
+import {Defs, RadialGradient, Rect, Stop, Svg} from 'react-native-svg';
 
-import {OptionalGetter, use} from '../mobx-toolbox';
+import type {OptionalGetter} from '../mobx-toolbox';
+import {use} from '../mobx-toolbox';
 import {exponentialGradient} from '../styles';
 import {useTheme} from '../styling';
 

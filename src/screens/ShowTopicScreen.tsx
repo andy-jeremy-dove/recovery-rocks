@@ -1,5 +1,6 @@
 import {useMemo} from 'react';
-import {Platform, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import type {ViewStyle} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 
 import BackgroundView from '../components/BackgroundView';
 import ContentScrollView from '../components/ContentScrollView';

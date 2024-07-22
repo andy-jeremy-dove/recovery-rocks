@@ -1,8 +1,8 @@
-import {ParamListBase} from '@react-navigation/native';
+import type {ParamListBase} from '@react-navigation/native';
 import {computed} from 'mobx';
 import {useCallback, useMemo} from 'react';
 
-import {StackNavigationStateProvider} from './StackNavigationStateProvider';
+import type {StackNavigationStateProvider} from './StackNavigationStateProvider';
 
 export default function useNavigationGetIsFocused(
   routeKey: string,

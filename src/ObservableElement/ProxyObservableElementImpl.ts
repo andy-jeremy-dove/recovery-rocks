@@ -1,6 +1,6 @@
 import {computed} from 'mobx';
 
-import {ObservableElement} from './ObservableElement';
+import type {ObservableElement} from './ObservableElement';
 import ObservableElementImpl from './ObservableElementImpl';
 
 export default class ProxyObservableElementImpl

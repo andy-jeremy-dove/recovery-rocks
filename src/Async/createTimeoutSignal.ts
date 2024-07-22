@@ -1,9 +1,9 @@
+import type {Millisecond} from '../Time';
 import {TimeoutError} from './errors';
-import {Millisecond} from '../Time';
 
 export default function createTimeoutSignal(timeout: Millisecond) {
   if ('timeout' in AbortSignal) {
-    return (AbortSignal as any).timeout(timeout) as AbortSignal;
+    return AbortSignal.timeout(timeout);
   }
   const controller = new AbortController();
   const id = setTimeout(onTimeout, timeout);

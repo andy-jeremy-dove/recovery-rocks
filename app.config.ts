@@ -1,6 +1,6 @@
-import {ExpoConfig} from 'expo/config';
+import type {ExpoConfig} from 'expo/config';
 
-const config: ExpoConfig = {
+export default {
   name: 'RecoveryRocks',
   slug: 'RecoveryRocks',
   scheme: 'recoveryrocks',
@@ -33,6 +33,4 @@ const config: ExpoConfig = {
   web: {
     favicon: './assets/favicon.png',
   },
-};
-
-export default config;
+} satisfies ExpoConfig;

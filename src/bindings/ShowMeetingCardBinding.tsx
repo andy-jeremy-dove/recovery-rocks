@@ -1,39 +1,9 @@
 import {useHeaderHeight} from '@react-navigation/elements';
-import {StackScreenProps} from '@react-navigation/stack';
-import {memo} from 'react';
+import {observer} from 'mobx-react-lite';
 
-import {RootStackParamList} from '../RootStack/RootStackParamList';
 import ShowMeetingCardScreen from '../screens/ShowMeetingCardScreen';
 
-export type ShowMeetingCardBindingProps = StackScreenProps<
-  RootStackParamList,
-  'ShowMeetingCard'
->;
-
-export default function ShowMeetingCardBinding(
-  props: ShowMeetingCardBindingProps,
-) {
-  const {navigation, route} = props;
-  return (
-    <ShowMeetingCardStableBinding
-      navigation={navigation}
-      routeKey={route.key}
-    />
-  );
-}
-
-const ShowMeetingCardStableBinding = memo(_ShowMeetingCardStableBinding);
-
-type ShowMeetingCardStableBindingProps = Pick<
-  ShowMeetingCardBindingProps,
-  'navigation'
-> & {
-  routeKey: string;
-};
-
-function _ShowMeetingCardStableBinding(
-  props: ShowMeetingCardStableBindingProps,
-) {
+export default observer(function ShowMeetingCardBinding() {
   const headerHeight = useHeaderHeight();
   return (
     <ShowMeetingCardScreen
@@ -45,7 +15,7 @@ function _ShowMeetingCardStableBinding(
       compensateHeaderHeight={headerHeight}
     />
   );
-}
+});
 
 const TITLE = 'Lorem ipsum';
 

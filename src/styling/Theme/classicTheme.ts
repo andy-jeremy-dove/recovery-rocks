@@ -1,6 +1,6 @@
-import ThemeImpl from './ThemeImpl';
 import classicPalette from './classicPalette';
 import fontsByName from './fontsByName';
+import ThemeImpl from './ThemeImpl';
 
 export default new ThemeImpl(true, classicPalette, {
   ...fontsByName,

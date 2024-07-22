@@ -1,8 +1,10 @@
 import {observer} from 'mobx-react-lite';
-import {Pressable, StyleSheet, Text, View, ViewProps} from 'react-native';
+import type {ViewProps} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import LinkText from '../../components/LinkText';
-import {OptionalGetter, use} from '../../mobx-toolbox';
+import type {OptionalGetter} from '../../mobx-toolbox';
+import {use} from '../../mobx-toolbox';
 import {ThemeProvider, variance} from '../../styling';
 import classicTheme from '../../styling/Theme/classicTheme';
 import darkTheme from '../../styling/Theme/darkTheme';

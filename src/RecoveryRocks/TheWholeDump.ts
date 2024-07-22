@@ -1,3 +1,6 @@
+import type {Tagged} from '../Opaque';
+import type {Day} from '../Time';
+
 export type TheWholeDump = {
   topics: Topic[];
   fallbackTopic: Topic;
@@ -16,8 +19,8 @@ export type GroupLocation = {
   location: LatLng;
 };
 
-export const GROUP_LOCATION_ID = Symbol();
-export type GroupLocationId = Opaque<string, typeof GROUP_LOCATION_ID>;
+declare const GROUP_LOCATION_ID: unique symbol;
+export type GroupLocationId = Tagged<string, typeof GROUP_LOCATION_ID>;
 
 export type LatLng = [number, number];
 
@@ -30,8 +33,8 @@ export type MeetingCard = {
   borderColor: string;
 };
 
-export const MEETING_CARD_ID = Symbol();
-export type MeetingCardId = Opaque<string, typeof MEETING_CARD_ID>;
+declare const MEETING_CARD_ID: unique symbol;
+export type MeetingCardId = Tagged<string, typeof MEETING_CARD_ID>;
 
 export type Anniversary = {
   id: AnniversaryId;
@@ -40,8 +43,8 @@ export type Anniversary = {
   periodic: boolean;
 };
 
-export const ANNIVERSARY_ID = Symbol();
-export type AnniversaryId = Opaque<string, typeof ANNIVERSARY_ID>;
+declare const ANNIVERSARY_ID: unique symbol;
+export type AnniversaryId = Tagged<string, typeof ANNIVERSARY_ID>;
 
 export type TimeUnit = 'day' | 'month' | 'year';
 
@@ -51,8 +54,8 @@ export type Topic = {
   body: string;
 } & PeriodicIssue;
 
-export const TOPIC_ID = Symbol();
-export type TopicId = Opaque<string, typeof TOPIC_ID>;
+declare const TOPIC_ID: unique symbol;
+export type TopicId = Tagged<string, typeof TOPIC_ID>;
 
 export type Quote = {
   id: QuoteId;
@@ -60,21 +63,15 @@ export type Quote = {
   source: string;
 } & PeriodicIssue;
 
-export const QUOTE_ID = Symbol();
-export type QuoteId = Opaque<string, typeof QUOTE_ID>;
+declare const QUOTE_ID: unique symbol;
+export type QuoteId = Tagged<string, typeof QUOTE_ID>;
 
 export type PeriodicIssue = {
   annualDate?: DateStruct;
-  daysReached?: number;
+  daysReached?: Day;
 };
 
 export type DateStruct = {
   day: number;
   month: number;
 };
-
-export type Opaque<T, TT> = T extends {
-  readonly __opaque: infer Rest extends any[];
-}
-  ? Omit<T, '__opaque'> & {readonly __opaque: [...Rest, TT]}
-  : T & {readonly __opaque: [TT]};

@@ -1,14 +1,13 @@
 import {useMemo} from 'react';
+import type {ScrollViewProps, StyleProp, ViewStyle} from 'react-native';
 import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  ScrollViewProps,
-  StyleProp,
   StyleSheet,
-  ViewStyle,
 } from 'react-native';
-import {Edges, SafeAreaView} from 'react-native-safe-area-context';
+import type {Edges} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {useStyles, variance} from '../styling';
 
