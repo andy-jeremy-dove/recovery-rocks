@@ -11,6 +11,7 @@
     ".eslintrc.ts",
     "app.config.ts",
     "babel.config.ts",
+    "commitlint.config.ts",
     "jest.config.ts",
     "lint-staged.config.ts",
     "metro.config.ts",
