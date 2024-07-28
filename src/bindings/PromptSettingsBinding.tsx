@@ -1,15 +1,23 @@
 import {useHeaderHeight} from '@react-navigation/elements';
 import type {StackScreenProps} from '@react-navigation/stack';
-import dayjs from 'dayjs';
 import {runInAction} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useState} from 'react';
 
 import {expr} from '../mobx-toolbox';
 import type {MeetingCardId} from '../RecoveryRocks/TheWholeDump';
+import {useRoot} from '../Root';
 import type {RootStackParamList} from '../RootStack/RootStackParamList';
-import type {MeetingCard} from '../screens/PromptSettingsScreen';
+import type {
+  MeetingCard,
+  ThemeId,
+  ThemeItems,
+} from '../screens/PromptSettingsScreen';
 import {PromptSettingsScreen} from '../screens/PromptSettingsScreen';
+import classicTheme from '../styling/Theme/classicTheme';
+import darkTheme from '../styling/Theme/darkTheme';
+import lightTheme from '../styling/Theme/lightTheme';
+import {defaultThemeRecord, isLightThemeKind, ThemeKind} from '../ThemeRecord';
 import type {Millisecond} from '../Time';
 import interval from '../Time/interval';
 
@@ -22,12 +30,6 @@ export default observer(function PromptSettingsBinding(
   props: PromptSettingsBindingProps,
 ) {
   const {navigation} = props;
-  const [$now] = useState(() => dayjs());
-  const getToday = $now.format('D MMMM YYYY').toLowerCase();
-  const [getDoesObeySystem, setSystemObedience] = useState(false);
-  const toggleSystemObedience = useCallback(() => {
-    setSystemObedience(_ => !_);
-  }, []);
   const onSetupPress = useCallback(() => {
     navigation.navigate('PromptSetup');
   }, [navigation]);
@@ -39,11 +41,76 @@ export default observer(function PromptSettingsBinding(
     [navigation],
   );
   const headerHeight = useHeaderHeight();
+  const root = useRoot();
+  const getToday = useCallback(
+    () => root.currentTime.wrapped.format('D MMMM YYYY').toLowerCase(),
+    [root],
+  );
+  const getDoesObeySystem = useCallback(
+    () => root.themeStorage.current?.mustObeySystem,
+    [root],
+  );
+  const toggleSystemObedience = useCallback(() => {
+    root.themeStorage.set((_ = defaultThemeRecord) => ({
+      ..._,
+      mustObeySystem: !_.mustObeySystem,
+    }));
+  }, [root]);
+  const $themeItems = useCallback(
+    () =>
+      expr(() => {
+        const {mustObeySystem, fixed, light, dark} =
+          root.themeStorage.current ?? defaultThemeRecord;
+        const currentLightTheme = mustObeySystem ? light : fixed;
+        const currentDarkTheme = mustObeySystem ? dark : fixed;
+        const classicSelected = currentDarkTheme === ThemeKind.Classic;
+        const darkSelected = currentDarkTheme === ThemeKind.Dark;
+        const lightSelected = currentLightTheme === ThemeKind.Light;
+        return [
+          {
+            id: ThemeKind.Classic as ThemeId,
+            theme: classicTheme,
+            title: 'Классическая',
+            selected: classicSelected,
+          },
+          {
+            id: ThemeKind.Dark as ThemeId,
+            theme: darkTheme,
+            title: 'Тёмная',
+            selected: darkSelected,
+          },
+          {
+            id: ThemeKind.Light as ThemeId,
+            theme: lightTheme,
+            title: 'Светлая',
+            selected: lightSelected,
+          },
+        ] satisfies ThemeItems;
+      }),
+    [root],
+  );
+  const onThemeItemPress = useCallback(
+    (id: ThemeId) => {
+      const kind = id as ThemeKind;
+      root.themeStorage.set((_ = defaultThemeRecord) => {
+        if (_.mustObeySystem) {
+          if (isLightThemeKind(kind)) {
+            return {..._, light: kind};
+          }
+          return {..._, dark: kind};
+        }
+        return {..._, fixed: kind};
+      });
+    },
+    [root],
+  );
   return (
     <PromptSettingsScreen
       getToday={getToday}
       getDoesObeySystem={getDoesObeySystem}
       toggleSystemObedience={toggleSystemObedience}
+      $themeItems={$themeItems}
+      onThemeItemPress={onThemeItemPress}
       onSetupPress={onSetupPress}
       getCards={getCards}
       onCardPress={onCardPress}

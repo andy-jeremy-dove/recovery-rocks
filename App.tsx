@@ -29,6 +29,7 @@ import {
   setVisibilityAsync,
 } from 'expo-navigation-bar';
 import {StatusBar} from 'expo-status-bar';
+import {observer} from 'mobx-react-lite';
 import {useEffect, useMemo} from 'react';
 import {Platform} from 'react-native';
 import 'react-native-gesture-handler';
@@ -39,15 +40,23 @@ import {
 
 import app from './app.config';
 import './global.css';
+import {useRoot} from './src/Root';
 import RootProvider from './src/Root/RootProvider';
 import RootStack from './src/RootStack/RootStack';
 import type {RootStackParamList} from './src/RootStack/RootStackParamList';
 import {ThemeProvider, useTheme} from './src/styling';
-import classicTheme from './src/styling/Theme/classicTheme';
 
 dayjs.locale('ru');
 
 export default function App() {
+  return (
+    <RootProvider>
+      <AppRoot />
+    </RootProvider>
+  );
+}
+
+const AppRoot = observer(function AppRoot() {
   const [isLoaded] = useFonts({
     Inter_400Regular,
     Inter_800ExtraBold,
@@ -64,22 +73,19 @@ export default function App() {
       ]);
     }
   }, []);
-  if (!isLoaded) {
+  const root = useRoot();
+  if (!isLoaded || !root.themeState.initialized) {
     return null;
   }
   return (
-    <RootProvider>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <ThemeProvider theme={globalTheme}>
-          <GlobalStatusBar />
-          <NavigationRoot />
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </RootProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <ThemeProvider theme={root.themeState.theme}>
+        <GlobalStatusBar />
+        <NavigationRoot />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
-}
-
-const globalTheme = classicTheme;
+});
 
 function NavigationRoot() {
   const theme = useTheme();

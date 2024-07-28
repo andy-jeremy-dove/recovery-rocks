@@ -1,4 +1,5 @@
 import {observer} from 'mobx-react-lite';
+import {useCallback} from 'react';
 import type {ViewProps} from 'react-native';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
@@ -6,55 +7,111 @@ import LinkText from '../../components/LinkText';
 import type {OptionalGetter} from '../../mobx-toolbox';
 import {use} from '../../mobx-toolbox';
 import {ThemeProvider, variance} from '../../styling';
-import classicTheme from '../../styling/Theme/classicTheme';
-import darkTheme from '../../styling/Theme/darkTheme';
-import lightTheme from '../../styling/Theme/lightTheme';
+import type {ThemeId, ThemeItem, ThemeItems} from './PromptSettingsScreen';
 
 export type ThemeGroupProps = ViewProps & {
   getDoesObeySystem?: OptionalGetter<boolean | undefined>;
   toggleSystemObedience?: () => void;
+  $themeItems?: OptionalGetter<ThemeItems>;
+  onThemeItemPress?: (_: ThemeId) => void;
 };
 
 export default observer(function ThemeGroup(props: ThemeGroupProps) {
-  const {getDoesObeySystem, toggleSystemObedience, style, ...rest} = props;
-  const doesObeySystem = use(getDoesObeySystem);
+  const {
+    getDoesObeySystem,
+    toggleSystemObedience,
+    $themeItems,
+    onThemeItemPress,
+    style,
+    ...rest
+  } = props;
   return (
     <View style={[layoutStyles.themeGroup, style]} {...rest}>
-      <Pressable onPress={toggleSystemObedience}>
-        {({focused, hovered, pressed}) => (
-          <ThemePreferenceText>
-            {doesObeySystem
-              ? 'Тема выставляется автоматически, исходя из системных настроек.'
-              : 'Тема выставляется вручную.'}{' '}
-            <LinkText hover={focused || hovered} active={pressed}>
-              {doesObeySystem
-                ? 'Выставить вручную.'
-                : 'Выставлять согласно системе.'}
-            </LinkText>
-          </ThemePreferenceText>
-        )}
-      </Pressable>
-      <View style={layoutStyles.themeRow}>
-        <View>
-          <ThemeSelection />
-          <ThemeProvider theme={lightTheme}>
-            <ThemeButton>Светлая</ThemeButton>
-          </ThemeProvider>
-        </View>
-        <View>
-          <ThemeSelection />
-          <ThemeProvider theme={classicTheme}>
-            <ThemeButton>Классика</ThemeButton>
-          </ThemeProvider>
-        </View>
-        <View>
-          <ThemeSelection />
-          <ThemeProvider theme={darkTheme}>
-            <ThemeButton>Тёмная</ThemeButton>
-          </ThemeProvider>
-        </View>
-      </View>
+      <SystemObedience
+        getDoesObeySystem={getDoesObeySystem}
+        toggleSystemObedience={toggleSystemObedience}
+      />
+      <ThemeItemsPicker
+        $themeItems={$themeItems}
+        onThemeItemPress={onThemeItemPress}
+      />
     </View>
+  );
+});
+
+type SystemObedienceProps = {
+  getDoesObeySystem?: OptionalGetter<boolean | undefined>;
+  toggleSystemObedience?: () => void;
+};
+
+const SystemObedience = observer(function SystemObedience(
+  props: SystemObedienceProps,
+) {
+  const {getDoesObeySystem, toggleSystemObedience} = props;
+  const doesObeySystem = use(getDoesObeySystem);
+  return (
+    <Pressable onPress={toggleSystemObedience}>
+      {({focused, hovered, pressed}) => (
+        <ThemePreferenceText>
+          {doesObeySystem
+            ? 'Тема выставляется автоматически, исходя из системных настроек.'
+            : 'Тема выставляется вручную.'}{' '}
+          <LinkText hover={focused || hovered} active={pressed}>
+            {doesObeySystem
+              ? 'Выставить вручную.'
+              : 'Выставлять согласно системе.'}
+          </LinkText>
+        </ThemePreferenceText>
+      )}
+    </Pressable>
+  );
+});
+
+type ThemeItemsPickerProps = {
+  $themeItems?: OptionalGetter<ThemeItems>;
+  onThemeItemPress?: (_: ThemeId) => void;
+};
+
+const ThemeItemsPicker = observer(function ThemeItemsPicker(
+  props: ThemeItemsPickerProps,
+) {
+  const {$themeItems, onThemeItemPress} = props;
+  const themeItems = use($themeItems);
+  return (
+    <View style={layoutStyles.themeRow}>
+      {themeItems?.map(_ => (
+        <ThemeItemView
+          key={_.id}
+          item={_}
+          onThemeItemPress={onThemeItemPress}
+        />
+      ))}
+    </View>
+  );
+});
+
+type ThemeItemViewProps = {
+  onThemeItemPress?: (_: ThemeId) => void;
+  item: ThemeItem;
+} & ViewProps;
+
+const ThemeItemView = observer(function ThemeItemView(
+  props: ThemeItemViewProps,
+) {
+  const {onThemeItemPress, item, ...rest} = props;
+  const {id} = item;
+  const onPress = useCallback(() => {
+    onThemeItemPress?.(id);
+  }, [id, onThemeItemPress]);
+  return (
+    <Pressable onPress={onPress}>
+      <View {...rest}>
+        {item.selected && <ThemeSelection />}
+        <ThemeProvider theme={item.theme}>
+          <ThemeButton>{item.title}</ThemeButton>
+        </ThemeProvider>
+      </View>
+    </Pressable>
   );
 });
 

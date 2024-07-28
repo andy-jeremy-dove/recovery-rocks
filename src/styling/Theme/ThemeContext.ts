@@ -1,6 +1,6 @@
 import {createContext} from 'react';
 
-import lightTheme from './lightTheme';
+import classicTheme from './classicTheme';
 import type {Theme} from './Theme';
 
-export default createContext<Theme>(lightTheme);
+export default createContext<Theme>(classicTheme);

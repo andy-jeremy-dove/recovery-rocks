@@ -9,7 +9,10 @@ import ContentScrollView from '../../components/ContentScrollView';
 import DatePillText from '../../components/DatePillText';
 import type {OptionalGetter} from '../../mobx-toolbox';
 import {use} from '../../mobx-toolbox';
+import type {Tagged} from '../../Opaque';
+import type {_Array, _Object} from '../../Paramut';
 import {fillSpace} from '../../styles';
+import type {Theme} from '../../styling';
 import CardList from './CardList';
 import type {MeetingCard} from './MeetingCard';
 import ThemeGroup from './ThemeGroup';
@@ -18,17 +21,40 @@ export type PromptSettingsScreenProps = {
   getToday: OptionalGetter<string>;
   getDoesObeySystem?: OptionalGetter<boolean | undefined>;
   toggleSystemObedience?: () => void;
+  $themeItems?: OptionalGetter<ThemeItems>;
+  onThemeItemPress?: (_: ThemeId) => void;
   onSetupPress?: () => void;
   getCards: OptionalGetter<MeetingCard[] | null | undefined>;
   onCardPress?: (id: string) => void;
   compensateHeaderHeight?: number;
 };
 
+declare const THEME_ID_TAG: unique symbol;
+export type ThemeIdTag = typeof THEME_ID_TAG;
+export type ThemeId = Tagged<number, ThemeIdTag>;
+
+export type ThemeItem<Mut extends boolean = false> = _Object<
+  {
+    id: ThemeId;
+    title: string;
+    selected: boolean;
+    theme: Theme;
+  },
+  Mut
+>;
+
+export type ThemeItems<Mut extends boolean = false> = _Array<
+  ThemeItem<Mut>,
+  Mut
+>;
+
 export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
   const {
     getToday,
     getDoesObeySystem,
     toggleSystemObedience,
+    $themeItems,
+    onThemeItemPress,
     onSetupPress,
     getCards,
     onCardPress,
@@ -50,6 +76,8 @@ export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
         style={layoutStyles.indent}
         getDoesObeySystem={getDoesObeySystem}
         toggleSystemObedience={toggleSystemObedience}
+        $themeItems={$themeItems}
+        onThemeItemPress={onThemeItemPress}
       />
       <View style={layoutStyles.grow1} />
       <BasicButtonText

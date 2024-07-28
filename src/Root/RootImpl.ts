@@ -1,12 +1,16 @@
+import {AppearanceImpl} from '../Appearance';
+import {AppearanceStateImpl} from '../AppearanceState';
 import {AppVisibilityImpl} from '../AppVisibility';
 import {AppVisibilityStateImpl} from '../AppVisibilityState';
 import {CurrentTimeImpl} from '../CurrentTime';
 import JsonParserImpl from '../Json/JsonParserImpl';
 import JsonStringifierImpl from '../Json/JsonStringifierImpl';
-import type {JsonKeyValueMap} from '../JsonKeyValueMap/JsonKeyValueMap';
+import type {JsonKeyValueMap} from '../JsonKeyValueMap';
 import {JsonKeyValueStorageImpl} from '../JsonKeyValueStorage';
 import KeyValueStorageImpl from '../KeyValueStorage/KeyValueStorageImpl';
 import {ProfileStorageImpl} from '../ProfileStorage';
+import ThemeStateImpl from '../ThemeState/ThemeStateImpl';
+import {ThemeStorageImpl} from '../ThemeStorage';
 import {TimeImpl} from '../Time';
 import {TimeStateImpl} from '../TimeState';
 import type {Root} from './Root';
@@ -26,6 +30,10 @@ export default class RootImpl implements Root, Disposable {
     {prefix: 'local'},
   );
   readonly profileStorage = new ProfileStorageImpl(this, 'profile');
+  readonly appearance = new AppearanceImpl();
+  readonly appearanceState = new AppearanceStateImpl(this);
+  readonly themeStorage = new ThemeStorageImpl(this, 'theme');
+  readonly themeState = new ThemeStateImpl(this);
 
   [Symbol.dispose]() {
     for (const prop in this) {

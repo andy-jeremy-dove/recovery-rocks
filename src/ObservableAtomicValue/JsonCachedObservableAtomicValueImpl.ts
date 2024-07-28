@@ -10,6 +10,7 @@ import type {BaseAsyncOptions} from '../Async';
 import {AbortError} from '../Async/errors';
 import type {Json} from '../Json';
 import type {JsonAtomicStorage} from '../JsonAtomicStorage';
+import {type OptionalGetter, use} from '../mobx-toolbox';
 import type {ObservableAtomicValue} from './ObservableAtomicValue';
 
 export default class JsonCachedObservableAtomicValueImpl<T extends Json>
@@ -19,7 +20,10 @@ export default class JsonCachedObservableAtomicValueImpl<T extends Json>
   private _controller?: AbortController;
   private readonly _stack;
 
-  constructor(private readonly _jsonAtomicStorage: JsonAtomicStorage<T>) {
+  constructor(
+    private readonly _jsonAtomicStorage: JsonAtomicStorage<T>,
+    private readonly _$defaultValue: OptionalGetter<T | undefined> = undefined,
+  ) {
     using stack = new DisposableStack();
 
     let controller: AbortController | undefined;
@@ -54,7 +58,7 @@ export default class JsonCachedObservableAtomicValueImpl<T extends Json>
     this._save(next)
       .then(
         action(() => {
-          this._value = next;
+          this._value = next ?? use(this._$defaultValue);
         }),
       )
       .catch((_: unknown) => {
@@ -75,7 +79,7 @@ export default class JsonCachedObservableAtomicValueImpl<T extends Json>
   private readonly _onLoad = async (options: BaseAsyncOptions) => {
     const initial = await this._load(options);
     runInAction(() => {
-      this._value = initial;
+      this._value = initial ?? use(this._$defaultValue);
     });
   };
 
