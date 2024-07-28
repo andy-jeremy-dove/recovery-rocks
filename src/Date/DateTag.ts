@@ -19,7 +19,7 @@ export function dateInvariant(day: number, _month: number, year?: number) {
   if (!Number.isInteger(day)) {
     throw new TypeError('Day must be integer');
   }
-  if (year !== undefined && !Number.isInteger(day)) {
+  if (year !== undefined && !Number.isInteger(year)) {
     throw new TypeError('Year must be integer');
   }
   const correction =
