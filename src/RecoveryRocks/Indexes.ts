@@ -1,5 +1,5 @@
+import type {DateTag} from '../Date';
 import type {Day} from '../Time';
-import type {DateTag} from './DateTag';
 import type {Quote, Topic} from './TheWholeDump';
 
 export type Indexes = {

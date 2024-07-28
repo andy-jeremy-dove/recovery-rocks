@@ -12,7 +12,7 @@ import {Platform, StyleSheet} from 'react-native';
 import PromptSettingsBinding from '../bindings/PromptSettingsBinding';
 import PromptSetupBinding from '../bindings/PromptSetupBinding';
 import ShowMeetingCardBinding from '../bindings/ShowMeetingCardBinding';
-import ShowProgressBinding from '../bindings/ShowProgressBinding';
+import {ShowProgressBinding} from '../bindings/ShowProgressBinding';
 import ShowTopicBinding from '../bindings/ShowTopicBinding';
 import type {RootStackParamList} from './RootStackParamList';
 

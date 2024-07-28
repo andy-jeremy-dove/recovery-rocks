@@ -4,41 +4,41 @@ import {Text, View} from 'react-native';
 
 import {variance} from '../styling';
 
-export enum Gender {
+export enum Sex {
   Male,
   Female,
 }
 
-type GenderPickerProps = ViewProps & {
-  value: Gender;
-  onChange?: (_: Gender) => void;
+type SexPickerProps = ViewProps & {
+  value: Sex;
+  onChange?: (_: Sex) => void;
 };
 
-export default function GenderPicker(props: GenderPickerProps) {
+export default function SexPicker(props: SexPickerProps) {
   const {value, onChange, ...rest} = props;
-  const setMale = useCallback(() => onChange?.(Gender.Male), [onChange]);
-  const setFemale = useCallback(() => onChange?.(Gender.Female), [onChange]);
+  const setMale = useCallback(() => onChange?.(Sex.Male), [onChange]);
+  const setFemale = useCallback(() => onChange?.(Sex.Female), [onChange]);
   return (
-    <GenderPickerRow {...rest}>
-      <GenderPickerEntry
+    <SexPickerRow {...rest}>
+      <SexPickerEntry
         tabIndex={0}
-        checked={value === Gender.Male}
-        aria-checked={value === Gender.Male}
+        checked={value === Sex.Male}
+        aria-checked={value === Sex.Male}
         onPress={setMale}>
         Мужчина
-      </GenderPickerEntry>
-      <GenderPickerEntry
+      </SexPickerEntry>
+      <SexPickerEntry
         tabIndex={0}
-        checked={value === Gender.Female}
-        aria-checked={value === Gender.Male}
+        checked={value === Sex.Female}
+        aria-checked={value === Sex.Male}
         onPress={setFemale}>
         Женщина
-      </GenderPickerEntry>
-    </GenderPickerRow>
+      </SexPickerEntry>
+    </SexPickerRow>
   );
 }
 
-const GenderPickerRow = variance(View)(
+const SexPickerRow = variance(View)(
   theme => ({
     root: {
       flexDirection: 'row',
@@ -56,7 +56,7 @@ const GenderPickerRow = variance(View)(
   }),
 );
 
-const GenderPickerEntry = variance(Text)(
+const SexPickerEntry = variance(Text)(
   theme => ({
     root: {
       flex: 1,

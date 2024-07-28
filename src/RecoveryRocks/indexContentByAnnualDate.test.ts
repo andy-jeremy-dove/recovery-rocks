@@ -1,6 +1,6 @@
 import {expect, it} from '@jest/globals';
 
-import {createDateTag} from './DateTag';
+import {createDateTag} from '../Date';
 import indexContentByAnnualDate from './indexContentByAnnualDate';
 import {dolorQuote, ipsumQuote, loremQuote, quotes} from './quotes';
 import {dolorTopic, ipsumTopic, loremTopic, topics} from './topics';

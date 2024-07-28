@@ -28,8 +28,7 @@ export default class JsonKeyValueStorageImpl<
   ): Promise<KV[K] | undefined> {
     throwIfAborted(options?.signal);
 
-    const prefix = fallbackIfNullish(this._options?.prefix, EMPTY_PREFIX);
-    const key = `${prefix}${String(_key)}`;
+    const key = this._getKey(_key);
 
     const value = await this._storage.get(key, options);
     if (value === undefined) {
@@ -44,8 +43,7 @@ export default class JsonKeyValueStorageImpl<
   ): Promise<boolean> {
     throwIfAborted(options?.signal);
 
-    const prefix = fallbackIfNullish(this._options?.prefix, EMPTY_PREFIX);
-    const key = `${prefix}${String(_key)}`;
+    const key = this._getKey(_key);
 
     return this._storage.has(key, options);
   }
@@ -57,8 +55,7 @@ export default class JsonKeyValueStorageImpl<
   ): Promise<void> {
     throwIfAborted(options?.signal);
 
-    const prefix = fallbackIfNullish(this._options?.prefix, EMPTY_PREFIX);
-    const key = `${prefix}${String(_key)}`;
+    const key = this._getKey(_key);
 
     const raw = this._root.jsonStringifier.stringify(value);
     return this._storage.set(key, raw, options);
@@ -70,10 +67,14 @@ export default class JsonKeyValueStorageImpl<
   ): Promise<void> {
     throwIfAborted(options?.signal);
 
-    const prefix = fallbackIfNullish(this._options?.prefix, EMPTY_PREFIX);
-    const key = `${prefix}${String(_key)}`;
+    const key = this._getKey(_key);
 
     return this._storage.delete(key, options);
+  }
+
+  private _getKey(key: keyof KV) {
+    const prefix = fallbackIfNullish(this._options?.prefix, EMPTY_PREFIX);
+    return `${prefix}/${String(key)}`;
   }
 }
 

@@ -1,2 +1,2 @@
 export * from './JsonKeyValueStorage';
-export {default as JsonKeyValueStoreImpl} from './JsonKeyValueStorageImpl';
+export {default as JsonKeyValueStorageImpl} from './JsonKeyValueStorageImpl';

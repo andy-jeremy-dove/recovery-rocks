@@ -1,4 +1,6 @@
-import {useCallback, useMemo, useState} from 'react';
+import {comparer} from 'mobx';
+import {observer} from 'mobx-react-lite';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import type {StyleProp, TextInputProps, ViewStyle} from 'react-native';
 import {Keyboard, StyleSheet, Text, TextInput, View} from 'react-native';
 
@@ -6,22 +8,83 @@ import BackgroundView from '../components/BackgroundView';
 import BasicButtonText from '../components/BasicButtonText';
 import ContentScrollView from '../components/ContentScrollView';
 import DatePicker from '../components/DatePicker';
-import GenderPicker, {Gender} from '../components/GenderPicker';
+import SexPicker, {Sex} from '../components/SexPicker';
+import {type DateRecord, fromTimestamp} from '../DateRecord';
+import type {_Object} from '../Paramut';
+import {useRoot} from '../Root';
 import {fillSpace} from '../styles';
 import {variance} from '../styling';
+import type {Time} from '../Time';
 
 export type SetupScreenProps = {
   cancellation?: boolean;
   onCancel?: () => void;
   compensateHeaderHeight?: number;
+  formState?: Partial<ProfileFormState>;
+  onSubmit?: (_: ProfileFormState) => void;
 };
 
-export default function PromptSetupScreen(props: SetupScreenProps) {
-  const {compensateHeaderHeight, cancellation, onCancel} = props;
-  const [gender, setGender] = useState(Gender.Male);
-  const onPress = useCallback(() => {
-    Keyboard.dismiss();
+export type ProfileFormState<Mut extends boolean = false> = _Object<
+  {
+    name: string;
+    sex: Sex;
+    start: DateRecord<Mut>;
+  },
+  Mut
+>;
+
+export default observer(function PromptSetupScreen(props: SetupScreenProps) {
+  const {
+    compensateHeaderHeight,
+    cancellation,
+    onCancel,
+    formState: foreignFormState,
+    onSubmit,
+  } = props;
+  const root = useRoot();
+  const [localFormState, setFormState] = useState(() =>
+    createFormState(root, foreignFormState),
+  );
+  const firstRunRef = useRef(true);
+  useEffect(() => {
+    if (firstRunRef.current) {
+      return;
+    }
+    if (foreignFormState) {
+      setFormState(createFormState(root, foreignFormState));
+    }
+  }, [foreignFormState, root]);
+  useEffect(() => {
+    firstRunRef.current = false;
   }, []);
+  const setName = useCallback((name: string) => {
+    setFormState(_ => {
+      if (Object.is(_.name, name)) {
+        return _;
+      }
+      return {..._, name};
+    });
+  }, []);
+  const setSex = useCallback((sex: Sex) => {
+    setFormState(_ => {
+      if (Object.is(_.sex, sex)) {
+        return _;
+      }
+      return {..._, sex};
+    });
+  }, []);
+  const setStart = useCallback((start: DateRecord) => {
+    setFormState(_ => {
+      if (comparer.shallow(_.start, start)) {
+        return _;
+      }
+      return {..._, start};
+    });
+  }, []);
+  const onPress = useCallback(() => {
+    onSubmit?.(localFormState);
+    Keyboard.dismiss();
+  }, [localFormState, onSubmit]);
   const topStyle: StyleProp<ViewStyle> = useMemo(
     () => [
       layoutStyles.grow3,
@@ -40,10 +103,19 @@ export default function PromptSetupScreen(props: SetupScreenProps) {
       <View>
         <FieldTitle secondary>Ваше имя</FieldTitle>
         <View style={layoutStyles.row}>
-          <NameInput style={fixedWide} tabIndex={0} />
+          <NameTextInput
+            style={fixedWide}
+            tabIndex={0}
+            value={localFormState.name}
+            onChangeText={setName}
+          />
         </View>
         <View style={layoutStyles.row}>
-          <GenderPicker style={fixedWide} value={gender} onChange={setGender} />
+          <SexPicker
+            style={fixedWide}
+            value={localFormState.sex}
+            onChange={setSex}
+          />
         </View>
       </View>
       <View style={layoutStyles.grow2} />
@@ -52,9 +124,8 @@ export default function PromptSetupScreen(props: SetupScreenProps) {
         <View style={layoutStyles.row}>
           <DatePicker
             style={datePickerStyle}
-            day={12}
-            month={12}
-            year={2012}
+            value={localFormState.start}
+            onChange={setStart}
             dayContainerStyle={layoutStyles.dayMonthContainerStyle}
             monthContainerStyle={layoutStyles.dayMonthContainerStyle}
             yearContainerStyle={layoutStyles.yearContainerStyle}
@@ -81,6 +152,17 @@ export default function PromptSetupScreen(props: SetupScreenProps) {
       <View style={layoutStyles.grow7} />
     </ContentScrollView>
   );
+});
+
+function createFormState(
+  root: {readonly time: Time},
+  _?: Partial<ProfileFormState>,
+): ProfileFormState<true> {
+  return {
+    name: _?.name ?? '',
+    sex: _?.sex ?? Sex.Male,
+    start: _?.start ?? fromTimestamp(root.time.now()),
+  };
 }
 
 const DAY_MONTH_BASIS = 85;
@@ -151,7 +233,7 @@ const FieldTitle = variance(Text)(theme => ({
   },
 }));
 
-const NameInput = variance(TextInput)(
+const NameTextInput = variance(TextInput)(
   theme => ({
     root: {
       borderWidth: 1,

@@ -66,6 +66,6 @@ export default class StackNavigationStateProviderService<
   });
 
   [Symbol.dispose]() {
-    this._stack[Symbol.dispose]();
+    this._stack.dispose();
   }
 }

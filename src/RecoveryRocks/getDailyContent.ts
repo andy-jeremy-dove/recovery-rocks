@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 
+import type {DateTag} from '../Date';
+import {createDateTag} from '../Date';
 import type {Day, Millisecond} from '../Time';
-import type {DateTag} from './DateTag';
-import {createDateTag} from './DateTag';
 import type {DailyContent} from './Indexes';
 
 export default function getDailyContent(

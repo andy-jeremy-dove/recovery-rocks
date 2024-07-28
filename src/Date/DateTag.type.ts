@@ -7,7 +7,8 @@ import type {
   IsTrue,
 } from '@type-challenges/utils';
 
-import type {DateTag, NaturalRange} from './DateTag';
+import type {NaturalRange} from '../util/Range';
+import type {DateTag} from './DateTag';
 
 export type cases = [
   IsTrue<ExpectExtends<DateTag, '1/0'>>, // 1th of January

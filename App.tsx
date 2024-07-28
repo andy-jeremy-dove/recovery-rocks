@@ -39,6 +39,7 @@ import {
 
 import app from './app.config';
 import './global.css';
+import RootProvider from './src/Root/RootProvider';
 import RootStack from './src/RootStack/RootStack';
 import type {RootStackParamList} from './src/RootStack/RootStackParamList';
 import {ThemeProvider, useTheme} from './src/styling';
@@ -67,12 +68,14 @@ export default function App() {
     return null;
   }
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ThemeProvider theme={globalTheme}>
-        <GlobalStatusBar />
-        <NavigationRoot />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <RootProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <ThemeProvider theme={globalTheme}>
+          <GlobalStatusBar />
+          <NavigationRoot />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </RootProvider>
   );
 }
 

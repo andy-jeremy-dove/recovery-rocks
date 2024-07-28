@@ -1,4 +1,4 @@
-import {createDateTag, type DateTag} from './DateTag';
+import {createDateTag, type DateTag} from '../Date';
 import type {DailyContent} from './Indexes';
 import type {Quote, Topic} from './TheWholeDump';
 
