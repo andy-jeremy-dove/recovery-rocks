@@ -165,7 +165,7 @@ const cards: MeetingCard[] = [
   },
   {
     id: '5',
-    title: 'Двенадцать традиций АН?',
+    title: 'Двенадцать традиций АН',
     backgroundColor: '#E7E7E7',
     textColor: '#000',
     borderColor: '#000',
