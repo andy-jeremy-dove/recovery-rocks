@@ -1,7 +1,7 @@
 import type {ExpoConfig} from 'expo/config';
 
 export default {
-  name: 'RecoveryRocks',
+  name: 'Recovery Rocks',
   slug: 'RecoveryRocks',
   scheme: 'recoveryrocks',
   version: '1.0.0',
