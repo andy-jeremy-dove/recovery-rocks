@@ -71,7 +71,7 @@ function _ShowProgressStableBinding(props: ShowProgressStableBindingProps) {
       dailyAchievement={state.dailyAchievement}
       anniversaryAchievement={state.anniversaryAchievement}
       congratulation="Сегодня юбилей!"
-      quote="Не важно, сколько нам уже удалось пройти или сколько нам еще предстоит пройти, – когда мы живем чистыми, путешествие продолжается."
+      quote="Освободившись от погруженности в себя, мы начинаем понимать, что значит быть счастливым, радостным и свободным."
       onQuotePress={showTopic}
       compensateHeaderHeight={headerHeight}
     />
