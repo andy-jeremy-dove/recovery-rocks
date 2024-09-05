@@ -24,7 +24,7 @@ export type PromptSettingsScreenProps = {
   $themeItems?: OptionalGetter<ThemeItems>;
   onThemeItemPress?: (_: ThemeId) => void;
   onSetupPress?: () => void;
-  getCards: OptionalGetter<MeetingCard[] | null | undefined>;
+  getCards: OptionalGetter<_Array<MeetingCard> | null | undefined>;
   onCardPress?: (id: string) => void;
   compensateHeaderHeight?: number;
 };

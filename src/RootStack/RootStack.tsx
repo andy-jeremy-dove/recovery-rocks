@@ -9,9 +9,9 @@ import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {useCallback, useMemo} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 
-import PromptSettingsBinding from '../bindings/PromptSettingsBinding';
+import {PromptSettingsBinding} from '../bindings/PromptSettingsBinding';
 import PromptSetupBinding from '../bindings/PromptSetupBinding';
-import ShowMeetingCardBinding from '../bindings/ShowMeetingCardBinding';
+import {ShowMeetingCardBinding} from '../bindings/ShowMeetingCardBinding';
 import {ShowProgressBinding} from '../bindings/ShowProgressBinding';
 import ShowTopicBinding from '../bindings/ShowTopicBinding';
 import type {RootStackParamList} from './RootStackParamList';

@@ -10,12 +10,13 @@ import BasicButtonText, {
 import SkeletonBaseView from '../../components/SkeletonBaseView';
 import type {OptionalGetter} from '../../mobx-toolbox';
 import {use} from '../../mobx-toolbox';
+import type {_Array} from '../../Paramut';
 import {fillSpace} from '../../styles';
 import {variance} from '../../styling';
 import type {MeetingCard} from './MeetingCard';
 
 export type CardListProps = ViewProps & {
-  getCards: OptionalGetter<MeetingCard[] | null | undefined>;
+  getCards: OptionalGetter<_Array<MeetingCard> | null | undefined>;
   onCardPress?: (id: string) => void;
 };
 

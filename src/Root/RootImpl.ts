@@ -8,6 +8,7 @@ import JsonStringifierImpl from '../Json/JsonStringifierImpl';
 import type {JsonKeyValueMap} from '../JsonKeyValueMap';
 import {JsonKeyValueStorageImpl} from '../JsonKeyValueStorage';
 import KeyValueStorageImpl from '../KeyValueStorage/KeyValueStorageImpl';
+import {MeetingCardStorageImpl} from '../MeetingCardStorage';
 import {ProfileStorageImpl} from '../ProfileStorage';
 import ThemeStateImpl from '../ThemeState/ThemeStateImpl';
 import {ThemeStorageImpl} from '../ThemeStorage';
@@ -34,6 +35,7 @@ export default class RootImpl implements Root, Disposable {
   readonly appearanceState = new AppearanceStateImpl(this);
   readonly themeStorage = new ThemeStorageImpl(this, 'theme');
   readonly themeState = new ThemeStateImpl(this);
+  readonly meetingCardStorage = new MeetingCardStorageImpl();
 
   [Symbol.dispose]() {
     for (const prop in this) {

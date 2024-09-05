@@ -1,4 +1,5 @@
 import type {Tagged} from '../Opaque';
+import type {_Object} from '../Paramut';
 import type {Day} from '../Time';
 
 export type TheWholeDump = {
@@ -24,14 +25,17 @@ export type GroupLocationId = Tagged<string, typeof GROUP_LOCATION_ID>;
 
 export type LatLng = [number, number];
 
-export type MeetingCard = {
-  id: MeetingCardId;
-  title: string;
-  body: string;
-  backgroundColor: string;
-  textColor: string;
-  borderColor: string;
-};
+export type MeetingCard<Mut extends boolean = false> = _Object<
+  {
+    id: MeetingCardId;
+    title: string;
+    body: string;
+    backgroundColor: string;
+    textColor: string;
+    borderColor: string;
+  },
+  Mut
+>;
 
 declare const MEETING_CARD_ID: unique symbol;
 export type MeetingCardId = Tagged<string, typeof MEETING_CARD_ID>;

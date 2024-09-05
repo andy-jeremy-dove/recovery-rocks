@@ -1,4 +1,5 @@
 import type {CurrentTime} from '../CurrentTime';
+import type {MeetingCardStorage} from '../MeetingCardStorage';
 import type {ProfileStorage} from '../ProfileStorage';
 import type {ThemeState} from '../ThemeState/ThemeState';
 import type {ThemeStorage} from '../ThemeStorage';
@@ -10,4 +11,5 @@ export interface Root {
   readonly profileStorage: ProfileStorage;
   readonly themeStorage: ThemeStorage;
   readonly themeState: ThemeState;
+  readonly meetingCardStorage: MeetingCardStorage;
 }
