@@ -11,7 +11,7 @@ export default function Appeal(props: AppealProps) {
   return (
     <AnnouncementText>
       {name || (sex === Sex.Male ? 'Друг' : 'Подруга')}, ты{' '}
-      {sex === Sex.Male ? 'чист' : 'чиста'}
+      {sex === Sex.Male ? 'чистый' : 'чистая'}
     </AnnouncementText>
   );
 }
