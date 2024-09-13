@@ -50,7 +50,7 @@ export default function ShowMeetingCardScreen(
         <View style={[layoutStyles.card, cardStyle]}>
           <View style={layoutStyles.grow1} />
           <TitleText style={textStyle}>{title}</TitleText>
-          <View style={layoutStyles.grow1} />
+          <View style={layoutStyles.divider} />
           <BodyText style={textStyle}>{body}</BodyText>
           <View style={layoutStyles.grow1} />
         </View>
@@ -68,6 +68,10 @@ const layoutStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   grow1: fillSpace(1),
+  divider: {
+    ...fillSpace(1),
+    minHeight: 20,
+  },
   card: {
     alignSelf: 'stretch',
     flexBasis: MAX_WIDTH,

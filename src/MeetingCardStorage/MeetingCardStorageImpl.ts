@@ -1,10 +1,10 @@
-import type {_Array} from '../Paramut';
+import rawCards from '../../web/cards.json';
+import type {_Array, _Map} from '../Paramut';
 import type {MeetingCard, MeetingCardId} from '../RecoveryRocks/TheWholeDump';
-import {cards, cardsById} from './constant';
 import type {MeetingCardStorage} from './MeetingCardStorage';
 
 export default class MeetingCardStorageImpl implements MeetingCardStorage {
-  getCards(): Promise<_Array<MeetingCard>> {
+  getCards() {
     return Promise.resolve(cards);
   }
 
@@ -16,3 +16,10 @@ export default class MeetingCardStorageImpl implements MeetingCardStorage {
     return Promise.resolve(card);
   }
 }
+
+const cards = rawCards as unknown as _Array<MeetingCard>;
+
+const cardsById = new Map(cards.map(_ => [_.id, _])) satisfies _Map<
+  MeetingCardId,
+  MeetingCard
+>;
