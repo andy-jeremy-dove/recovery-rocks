@@ -5,11 +5,11 @@ export default {
   slug: 'RecoveryRocks',
   scheme: 'recoveryrocks',
   version: '1.0.0',
-  icon: './assets/icon.png',
+  icon: './assets/rr-logo.png',
   userInterfaceStyle: 'light',
   plugins: ['expo-font'],
   splash: {
-    image: './assets/splash.png',
+    image: './assets/rr-logo.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
@@ -26,11 +26,11 @@ export default {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
+      foregroundImage: './assets/rr-logo.png',
       backgroundColor: '#ffffff',
     },
   },
   web: {
-    favicon: './assets/favicon.png',
+    favicon: './assets/rr-logo.png',
   },
 } satisfies ExpoConfig;
