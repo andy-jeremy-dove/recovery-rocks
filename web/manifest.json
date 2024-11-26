@@ -1,0 +1,36 @@
+{
+  "theme_color": "#ffffff",
+  "background_color": "#132255",
+  "display": "standalone",
+  "lang": "ru",
+  "name": "Recovery Rocks",
+  "short_name": "Recovery Rocks",
+  "start_url": "/?utm_source=web_app_manifest",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "16x16"
+    },
+    {
+      "src": "favicon-16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "favicon-32.png",
+      "type": "image/png",
+      "sizes": "32x32 24x24"
+    },
+    {
+      "src": "pwa/apple-touch-icon/apple-touch-icon-180.png",
+      "type": "image/png",
+      "sizes": "180x180 64x64"
+    },
+    {
+      "src": "rr-logo.png",
+      "type": "image/png",
+      "sizes": "1024x1024 512x512 192x192"
+    }
+  ]
+}

@@ -5,11 +5,12 @@ export default {
   slug: 'RecoveryRocks',
   scheme: 'recoveryrocks',
   version: '1.0.0',
-  icon: './assets/rr-logo.png',
+  // https://github.com/expo/expo-cli/issues/2441
+  icon: './web/rr-logo.png',
   userInterfaceStyle: 'light',
   plugins: ['expo-font'],
   splash: {
-    image: './assets/rr-logo.png',
+    image: './web/rr-logo.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
@@ -26,11 +27,11 @@ export default {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/rr-logo.png',
+      foregroundImage: './web/rr-logo.png',
       backgroundColor: '#ffffff',
     },
   },
   web: {
-    favicon: './assets/rr-logo.png',
+    favicon: './web/rr-logo.png',
   },
 } satisfies ExpoConfig;
