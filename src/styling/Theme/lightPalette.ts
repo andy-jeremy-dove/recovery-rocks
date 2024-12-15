@@ -18,7 +18,7 @@ const lightPalette = Object.freeze(
     textShadowHighlight: '#00000000',
     textBackground: '#000',
     link: '#25428b',
-    textSpecter: '#e2e2e2',
+    textSpecter: '#b8b8b8',
   } as const),
 ) satisfies Palette;
 

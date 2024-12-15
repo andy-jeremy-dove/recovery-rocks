@@ -2,7 +2,9 @@ import {useHeaderHeight} from '@react-navigation/elements';
 import type {StackScreenProps} from '@react-navigation/stack';
 import {observer} from 'mobx-react-lite';
 import {useCallback} from 'react';
+import {Platform} from 'react-native';
 
+import rootPackage from '../../../package.json';
 import {expr} from '../../mobx-toolbox';
 import type {MeetingCardId} from '../../RecoveryRocks/TheWholeDump';
 import {useRoot} from '../../Root';
@@ -112,7 +114,26 @@ export default observer(function PromptSettingsBinding(
       onSetupPress={onSetupPress}
       getCards={cards}
       onCardPress={onCardPress}
+      platformName={translatePlatformName(Platform.OS)}
+      appVersion={rootPackage.version}
       compensateHeaderHeight={headerHeight}
     />
   );
 });
+
+function translatePlatformName(_: typeof Platform.OS) {
+  switch (_) {
+    case 'android':
+      return 'Android';
+    case 'ios':
+      return 'iOS';
+    case 'web':
+      return 'Web';
+    case 'macos':
+      return 'macOS';
+    case 'windows':
+      return 'Windows';
+    default:
+      return 'Misc';
+  }
+}

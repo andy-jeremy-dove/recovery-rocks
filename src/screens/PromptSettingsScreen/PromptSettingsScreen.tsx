@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react-lite';
 import {useMemo} from 'react';
-import type {TextProps, ViewStyle} from 'react-native';
+import {Text, type TextProps, type ViewStyle} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 
 import BackgroundView from '../../components/BackgroundView';
@@ -12,7 +12,7 @@ import {use} from '../../mobx-toolbox';
 import type {Tagged} from '../../Opaque';
 import type {_Array, _Object} from '../../Paramut';
 import {fillSpace} from '../../styles';
-import type {Theme} from '../../styling';
+import {type Theme, variance} from '../../styling';
 import CardList from './CardList';
 import type {MeetingCard} from './MeetingCard';
 import ThemeGroup from './ThemeGroup';
@@ -26,6 +26,8 @@ export type PromptSettingsScreenProps = {
   onSetupPress?: () => void;
   getCards: OptionalGetter<_Array<MeetingCard> | null | undefined>;
   onCardPress?: (id: string) => void;
+  platformName: string;
+  appVersion: string;
   compensateHeaderHeight?: number;
 };
 
@@ -58,6 +60,8 @@ export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
     onSetupPress,
     getCards,
     onCardPress,
+    platformName,
+    appVersion,
     compensateHeaderHeight,
   } = props;
   const contentContainerStyle: ViewStyle = useMemo(
@@ -92,6 +96,10 @@ export default function PromptSettingsScreen(props: PromptSettingsScreenProps) {
         onCardPress={onCardPress}
       />
       <View style={layoutStyles.grow1} />
+      <AppVersionText style={layoutStyles.indent}>
+        RecoveryRocks {platformName} version {appVersion}
+      </AppVersionText>
+      <View style={layoutStyles.grow1} />
     </ContentScrollView>
   );
 }
@@ -115,3 +123,12 @@ const TodayText = observer(function TodayText(props: TodayTextProps) {
   const today = use(getToday);
   return <DatePillText {...rest}>{today}</DatePillText>;
 });
+
+const AppVersionText = variance(Text)(theme => ({
+  root: {
+    textAlign: 'center',
+    ...theme.text('base'),
+    color: theme.palette.textSpecter,
+    fontSize: 14,
+  },
+}));
